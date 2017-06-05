@@ -1,4 +1,4 @@
-aggregate library project STM32F407_Discovery is
+aggregate library project STM32F722_Nucleo is
 
    Build := external ("BUILD", "Debug");
 
@@ -7,7 +7,7 @@ aggregate library project STM32F407_Discovery is
    RTS : RTS_Type := External ("RTS", "ravenscar-full");
 
    RTS_Base := Project'Project_Dir &
-               "../embedded-runtimes/ravenscar-stm32f407disco";
+               "../embedded-runtimes/ravenscar-stm32f722nucleo";
    for Target use "arm-eabi";
 
    case RTS is
@@ -17,11 +17,12 @@ aggregate library project STM32F407_Discovery is
          for Runtime ("Ada") use RTS_Base & "/full";
    end case;
 
-   for Project_Path use ("stm32f407_discovery");
+   for Project_Path use ("stm32f722_nucleo");
 
-   for Project_Files use ("stm32f407_discovery/board.gpr");
+   for Project_Files use ("stm32f722_nucleo/board.gpr");
 
-   for Library_Dir use "lib/stm32f407disco/" & RTS & "/" & Build;
-   for Library_Name use "stm32f407disco";
+   for Library_Dir use
+     "lib/stm32f722nucleo/" & RTS & "/" & Build;
+   for Library_Name use "stm32f722nucleo";
 
-end STM32F407_Discovery;
+end STM32F722_Nucleo;

@@ -1,0 +1,26 @@
+aggregate library project STM32F4_Nucleo is
+
+   Build := external ("BUILD", "Debug");
+
+   type RTS_Type is ("ravenscar-sfp", "ravenscar-full");
+   RTS : RTS_Type := External ("RTS", "ravenscar-sfp");
+
+   RTS_Base := Project'Project_Dir &
+               "../embedded-runtimes/ravenscar-stm32f4nucleo";
+   for Target use "arm-eabi";
+
+   case RTS is
+      when "ravenscar-sfp" =>
+         for Runtime ("Ada") use RTS_Base & "/sfp";
+      when "ravenscar-full" =>
+         for Runtime ("Ada") use RTS_Base & "/full";
+   end case;
+
+   for Project_Path use ("stm32f4_nucleo");
+
+   for Project_Files use ("stm32f4_nucleo/board.gpr");
+
+   for Library_Dir use "lib/stm32f4nucleo/" & RTS & "/" & Build;
+   for Library_Name use "stm32f4nucleo";
+
+end STM32F4_Nucleo;
