@@ -30,7 +30,11 @@
 --                                                                          --
 --  This file is based on:                                                  --
 --                                                                          --
+<<<<<<< HEAD
+--   @file    stm32l43[5|7]xx.h                                             --
+=======
 --   @file    stm32f40[5|7]xx.h                                             --
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
 --   @author  MCD Application Team                                          --
 --   @version V1.1.0                                                        --
 --   @date    19-June-2014                                                  --
@@ -48,6 +52,11 @@ with STM32.GPIO;    use STM32.GPIO;
 with STM32.I2C;     use STM32.I2C;
 with STM32.SPI;     use STM32.SPI;
 with STM32.Timers;  use STM32.Timers;
+<<<<<<< HEAD
+with STM32.DAC;     use STM32.DAC;
+with STM32.ADC;     use STM32.ADC;
+=======
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
 
 package STM32.Device is
    pragma Elaborate_Body;
@@ -59,6 +68,10 @@ package STM32.Device is
    procedure Enable_Clock (This : aliased in out GPIO_Port);
    procedure Enable_Clock (Point : GPIO_Point);
    procedure Enable_Clock (Points : GPIO_Points);
+<<<<<<< HEAD
+   procedure Enable_Clock (This : in out Timer);
+=======
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
 
    procedure Reset (This : aliased in out GPIO_Port)
      with Inline;
@@ -66,6 +79,10 @@ package STM32.Device is
      with Inline;
    procedure Reset (Points : GPIO_Points)
      with Inline;
+<<<<<<< HEAD
+   procedure Reset (This : in out Timer);
+=======
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
 
    function GPIO_Port_Representation (Port : GPIO_Port) return UInt4
      with Inline;
@@ -238,7 +255,11 @@ package STM32.Device is
    procedure Enable_Clock (This : I2C_Port_Id);
    procedure Reset (This : I2C_Port);
    procedure Reset (This : I2C_Port_Id);
+<<<<<<< HEAD
+
+=======
    
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
    Internal_SPI_1 : aliased Internal_SPI_Port
      with Import, Volatile, Address => SPI1_Base;
    Internal_SPI_2 : aliased Internal_SPI_Port
@@ -253,6 +274,23 @@ package STM32.Device is
    procedure Enable_Clock (This : SPI_Port);
    procedure Reset (This : in out SPI_Port);
    
+<<<<<<< HEAD
+   ADC : aliased Analog_To_Digital_Converter with Import, Volatile, Address => ADC_Base;
+   
+   procedure Enable_Clock (This : aliased in out Analog_To_Digital_Converter);
+   procedure Reset_All_ADC_Units;
+
+   DAC_1 : aliased Digital_To_Analog_Converter with Import, Volatile, Address => DAC1_Base;
+
+   DAC_Channel_1_IO : GPIO_Point renames PA4;
+   DAC_Channel_2_IO : GPIO_Point renames PA5;
+
+   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter);
+
+   procedure Reset (This : aliased in out Digital_To_Analog_Converter);
+   
+=======
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
 private
 
    GPIO_AF_RTC_50Hz_0  : constant GPIO_Alternate_Function := 0;

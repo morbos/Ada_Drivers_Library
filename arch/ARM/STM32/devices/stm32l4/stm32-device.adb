@@ -151,7 +151,11 @@ package body STM32.Device is
          end if;
       end loop;
    end Reset;
+<<<<<<< HEAD
+   
+=======
 
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
    ------------------------------
    -- GPIO_Port_Representation --
    ------------------------------
@@ -287,7 +291,11 @@ package body STM32.Device is
          raise Unknown_Device;
       end if;
    end Reset;
+<<<<<<< HEAD
+
+=======
    
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
    ------------------
    -- Enable_Clock --
    ------------------
@@ -338,7 +346,59 @@ package body STM32.Device is
          raise Unknown_Device;
       end if;
    end Reset;
+<<<<<<< HEAD
+   
+   ------------------
+   -- Enable_Clock --
+   ------------------
 
+   procedure Enable_Clock (This : aliased in out Analog_To_Digital_Converter)
+   is
+   begin
+      if This'Address = ADC_Base then
+         RCC_Periph.AHB2ENR.ADCEN := True;
+	 RCC_Periph.CCIPR.ADCSEL := 3;  --  clock sel. Default is... none!
+      else
+         raise Unknown_Device;
+      end if;
+   end Enable_Clock;
+
+   -------------------------
+   -- Reset_All_ADC_Units --
+   -------------------------
+
+   procedure Reset_All_ADC_Units is
+   begin
+      RCC_Periph.AHB2RSTR.ADCRST := True;
+      RCC_Periph.AHB2RSTR.ADCRST := False;
+   end Reset_All_ADC_Units;
+
+   
+   -----------
+   -- Reset --
+   -----------
+
+   procedure Reset (This : aliased in out Digital_To_Analog_Converter) is
+      pragma Unreferenced (This);
+   begin
+      RCC_Periph.APB1RSTR1.DAC1RST := True;
+      RCC_Periph.APB1RSTR1.DAC1RST := False;
+   end Reset;
+   
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter)
+   is
+      pragma Unreferenced (This);
+   begin
+      RCC_Periph.APB1ENR1.DAC1EN := True;
+   end Enable_Clock;
+   
+=======
+
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
    ------------------------------
    -- System_Clock_Frequencies --
    ------------------------------

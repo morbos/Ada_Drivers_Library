@@ -65,7 +65,11 @@ package body STM32.SYSCFG is
      (Port : GPIO_Port;
       Pin  : GPIO_Pin_Index)
    is
+<<<<<<< HEAD
+--      Port_Id  : constant UInt4 := GPIO_Port_Representation (Port);
+=======
       Port_Id  : constant UInt4 := GPIO_Port_Representation (Port);
+>>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
    begin
       null;  --  L4 is diff than F4 here...
    end Connect_External_Interrupt;
