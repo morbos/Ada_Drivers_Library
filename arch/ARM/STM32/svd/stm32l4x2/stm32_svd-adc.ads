@@ -279,13 +279,8 @@ package STM32_SVD.ADC is
    subtype SMPR1_SMP_Element is HAL.UInt3;
 
    --  SMPR1_SMP array
-<<<<<<< HEAD
    type SMPR1_SMP_Field_Array is array (0 .. 9) of SMPR1_SMP_Element
      with Component_Size => 3, Size => 30;
-=======
-   type SMPR1_SMP_Field_Array is array (1 .. 9) of SMPR1_SMP_Element
-     with Component_Size => 3, Size => 27;
->>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
 
    --  Type definition for SMPR1_SMP
    type SMPR1_SMP_Field
@@ -294,40 +289,22 @@ package STM32_SVD.ADC is
       case As_Array is
          when False =>
             --  SMP as a value
-<<<<<<< HEAD
             Val : HAL.UInt30;
-=======
-            Val : HAL.UInt27;
->>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
          when True =>
             --  SMP as an array
             Arr : SMPR1_SMP_Field_Array;
       end case;
    end record
-<<<<<<< HEAD
      with Unchecked_Union, Size => 30;
 
    for SMPR1_SMP_Field use record
       Val at 0 range 0 .. 29;
       Arr at 0 range 0 .. 29;
-=======
-     with Unchecked_Union, Size => 27;
-
-   for SMPR1_SMP_Field use record
-      Val at 0 range 0 .. 26;
-      Arr at 0 range 0 .. 26;
->>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
    end record;
 
    --  sample time register 1
    type SMPR1_Register is record
-<<<<<<< HEAD
       --  SMP0
-=======
-      --  unspecified
-      Reserved_0_2   : HAL.UInt3 := 16#0#;
-      --  SMP1
->>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
       SMP            : SMPR1_SMP_Field := (As_Array => False, Val => 16#0#);
       --  unspecified
       Reserved_30_31 : HAL.UInt2 := 16#0#;
@@ -336,12 +313,7 @@ package STM32_SVD.ADC is
           Bit_Order => System.Low_Order_First;
 
    for SMPR1_Register use record
-<<<<<<< HEAD
       SMP            at 0 range 0 .. 29;
-=======
-      Reserved_0_2   at 0 range 0 .. 2;
-      SMP            at 0 range 3 .. 29;
->>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
       Reserved_30_31 at 0 range 30 .. 31;
    end record;
 

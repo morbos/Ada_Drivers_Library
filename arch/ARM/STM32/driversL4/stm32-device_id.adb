@@ -33,11 +33,7 @@ with System;
 
 package body STM32.Device_Id is
 
-<<<<<<< HEAD
    ID_Address : constant System.Address := System'To_Address (16#1FFF_7590#);
-=======
-   ID_Address : constant System.Address := System'To_Address (16#1FFF_7A10#);
->>>>>>> 9fb8f1762c48fea6c9aa6b1b369ca371406de4c2
 
    ---------------
    -- Unique_Id --
