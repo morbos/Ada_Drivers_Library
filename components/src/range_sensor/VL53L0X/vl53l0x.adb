@@ -369,6 +369,8 @@ package body VL53L0X is
    end Set_Device_Address;
 
    ---------------
+
+
    -- Data_Init --
    ---------------
 
@@ -376,8 +378,14 @@ package body VL53L0X is
      (This   : in out VL53L0X_Ranging_Sensor;
       Status : out Boolean)
    is
-      Regval : UInt8;
+      Regval  : UInt8;
+      Id      : UInt16 with Unreferenced;
+      Voltage : UInt8;
    begin
+      Read (This, 16#89#, Voltage, Status);
+
+      Write (This, 16#89#, UInt8'(16#01#), Status);
+
       --  Set I2C Standard mode
       Write (This, 16#88#, UInt8'(16#00#), Status);
 
@@ -385,19 +393,47 @@ package body VL53L0X is
          return;
       end if;
 
---        This.Device_Specific_Params.Read_Data_From_Device_Done := False;
---
---        --  Set default static parameters:
---        --  set first temporary value 9.44MHz * 65536 = 618_660
---        This.Device_Specific_Params.Osc_Frequency := 618_660;
---
---        --  Set default cross talk compenstation rate to 0
---        This.Device_Params.X_Talk_Compensation_Rate_Mcps := 0.0;
---
---        This.Device_Params.Device_Mode := Single_Ranging;
---        This.Device_Params.Histogram_Mode := Disabled;
+      Id := Read_Id (This);
 
-      --  TODO: Sigma estimator variable
+      This.Device_Specific_Params.Read_Data_From_Device_Done := False;
+
+        --  Set default static parameters:
+        --  set first temporary value 9.44MHz * 65536 = 618_660
+      This.Device_Specific_Params.Osc_Frequency := 618_660;
+
+      This.Device_Params.X_Talk_Compensation_Enable := False;
+      --  Set default cross talk compenstation rate to 0
+      This.Device_Params.X_Talk_Compensation_Rate_Mcps := 0.0;
+
+      --  Default value is 1000 for Linearity Corrective Gain
+      This.Device_Specific_Params.Linearity_Corrective_Gain := 1000;
+
+      --  Dmax default Parameter */
+      This.Device_Specific_Params.Dmax_Cal_Range_MilliMeter := 400;
+      This.Device_Specific_Params.Dmax_Cal_Signal_Rate_Rtn_MegaCps := 16#16B85#;
+      --  1.42 No Cover Glass
+
+      --  Get default parameters
+      GetDeviceParameters (This, Status);
+
+      if Status then
+         This.Device_Params.Device_Mode := Single_Ranging;
+         This.Device_Params.Histogram_Mode := Disabled;
+      end if;
+
+      --   Sigma estimator variable
+      This.Device_Specific_Params.Sigma_Est_Ref_Array := 100;
+      This.Device_Specific_Params.Sigma_Est_Eff_Pulse_Width := 900;
+      This.Device_Specific_Params.Sigma_Est_Eff_Amb_Width := 500;
+      This.Device_Specific_Params.Sigma_Est_Eff_Amb_Width := 500;
+      This.Device_Specific_Params.TargetRefRate := 16#0A00#;  --  20 MCPS in 9:7 format
+
+      --  Use internal default settings
+
+      This.Device_Specific_Params.UseInternalTuningSettings := True;
+
+      --      SetDeviceParameters (This, Status);
+
       if Status then
          Write (This, 16#80#, UInt8'(16#01#), Status);
       end if;
@@ -661,7 +697,8 @@ package body VL53L0X is
       end if;
 
       loop
-         Read (This, REG_RESULT_INTERRUPT_STATUS, Val, Status);
+         --  Read (This, REG_RESULT_INTERRUPT_STATUS, Val, Status);
+         Read (This, REG_RESULT_RANGE_STATUS, Val, Status);
          exit when not Status;
          exit when (Val and 16#07#) /= 0;
       end loop;
@@ -1534,5 +1571,50 @@ package body VL53L0X is
          return 0;
       end if;
    end VCSel_Pulse_Period;
+
+   procedure SetInterMeasurementPeriodMilliSeconds
+     (This     : VL53L0X_Ranging_Sensor;
+      Period   : HAL.UInt32;
+      Status   : out Boolean)
+   is
+      Cal      : HAL.UInt16;
+      IMPeriod : HAL.UInt32;
+   begin
+      Read (This, REG_OSC_CALIBRATE_VAL, Cal, Status);
+      if Status then
+         if Cal /= 0 then
+            IMPeriod := Period * HAL.UInt32 (Cal);
+            Write (This, REG_SYSTEM_INTERMEASUREMENT_PERIOD, IMPeriod, Status);
+         end if;
+      end if;
+   end SetInterMeasurementPeriodMilliSeconds;
+
+   procedure GetInterMeasurementPeriodMilliSeconds
+     (This     : in out VL53L0X_Ranging_Sensor;
+      Status   : out Boolean)
+   is
+      Cal      : HAL.UInt16;
+      IMPeriod : HAL.UInt32;
+      Id       : UInt16 with Unreferenced;
+   begin
+      Read (This, REG_OSC_CALIBRATE_VAL, Cal, Status);
+      if Status then
+         Read (This, REG_SYSTEM_INTERMEASUREMENT_PERIOD, IMPeriod, Status);
+         if Status then
+            if Cal /= 0 then
+               This.Device_Params.InterMeasurementPeriodMilliSeconds :=
+                 IMPeriod / HAL.UInt32 (Cal);
+            end if;
+         end if;
+      end if;
+   end GetInterMeasurementPeriodMilliSeconds;
+
+   procedure GetDeviceParameters
+     (This     : in out VL53L0X_Ranging_Sensor;
+      Status   : out Boolean)
+   is
+   begin
+      GetInterMeasurementPeriodMilliSeconds (This, Status);
+   end GetDeviceParameters;
 
 end VL53L0X;

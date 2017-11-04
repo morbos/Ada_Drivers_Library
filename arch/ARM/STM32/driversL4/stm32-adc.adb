@@ -66,40 +66,40 @@ package body STM32.ADC is
       Rank   : Injected_Channel_Rank;
       Offset : Injected_Data_Offset)
      with Inline;
-   
+
    function Init (This : in out Analog_To_Digital_Converter) return Boolean is
       Cal : Boolean;
    begin
       --  Exit from deep powerdown if so set
       if This.CR.DEEPPWD then
-	 This.CR.DEEPPWD := False; --  Cal is now a must btw
-	 
+         This.CR.DEEPPWD := False; --  Cal is now a must btw
+
       end if;
-  
+
       This.CR.ADVREGEN := True;
       --  Wait 10usec per STs code
       delay until Clock + ADC_VREG_Stabilization;
-      
+
       Cal := Calibration (This);
-      
+
       if not Cal or not This.CR.ADVREGEN then
-	 return False;
+         return False;
       else
-	 return True;
+         return True;
       end if;
-      
+
    end Init;
-   
+
    function Calibration (This : in out Analog_To_Digital_Converter) return Boolean is
-      Start : Time_Span;
+--      Start : Time_Span;
    begin
       --  ADC should be disabled here.
       This.CR.ADCAL := True;
-      
+
       delay until Clock + ADC_Calibration;
-      
+
       return This.CR.ADCAL = False;
-      
+
    end Calibration;
    ------------
    -- Enable --
@@ -249,7 +249,7 @@ package body STM32.ADC is
 --
 --      This.CR1.SCAN := Conversions'Length > 1;
 --
-      
+
 --      if Trigger.Enabler /= Trigger_Disabled then
 --         This.CR2.EXTSEL := External_Events_Regular_Group'Enum_Rep (Trigger.Event);
 --         This.CR2.EXTEN := External_Trigger'Enum_Rep (Trigger.Enabler);
@@ -449,8 +449,8 @@ package body STM32.ADC is
       if External_Trigger'Val (This.CFGR.EXTEN) /= Trigger_Disabled then
          return;
       end if;
-      
-      -- L4 vvv out till we find out about multi-adc
+
+--  L4 vvv out till we find out about multi-adc
 --      if Multi_ADC_Mode_Selections'Val (C_ADC_Periph.CCR.MULT) = Independent
 --        or else This'Address = STM32_SVD.ADC1_Base
 --      then
@@ -691,9 +691,9 @@ package body STM32.ADC is
 
    function DMA_Enabled_After_Last_Transfer
      (This : Analog_To_Digital_Converter)
-      return Boolean
+     return Boolean
      --   is (This.CR2.DDS);
-   is (False);     
+   is (False);
 
    ------------------------------------------
    -- Multi_Enable_DMA_After_Last_Transfer --
@@ -791,7 +791,7 @@ package body STM32.ADC is
          when Regular_Channel_Conversion_Complete =>
             This.ISR.EOC := False;
          when Analog_Watchdog_Event_Occurred =>
-	    This.ISR.AWD.Arr (1) := False;
+            This.ISR.AWD.Arr (1) := False;
       end case;
    end Clear_Status;
 
@@ -892,43 +892,43 @@ package body STM32.ADC is
    begin
       case Rank is
          when 1 =>
-	    This.SQR1.SQ1 := Channel;
+            This.SQR1.SQ1 := Channel;
          when 2 =>
-	    This.SQR1.SQ2 := Channel;
+            This.SQR1.SQ2 := Channel;
          when 3 =>
-	    This.SQR1.SQ3 := Channel;
+            This.SQR1.SQ3 := Channel;
          when 4 =>
-	    This.SQR1.SQ4 := Channel;
-	    
+            This.SQR1.SQ4 := Channel;
+
          when 5 =>
-	    This.SQR2.SQ5 := Channel;
+            This.SQR2.SQ5 := Channel;
          when 6 =>
-	    This.SQR2.SQ6 := Channel;
+            This.SQR2.SQ6 := Channel;
          when 7 =>
-	    This.SQR2.SQ7 := Channel;
+            This.SQR2.SQ7 := Channel;
          when 8 =>
-	    This.SQR2.SQ8 := Channel;
+            This.SQR2.SQ8 := Channel;
          when 9 =>
-	    This.SQR2.SQ9 := Channel;
-	    
+            This.SQR2.SQ9 := Channel;
+
          when 10 =>
-	    This.SQR3.SQ10 := Channel;
+            This.SQR3.SQ10 := Channel;
          when 11 =>
-	    This.SQR3.SQ11 := Channel;
+            This.SQR3.SQ11 := Channel;
          when 12 =>
-	    This.SQR3.SQ12 := Channel;
+            This.SQR3.SQ12 := Channel;
          when 13 =>
-	    This.SQR3.SQ13 := Channel;
+            This.SQR3.SQ13 := Channel;
          when 14 =>
-	    This.SQR3.SQ14 := Channel;
-	    
-	 when 15 =>
-	    This.SQR4.SQ15 := Channel;
+            This.SQR3.SQ14 := Channel;
+
+         when 15 =>
+            This.SQR4.SQ15 := Channel;
          when 16 =>
-	    This.SQR4.SQ16 := Channel;
-	    
-	 when others =>
-	    null;
+            This.SQR4.SQ16 := Channel;
+
+         when others =>
+            null;
       end case;
    end Set_Sequence_Position;
 
@@ -944,16 +944,16 @@ package body STM32.ADC is
    begin
       --  alas.. F4 is an array... not here since they alloc 6bits for a 5bit fld.
       case Integer (Rank) is
-	 when 1 =>
-	    This.JSQR.JSQ1 := Channel;
-	 when 2 =>
-	    This.JSQR.JSQ2 := Channel;
-	 when 3 =>
-	    This.JSQR.JSQ3 := Channel;
-	 when 4 =>
-	    This.JSQR.JSQ4 := Channel;
-	 when others =>
-	    null;
+         when 1 =>
+            This.JSQR.JSQ1 := Channel;
+         when 2 =>
+            This.JSQR.JSQ2 := Channel;
+         when 3 =>
+            This.JSQR.JSQ3 := Channel;
+         when 4 =>
+            This.JSQR.JSQ4 := Channel;
+         when others =>
+            null;
       end case;
    end Set_Injected_Channel_Sequence_Position;
 

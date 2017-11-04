@@ -3,8 +3,8 @@ aggregate library project STM32L4_Nucleo is
    Build := external ("BUILD", "Debug");
 
    type RTS_Type is ("ravenscar-sfp", "ravenscar-full");
---   RTS : RTS_Type := External ("RTS", "ravenscar-sfp");
-   RTS : RTS_Type := External ("RTS", "ravenscar-full");
+   RTS : RTS_Type := External ("RTS", "ravenscar-sfp");
+--   RTS : RTS_Type := External ("RTS", "ravenscar-full");
 
    RTS_Base := Project'Project_Dir &
                "../embedded-runtimes/ravenscar-stm32l4nucleo";
@@ -22,6 +22,6 @@ aggregate library project STM32L4_Nucleo is
    for Project_Files use ("stm32l4_nucleo/board.gpr");
 
    for Library_Dir use "lib/stm32l4nucleo/" & RTS & "/" & Build;
-   for Library_Name use "stm32l4nucleoo";
+   for Library_Name use "stm32l4nucleo";
 
 end STM32L4_Nucleo;

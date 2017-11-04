@@ -1,0 +1,21 @@
+with "config";
+with "../../hal/HAL";
+with "../cortex_m/cortex_m4f";
+
+library project STM32L4x6 is
+
+   for Library_Name use "stm32l4xx";
+   for Library_Kind use "static";
+   for Library_Dir use "lib/" & Config.Object_Subdir;
+   for Object_Dir use "obj/" & Config.Object_Subdir;
+
+   for Source_Dirs use Project'Source_Dirs &
+     ("driversL4x6",
+      "svd/stm32l4x6",
+      "devices/stm32l4x6"
+      );
+
+   package Compiler renames Config.Compiler;
+   package Builder renames Config.Builder;
+
+end STM32L4x6;

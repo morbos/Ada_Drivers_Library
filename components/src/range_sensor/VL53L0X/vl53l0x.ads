@@ -134,6 +134,19 @@ package VL53L0X is
       Status : out Boolean);
    --  Default period: 10 PCLKs
 
+   procedure SetInterMeasurementPeriodMilliSeconds
+     (This     : VL53L0X_Ranging_Sensor;
+      Period   : HAL.UInt32;
+      Status   : out Boolean);
+
+   procedure GetInterMeasurementPeriodMilliSeconds
+     (This     : in out VL53L0X_Ranging_Sensor;
+      Status   : out Boolean);
+
+   procedure GetDeviceParameters
+     (This     : in out VL53L0X_Ranging_Sensor;
+      Status   : out Boolean);
+
 private
 
    REG_SYSRANGE_START           : constant := 16#000#;
@@ -266,8 +279,19 @@ private
       Pre_Range_Vcsel_Pulse_Period      : HAL.UInt8 := 0;
 
       Sigma_Est_Ref_Array               : HAL.UInt16 := 0;
-      Sigma_Est_Eff_Pulso_Width         : HAL.UInt16 := 0;
+      Sigma_Est_Eff_Pulse_Width         : HAL.UInt16 := 0;
       Sigma_Est_Eff_Amb_Width           : HAL.UInt16 := 0;
+
+      StopVariable                      : HAL.UInt8;
+      TargetRefRate                     : HAL.UInt16;
+      SigmaEstimate                     : Fix_Point_16_16;
+      SignalEstimate                    : Fix_Point_16_16;
+      LastSignalRefMcps                 : Fix_Point_16_16;
+      --  uint8_t *pTuningSettingsPointer;
+      UseInternalTuningSettings         : Boolean;
+      Linearity_Corrective_Gain         : HAL.UInt16;
+      Dmax_Cal_Range_MilliMeter         : HAL.UInt16;
+      Dmax_Cal_Signal_Rate_Rtn_MegaCps  : HAL.UInt32;
 
       Read_Data_From_Device_Done        : Boolean := False;
       Module_Id                         : HAL.UInt8;
@@ -280,11 +304,45 @@ private
       Part_UID_Lower                    : HAL.UInt32;
    end record;
 
+   type Histogram_Modes is
+     (Disabled,
+      Reference_Only,
+      Return_Only,
+      Both);
+
+   type Device_Modes is
+     (Single_Ranging,
+      Continuous_Ranging,
+      Continuous_Timed_Ranging,
+      Single_Histogram);
+
+   CHECKENABLE_NUMBER_OF_CHECKS : constant HAL.UInt32 := 6;
+   type LimitChecksEnableT is array (1 .. CHECKENABLE_NUMBER_OF_CHECKS) of Boolean;
+   type LimitChecksStatusT is array (1 .. CHECKENABLE_NUMBER_OF_CHECKS) of HAL.UInt8;
+   type LimitChecksValueT is array (1 .. CHECKENABLE_NUMBER_OF_CHECKS) of Fix_Point_16_16;
+
+   type VL53L0X_Device_Parameters is record
+      Device_Mode                          : Device_Modes;
+      Histogram_Mode                       : Histogram_Modes;
+      X_Talk_Compensation_Enable           : Boolean;
+      X_Talk_Compensation_Range_MilliMeter : HAL.UInt16;
+      X_Talk_Compensation_Rate_Mcps        : Fix_Point_16_16;
+      MeasurementTimingBudgetMicroSeconds  : HAL.UInt32;
+      InterMeasurementPeriodMilliSeconds   : HAL.UInt32;
+      RangeOffsetMicroMeters               : HAL.UInt32;
+      LimitChecksEnable                    : LimitChecksEnableT;
+      LimitChecksStatus                    : LimitChecksStatusT;
+      LimitChecksValue                     : LimitChecksValueT;
+      WrapAroundCheckEnable                : Boolean;
+   end record;
+
    type VL53L0X_Ranging_Sensor (Port : not null HAL.I2C.Any_I2C_Port)
    is limited record
       --  Default address: can be changed by software
       I2C_Address            : HAL.I2C.I2C_Address := 16#52#;
       Stop_Variable          : HAL.UInt8;
+      Device_Specific_Params : VL53L0X_Device_Specific_Parameters;
+      Device_Params          : VL53L0X_Device_Parameters;
    end record;
 
    procedure I2C_Write
