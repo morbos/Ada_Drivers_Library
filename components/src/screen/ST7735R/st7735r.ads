@@ -166,10 +166,10 @@ package ST7735R is
    procedure Write_Raw_Pixels (LCD  : ST7735R_Screen;
                                Data : HAL.UInt16_Array);
 
-   procedure Write_Value (LCD  : ST7735R_Screen;
-                          Data : UInt16;
-                          Total : UInt16);
-
+   procedure Fill_Region (LCD  : ST7735R_Screen;
+                          X_Start, X_End, Y_Start, Y_End : UInt16;
+                          Data : UInt16);
+   procedure Set_Display (LCD  : ST7735R_Screen; Data : UInt16);
    overriding
    function Max_Layers
      (Display : ST7735R_Screen) return Positive;

@@ -197,17 +197,18 @@ package body ST7735R is
    -- Write_Value --
    ----------------
 
-   procedure Write_Value (LCD   : ST7735R_Screen;
-                          Data  : UInt16;
-                          Total : UInt16)
+   procedure Fill_Region (LCD   : ST7735R_Screen;
+                          X_Start, X_End, Y_Start, Y_End : UInt16;
+                          Data  : UInt16)
    is
       Status : SPI_Status;
-      Count  : UInt16 := Total;
+      Count  : UInt16;
       B1, B2 : UInt8;
    begin
       Write_Command (LCD, ST7735_RAMWR);
       Start_Transaction (LCD);
       Set_Data_Mode (LCD);
+      Count := (X_End - X_Start) * (Y_End - X_Start);
       B1 := UInt8 (Shift_Right (Data, 8));
       B2 := UInt8 (Data and 16#FF#);
       while Count > 0 loop
@@ -220,7 +221,16 @@ package body ST7735R is
          Count := Count - 1;
       end loop;
       End_Transaction (LCD);
-   end Write_Value;
+   end Fill_Region;
+
+   procedure Set_Display (LCD  : ST7735R_Screen; Data : UInt16)
+   is
+   begin
+      Fill_Region (LCD,
+                   0, UInt16 (Width (LCD) - 1),
+                   0, UInt16 (Height (LCD) - 1),
+                   Data);
+   end Set_Display;
 
    ----------------
    -- Write_Data --
