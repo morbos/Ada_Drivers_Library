@@ -1,0 +1,27 @@
+aggregate library project STM32L443_bluepill is
+
+   Build := external ("BUILD", "Debug");
+
+   type RTS_Type is ("ravenscar-sfp", "ravenscar-full");
+--   RTS : RTS_Type := External ("RTS", "ravenscar-sfp");
+   RTS : RTS_Type := External ("RTS", "ravenscar-full");
+
+   RTS_Base := Project'Project_Dir &
+               "../embedded-runtimes/ravenscar-stm32l4nucleo";
+   for Target use "arm-eabi";
+
+   case RTS is
+      when "ravenscar-sfp" =>
+         for Runtime ("Ada") use RTS_Base & "/sfp";
+      when "ravenscar-full" =>
+         for Runtime ("Ada") use RTS_Base & "/full";
+   end case;
+
+   for Project_Path use ("stm32l443_bluepill");
+
+   for Project_Files use ("stm32l443_bluepill/board.gpr");
+
+   for Library_Dir use "lib/stm32l443bluepill/" & RTS & "/" & Build;
+   for Library_Name use "stm32l443bluepill";
+
+end STM32L443_bluepill;

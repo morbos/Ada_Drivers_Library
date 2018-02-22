@@ -172,14 +172,14 @@ package STM32_SVD.SPI is
       --  Data register
       DR             : DR_DR_Field := 16#0#;
       --  unspecified
-      Reserved_16_31 : HAL.UInt16 := 16#0#;
+--      Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Size => 16,
           Bit_Order => System.Low_Order_First;
 
    for DR_Register use record
       DR             at 0 range 0 .. 15;
-      Reserved_16_31 at 0 range 16 .. 31;
+--      Reserved_16_31 at 0 range 16 .. 31;
    end record;
 
    subtype CRCPR_CRCPOLY_Field is HAL.UInt16;
@@ -260,7 +260,8 @@ package STM32_SVD.SPI is
       CR1    at 16#0# range 0 .. 31;
       CR2    at 16#4# range 0 .. 31;
       SR     at 16#8# range 0 .. 31;
-      DR     at 16#C# range 0 .. 31;
+      --      DR     at 16#C# range 0 .. 31;
+      DR     at 16#C# range 0 .. 15;
       CRCPR  at 16#10# range 0 .. 31;
       RXCRCR at 16#14# range 0 .. 31;
       TXCRCR at 16#18# range 0 .. 31;

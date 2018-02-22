@@ -10,7 +10,7 @@ library project Middleware is
                 "src/bitmap");
 
    case Config.RTS is
-      when "ravenscar-sfp" | "ravenscar-full" =>
+      when "ravenscar-sfp" | "ravenscar-full" | "ravenscar-ssfp" =>
          Src_Dirs := Src_Dirs & ("src/ravenscar-common");
       when others =>
          null;

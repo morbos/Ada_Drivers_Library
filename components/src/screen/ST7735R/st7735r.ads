@@ -166,6 +166,10 @@ package ST7735R is
    procedure Write_Raw_Pixels (LCD  : ST7735R_Screen;
                                Data : HAL.UInt16_Array);
 
+   procedure Write_Value (LCD  : ST7735R_Screen;
+                          Data : UInt16;
+                          Total : UInt16);
+
    overriding
    function Max_Layers
      (Display : ST7735R_Screen) return Positive;
@@ -253,6 +257,27 @@ package ST7735R is
      (Display : ST7735R_Screen;
       Layer   : Positive) return Positive;
    --  Retrieves the current hidden buffer for the layer.
+
+   --  some colour choices
+   ST7735_BLACK          : constant UInt16 := 16#0000#;  --    0,   0,   0
+   ST7735_NAVY           : constant UInt16 := 16#000F#;  --    0,   0, 128
+   ST7735_DARKGREEN      : constant UInt16 := 16#03E0#;  --    0, 128,   0
+   ST7735_DARKCYAN       : constant UInt16 := 16#03EF#;  --    0, 128, 128
+   ST7735_MAROON         : constant UInt16 := 16#7800#;  --  128,   0,   0
+   ST7735_PURPLE         : constant UInt16 := 16#780F#;  --  128,   0, 128
+   ST7735_OLIVE          : constant UInt16 := 16#7BE0#;  --  128, 128,   0
+   ST7735_LIGHTGREY      : constant UInt16 := 16#C618#;  --  192, 192, 192
+   ST7735_DARKGREY       : constant UInt16 := 16#7BEF#;  --  128, 128, 128
+   ST7735_BLUE           : constant UInt16 := 16#001F#;  --    0,   0, 255
+   ST7735_GREEN          : constant UInt16 := 16#07E0#;  --    0, 255,   0
+   ST7735_CYAN           : constant UInt16 := 16#07FF#;  --    0, 255, 255
+   ST7735_RED            : constant UInt16 := 16#F800#;  --  255,   0,   0
+   ST7735_MAGENTA        : constant UInt16 := 16#F81F#;  --  255,   0, 255
+   ST7735_YELLOW         : constant UInt16 := 16#FFE0#;  --  255, 255,   0
+   ST7735_WHITE          : constant UInt16 := 16#FFFF#;  --  255, 255, 255
+   ST7735_ORANGE         : constant UInt16 := 16#FD20#;  --  255, 165,   0
+   ST7735_GREENYELLOW    : constant UInt16 := 16#AFE5#;  --  173, 255,  47
+   ST7735_PINK           : constant UInt16 := 16#F81F#;
 
 private
 
@@ -350,5 +375,51 @@ private
       Initialized : Boolean := True;
       Layer       : aliased ST7735R_Bitmap_Buffer;
    end record;
+
+   ST7735_NOP                     : constant := 16#00#;
+   ST7735_SWRESET                 : constant := 16#01#;
+   ST7735_RDDID                   : constant := 16#04#;
+   ST7735_RDDST                   : constant := 16#09#;
+   ST7735_SLPIN                   : constant := 16#10#;
+   ST7735_SLPOUT                  : constant := 16#11#;
+   ST7735_PTLON                   : constant := 16#12#;
+   ST7735_NORON                   : constant := 16#13#;
+
+   ST7735_INVOFF                  : constant := 16#20#;
+   ST7735_INVON                   : constant := 16#21#;
+   ST7735_GAMSET                  : constant := 16#26#;
+   ST7735_DISPOFF                 : constant := 16#28#;
+   ST7735_DISPON                  : constant := 16#29#;
+   ST7735_CASET                   : constant := 16#2A#;
+   ST7735_RASET                   : constant := 16#2B#;
+   ST7735_RAMWR                   : constant := 16#2C#;
+   ST7735_RAMRD                   : constant := 16#2E#;
+
+   ST7735_PTLAR                   : constant := 16#30#;
+   ST7735_COLMOD                  : constant := 16#3A#;
+   ST7735_MADCTL                  : constant := 16#36#;
+
+   ST7735_FRMCTR1                 : constant := 16#B1#;
+   ST7735_FRMCTR2                 : constant := 16#B2#;
+   ST7735_FRMCTR3                 : constant := 16#B3#;
+   ST7735_INVCTR                  : constant := 16#B4#;
+   ST7735_DISSET5                 : constant := 16#B6#;
+
+   ST7735_PWCTR1                  : constant := 16#C0#;
+   ST7735_PWCTR2                  : constant := 16#C1#;
+   ST7735_PWCTR3                  : constant := 16#C2#;
+   ST7735_PWCTR4                  : constant := 16#C3#;
+   ST7735_PWCTR5                  : constant := 16#C4#;
+   ST7735_VMCTR1                  : constant := 16#C5#;
+
+   ST7735_RDID1                   : constant := 16#DA#;
+   ST7735_RDID2                   : constant := 16#DB#;
+   ST7735_RDID3                   : constant := 16#DC#;
+   ST7735_RDID4                   : constant := 16#DD#;
+
+   ST7735_PWCTR6                  : constant := 16#FC#;
+
+   ST7735_GMCTRP1                 : constant := 16#E0#;
+   ST7735_GMCTRN1                 : constant := 16#E1#;
 
 end ST7735R;

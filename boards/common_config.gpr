@@ -17,6 +17,7 @@ abstract project Common_Config is
          when "Debug" =>
             for Default_Switches ("Ada") use
               ("-g", "-O0", "-gnata", "-fcallgraph-info=su");
+--                ("-g", "-O2", "-gnata", "-fcallgraph-info=su");
       end case;
       for Default_Switches ("ada") use Compiler'Default_Switches ("Ada") &
 --        ("-gnatwa", "-gnatwe", "-gnatQ", "-gnatw.X", "-gnaty", "-gnatyO",

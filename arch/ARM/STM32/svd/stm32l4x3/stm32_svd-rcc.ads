@@ -703,11 +703,11 @@ package STM32_SVD.RCC is
       --  Flash memory interface clock enable
       FLASHEN        : Boolean := True;
       --  unspecified
-      Reserved_9_10  : HAL.UInt2 := 16#0#;
+      Reserved_9_11  : HAL.UInt3 := 16#0#;
       --  CRC clock enable
       CRCEN          : Boolean := False;
       --  unspecified
-      Reserved_12_15 : HAL.UInt4 := 16#0#;
+      Reserved_13_15 : HAL.UInt3 := 16#0#;
       --  Touch Sensing Controller clock enable
       TSCEN          : Boolean := False;
       --  unspecified
@@ -721,9 +721,9 @@ package STM32_SVD.RCC is
       DMA2EN         at 0 range 1 .. 1;
       Reserved_2_7   at 0 range 2 .. 7;
       FLASHEN        at 0 range 8 .. 8;
-      Reserved_9_10  at 0 range 9 .. 10;
-      CRCEN          at 0 range 11 .. 11;
-      Reserved_12_15 at 0 range 12 .. 15;
+      Reserved_9_11  at 0 range 9 .. 11;
+      CRCEN          at 0 range 12 .. 12;
+      Reserved_13_15 at 0 range 13 .. 15;
       TSCEN          at 0 range 16 .. 16;
       Reserved_17_31 at 0 range 17 .. 31;
    end record;

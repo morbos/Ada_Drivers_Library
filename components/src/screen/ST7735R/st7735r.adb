@@ -194,6 +194,35 @@ package body ST7735R is
    end Write_Data;
 
    ----------------
+   -- Write_Value --
+   ----------------
+
+   procedure Write_Value (LCD   : ST7735R_Screen;
+                          Data  : UInt16;
+                          Total : UInt16)
+   is
+      Status : SPI_Status;
+      Count  : UInt16 := Total;
+      B1, B2 : UInt8;
+   begin
+      Write_Command (LCD, ST7735_RAMWR);
+      Start_Transaction (LCD);
+      Set_Data_Mode (LCD);
+      B1 := UInt8 (Shift_Right (Data, 8));
+      B2 := UInt8 (Data and 16#FF#);
+      while Count > 0 loop
+         LCD.Port.Transmit (SPI_Data_8b'(B1, B2),
+                            Status);
+         if Status /= Ok then
+            --  No error handling...
+            raise Program_Error;
+         end if;
+         Count := Count - 1;
+      end loop;
+      End_Transaction (LCD);
+   end Write_Value;
+
+   ----------------
    -- Write_Data --
    ----------------
 
@@ -255,7 +284,7 @@ package body ST7735R is
       LCD.Time.Delay_Milliseconds (100);
 
       --  Sleep Exit
-      Write_Command (LCD, 16#11#);
+      Write_Command (LCD, ST7735_SLPOUT);
 
       LCD.Time.Delay_Milliseconds (100);
 
@@ -276,7 +305,7 @@ package body ST7735R is
 
    procedure Turn_On (LCD : ST7735R_Screen) is
    begin
-      Write_Command (LCD, 16#29#);
+      Write_Command (LCD, ST7735_DISPON);
    end Turn_On;
 
    --------------
@@ -285,7 +314,7 @@ package body ST7735R is
 
    procedure Turn_Off (LCD : ST7735R_Screen) is
    begin
-      Write_Command (LCD, 16#28#);
+      Write_Command (LCD, ST7735_DISPOFF);
    end Turn_Off;
 
 
@@ -295,7 +324,7 @@ package body ST7735R is
 
    procedure Display_Inversion_On (LCD : ST7735R_Screen) is
    begin
-      Write_Command (LCD, 16#21#);
+      Write_Command (LCD, ST7735_INVON);
    end Display_Inversion_On;
 
 
@@ -305,7 +334,7 @@ package body ST7735R is
 
    procedure Display_Inversion_Off (LCD : ST7735R_Screen) is
    begin
-      Write_Command (LCD, 16#20#);
+      Write_Command (LCD, ST7735_INVOFF);
    end Display_Inversion_Off;
 
    ---------------
@@ -314,7 +343,7 @@ package body ST7735R is
 
    procedure Gamma_Set (LCD : ST7735R_Screen; Gamma_Curve : UInt4) is
    begin
-      Write_Command (LCD, 16#26#, (0 => UInt8 (Gamma_Curve)));
+      Write_Command (LCD, ST7735_GAMSET, (0 => UInt8 (Gamma_Curve)));
    end Gamma_Set;
 
    ----------------------
@@ -327,7 +356,7 @@ package body ST7735R is
                                    when Pixel_16bits => 2#101#,
                                    when Pixel_18bits => 2#110#);
    begin
-      Write_Command (LCD, 16#3A#, (0 => Value));
+      Write_Command (LCD, ST7735_COLMOD, (0 => Value));
    end Set_Pixel_Format;
 
    ----------------------------
@@ -352,7 +381,7 @@ package body ST7735R is
       Value.ML := Vertical;
       Value.RGB := Color_Order;
       Value.MH := Horizontal;
-      Write_Command (LCD, 16#36#, (0 => To_UInt8 (Value)));
+      Write_Command (LCD, ST7735_MADCTL, (0 => To_UInt8 (Value)));
    end Set_Memory_Data_Access;
 
    ---------------------------
@@ -366,7 +395,7 @@ package body ST7735R is
       Back_Porch  : UInt6)
    is
    begin
-      Write_Command (LCD, 16#B1#,
+      Write_Command (LCD, ST7735_FRMCTR1,
                      (UInt8 (RTN), UInt8 (Front_Porch), UInt8 (Back_Porch)));
    end Set_Frame_Rate_Normal;
 
@@ -381,7 +410,7 @@ package body ST7735R is
       Back_Porch  : UInt6)
    is
    begin
-      Write_Command (LCD, 16#B2#,
+      Write_Command (LCD, ST7735_FRMCTR2,
                      (UInt8 (RTN), UInt8 (Front_Porch), UInt8 (Back_Porch)));
    end Set_Frame_Rate_Idle;
 
@@ -399,7 +428,7 @@ package body ST7735R is
       Back_Porch_Full  : UInt6)
    is
    begin
-      Write_Command (LCD, 16#B3#,
+      Write_Command (LCD, ST7735_FRMCTR3,
                      (UInt8 (RTN_Part),
                       UInt8 (Front_Porch_Part),
                       UInt8 (Back_Porch_Part),
@@ -427,7 +456,7 @@ package body ST7735R is
       if Full_Partial = Line_Inversion then
          Value := Value or 2#001#;
       end if;
-      Write_Command (LCD, 16#B4#, (0 => Value));
+      Write_Command (LCD, ST7735_INVCTR, (0 => Value));
    end Set_Inversion_Control;
 
    -------------------------
@@ -446,7 +475,7 @@ package body ST7735R is
       P1 := Shift_Left (UInt8 (AVDD), 5) or UInt8 (VRHP);
       P2 := UInt8 (VRHN);
       P3 := Shift_Left (UInt8 (MODE), 6) or 2#00_0100#;
-      Write_Command (LCD, 16#C0#, (P1, P2, P3));
+      Write_Command (LCD, ST7735_PWCTR1, (P1, P2, P3));
    end Set_Power_Control_1;
 
    -------------------------
@@ -464,7 +493,7 @@ package body ST7735R is
       P1 := Shift_Left (UInt8 (VGH25), 6) or
         Shift_Left (UInt8 (VGSEL), 2) or
         UInt8 (VGHBT);
-      Write_Command (LCD, 16#C1#, (0 => P1));
+      Write_Command (LCD, ST7735_PWCTR2, (0 => P1));
    end Set_Power_Control_2;
 
    -------------------------
@@ -476,7 +505,7 @@ package body ST7735R is
       P1, P2 : UInt8)
    is
    begin
-      Write_Command (LCD, 16#C2#, (P1, P2));
+      Write_Command (LCD, ST7735_PWCTR3, (P1, P2));
    end Set_Power_Control_3;
 
    -------------------------
@@ -488,7 +517,7 @@ package body ST7735R is
       P1, P2 : UInt8)
    is
    begin
-      Write_Command (LCD, 16#C3#, (P1, P2));
+      Write_Command (LCD, ST7735_PWCTR4, (P1, P2));
    end Set_Power_Control_4;
 
    -------------------------
@@ -500,7 +529,7 @@ package body ST7735R is
       P1, P2 : UInt8)
    is
    begin
-      Write_Command (LCD, 16#C4#, (P1, P2));
+      Write_Command (LCD, ST7735_PWCTR5, (P1, P2));
    end Set_Power_Control_5;
 
    --------------
@@ -509,7 +538,7 @@ package body ST7735R is
 
    procedure Set_Vcom (LCD : ST7735R_Screen; VCOMS : UInt6) is
    begin
-      Write_Command (LCD, 16#C5#, (0 => UInt8 (VCOMS)));
+      Write_Command (LCD, ST7735_VMCTR1, (0 => UInt8 (VCOMS)));
    end Set_Vcom;
 
    ------------------------
@@ -524,7 +553,7 @@ package body ST7735R is
       P2 := UInt8 (X_Start and 16#FF#);
       P3 := UInt8 (Shift_Right (X_End and 16#FF#, 8));
       P4 := UInt8 (X_End and 16#FF#);
-      Write_Command (LCD, 16#2A#, (P1, P2, P3, P4));
+      Write_Command (LCD, ST7735_CASET, (P1, P2, P3, P4));
    end Set_Column_Address;
 
    ---------------------
@@ -539,7 +568,7 @@ package body ST7735R is
       P2 := UInt8 (Y_Start and 16#FF#);
       P3 := UInt8 (Shift_Right (Y_End and 16#FF#, 8));
       P4 := UInt8 (Y_End and 16#FF#);
-      Write_Command (LCD, 16#2B#, (P1, P2, P3, P4));
+      Write_Command (LCD, ST7735_RASET, (P1, P2, P3, P4));
    end Set_Row_Address;
 
    -----------------
@@ -592,7 +621,7 @@ package body ST7735R is
                                Data : HAL.UInt8_Array)
    is
    begin
-      Write_Command (LCD, 16#2C#);
+      Write_Command (LCD, ST7735_RAMWR);
       Write_Data (LCD, Data);
    end Write_Raw_Pixels;
 
@@ -604,7 +633,7 @@ package body ST7735R is
                                Data : HAL.UInt16_Array)
    is
    begin
-      Write_Command (LCD, 16#2C#);
+      Write_Command (LCD, ST7735_RAMWR);
       Write_Data (LCD, Data);
    end Write_Raw_Pixels;
 
