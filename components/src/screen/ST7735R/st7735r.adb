@@ -33,6 +33,8 @@ with Ada.Unchecked_Conversion;
 
 package body ST7735R is
 
+   procedure Swap (X, Y : in out Integer);
+
    ---------------------------
    --  Register definitions --
    ---------------------------
@@ -205,10 +207,11 @@ package body ST7735R is
       Count  : UInt16;
       B1, B2 : UInt8;
    begin
+      Set_Address (LCD, X_Start, X_End, Y_Start, Y_End);
       Write_Command (LCD, ST7735_RAMWR);
       Start_Transaction (LCD);
       Set_Data_Mode (LCD);
-      Count := (X_End - X_Start) * (Y_End - X_Start);
+      Count := ((X_End - X_Start) + 1) * ((Y_End - Y_Start) + 1);
       B1 := UInt8 (Shift_Right (Data, 8));
       B2 := UInt8 (Data and 16#FF#);
       while Count > 0 loop
@@ -222,6 +225,182 @@ package body ST7735R is
       end loop;
       End_Transaction (LCD);
    end Fill_Region;
+
+   procedure DrawFastVLine (LCD : ST7735R_Screen; X, Y, H : UInt16; Color : UInt16)
+   is
+      Tmp_Height : UInt16;
+   begin
+      Tmp_Height := H;
+      --  Rudimentary clipping
+      if X >= Screen_Width or Y >= Screen_Height then
+         return;
+      end if;
+      if (Y + H - 1) >= Screen_Height then
+         Tmp_Height := Screen_Height - Y;
+      end if;
+
+      Fill_Region (LCD, X, X, Y, Y + Tmp_Height, Color);
+
+   end DrawFastVLine;
+
+   procedure Swap (X, Y : in out Integer)
+   is
+      Temp : Integer := Y;
+   begin
+      Y := X;
+      X := Temp;
+   end Swap;
+
+   procedure DrawFastHLine (LCD : ST7735R_Screen; X, Y, W : UInt16; Color : UInt16)
+   is
+      Tmp_Width : UInt16;
+   begin
+      Tmp_Width := W;
+      --  Rudimentary clipping
+      if X >= Screen_Width or Y >= Screen_Height then
+         return;
+      end if;
+      if (X + W - 1) >= Screen_Width then
+         Tmp_Width := Screen_Width - X;
+      end if;
+
+      Fill_Region (LCD, X, X + Tmp_Width, Y, Y, Color);
+
+   end DrawFastHLine;
+
+   procedure DrawLine (LCD : ST7735R_Screen; X0, Y0, X1, Y1 : UInt16; Color : UInt16)
+   is
+      Steep : Boolean := abs (Y1 - Y0) > abs (X1 - X0);
+      LX0, LX1 : Integer;
+      LY0, LY1 : Integer;
+   begin
+      LX0 := Integer (X0);
+      LX1 := Integer (X1);
+      LY0 := Integer (Y0);
+      LY1 := Integer (Y1);
+      if Steep then
+         Swap (LX0, LY0);
+         Swap (LX1, LY1);
+      end if;
+
+      if LX0 > LX1 then
+         Swap (LX0, LX1);
+         Swap (LY0, LY1);
+      end if;
+
+      declare
+         Dx  : Integer := LX1 - LX0;
+         Dy  : Integer := abs (LY1 - LY0);
+         Err : Integer := Dx / 2;
+         Ystep : Integer := -1;
+         Xs : Integer := LX0;
+         Dlen : Integer := 0;
+
+      begin
+         if LY0 < LY1 then
+            Ystep := 1;
+         end if;
+
+         --  Split into steep and not steep for FastH/V separation
+         if Steep then
+            while LX0 <= LX1 loop
+               Dlen := Dlen + 1;
+               Err := Err - Dy;
+               if Err < 0 then
+                  Err := Err + Dx;
+                  if Dlen = 1 then
+                     Set_Pixel (LCD, UInt16 (LY0), UInt16 (Xs), Color);
+                  else
+                     DrawFastVLine (LCD, UInt16 (LY0), UInt16 (Xs), UInt16 (Dlen), Color);
+                  end if;
+                  Dlen := 0;
+                  LY0 := LY0 + Ystep;
+                  Xs := LX0 + 1;
+               end if;
+               LX0 := LX0 + 1;
+            end loop;
+            if Dlen > 0 then
+               DrawFastVLine (LCD, UInt16 (LY0), UInt16 (Xs), UInt16 (Dlen), Color);
+            end if;
+         else
+            while LX0 <= LX1 loop
+               Dlen := Dlen + 1;
+               Err := Err - Dy;
+               if Err < 0 then
+                  Err := Err + Dx;
+                  if Dlen = 1 then
+                     Set_Pixel (LCD, UInt16 (Xs), UInt16 (LY0), Color);
+                  else
+                     DrawFastHLine (LCD, UInt16 (Xs), UInt16 (LY0), UInt16 (Dlen), Color);
+                  end if;
+                  Dlen := 0;
+                  LY0 := LY0 + Ystep;
+                  Xs := LX0 + 1;
+               end if;
+               LX0 := LX0 + 1;
+            end loop;
+            if Dlen > 0 then
+               DrawFastHLine (LCD, UInt16 (Xs), UInt16 (LY0), UInt16 (Dlen), Color);
+            end if;
+         end if;
+      end;
+   end DrawLine;
+
+   --  This code is from groups.csail.mut.edu/graphics/6.837/F98/Lecture6/circle.html
+   procedure DrawCircle (LCD : ST7735R_Screen; XCenter, YCenter, Radius : UInt16; Color : UInt16)
+   is
+      procedure CirclePoints (LCD : ST7735R_Screen; Cx, Cy, X, Y : Integer; Color : UInt16);
+      procedure CirclePoints (LCD : ST7735R_Screen; Cx, Cy, X, Y : Integer; Color : UInt16)
+      is
+      begin
+         if X = 0 then
+            Set_Pixel (LCD, UInt16 (Cx), UInt16 (Cy + Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx), UInt16 (Cy - Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx + Y), UInt16 (Cy), Color);
+            Set_Pixel (LCD, UInt16 (Cx - Y), UInt16 (Cy), Color);
+         elsif X = Y then
+            Set_Pixel (LCD, UInt16 (Cx + X), UInt16 (Cy + Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx - X), UInt16 (Cy + Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx + X), UInt16 (Cy - Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx - X), UInt16 (Cy - Y), Color);
+         elsif X < Y then
+            Set_Pixel (LCD, UInt16 (Cx + X), UInt16 (Cy + Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx - X), UInt16 (Cy + Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx + X), UInt16 (Cy - Y), Color);
+            Set_Pixel (LCD, UInt16 (Cx - X), UInt16 (Cy - Y), Color);
+
+            Set_Pixel (LCD, UInt16 (Cx + Y), UInt16 (Cy + X), Color);
+            Set_Pixel (LCD, UInt16 (Cx - Y), UInt16 (Cy + X), Color);
+            Set_Pixel (LCD, UInt16 (Cx + Y), UInt16 (Cy - X), Color);
+            Set_Pixel (LCD, UInt16 (Cx - Y), UInt16 (Cy - X), Color);
+         end if;
+      end CirclePoints;
+
+      X : Integer := 0;
+      Y : Integer := Integer (Radius);
+      P : Integer := (5 - Integer (Radius) * 4) / 4;
+   begin
+      CirclePoints (LCD, Integer (XCenter), Integer (YCenter), X, Y, Color);
+      while X < Y loop
+         X := X + 1;
+         if P < 0 then
+            P := P + 2 * X + 1;
+         else
+            Y := Y - 1;
+            P := P + 2 * (X - Y) + 1;
+         end if;
+         CirclePoints (LCD, Integer (XCenter), Integer (YCenter), X, Y, Color);
+      end loop;
+   end DrawCircle;
+
+   procedure DrawRect (LCD : ST7735R_Screen; X, Y, W, H : UInt16; Color : UInt16)
+   is
+   begin
+      DrawFastHLine (LCD, X, Y, W, Color);
+      DrawFastHLine (LCD, X, Y + H, W, Color);
+      DrawFastVLine (LCD, X, Y, H, Color);
+      DrawFastVLine (LCD, X + W, Y, H, Color);
+   end DrawRect;
 
    procedure Set_Display (LCD  : ST7735R_Screen; Data : UInt16)
    is

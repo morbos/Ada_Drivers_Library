@@ -169,6 +169,17 @@ package ST7735R is
    procedure Fill_Region (LCD  : ST7735R_Screen;
                           X_Start, X_End, Y_Start, Y_End : UInt16;
                           Data : UInt16);
+   procedure DrawFastVLine (LCD : ST7735R_Screen; X, Y, H : UInt16; Color : UInt16);
+
+   procedure DrawFastHLine (LCD : ST7735R_Screen; X, Y, W : UInt16; Color : UInt16);
+
+   procedure DrawLine (LCD : ST7735R_Screen; X0, Y0, X1, Y1 : UInt16; Color : UInt16);
+
+   procedure DrawCircle (LCD : ST7735R_Screen; XCenter, YCenter, Radius : UInt16;
+                                               Color : UInt16);
+
+   procedure DrawRect (LCD : ST7735R_Screen; X, Y, W, H : UInt16; Color : UInt16);
+
    procedure Set_Display (LCD  : ST7735R_Screen; Data : UInt16);
    overriding
    function Max_Layers
