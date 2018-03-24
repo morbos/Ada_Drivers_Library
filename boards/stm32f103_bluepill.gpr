@@ -1,6 +1,7 @@
 aggregate library project STM32F103_Bluepill is
 
-   Build := external ("BUILD", "Debug");
+--   Build := external ("BUILD", "Debug");
+   Build := external ("BUILD", "Production");
 
    type RTS_Type is ("ravenscar-ssfp", "ravenscar-sfp", "ravenscar-full");
    RTS : RTS_Type := External ("RTS", "ravenscar-ssfp");
