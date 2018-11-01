@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                  Copyright (C) 2015-2017, AdaCore                        --
+--                    Copyright (C) 2015, AdaCore                           --
 --                                                                          --
 --  Redistribution and use in source and binary forms, with or without      --
 --  modification, are permitted provided that the following conditions are  --
@@ -30,106 +30,70 @@
 --                                                                          --
 --  This file is based on:                                                  --
 --                                                                          --
---   @file    stm32f407xx.h   et al.                                        --
+--   @file    stm32f4xx_hal_spi.c                                           --
 --   @author  MCD Application Team                                          --
 --   @version V1.1.0                                                        --
 --   @date    19-June-2014                                                  --
---   @brief   CMSIS STM32F407xx Device Peripheral Access Layer Header File. --
+--   @brief   SPI HAL module driver.                                        --
 --                                                                          --
 --   COPYRIGHT(c) 2014 STMicroelectronics                                   --
 ------------------------------------------------------------------------------
+with STM32.Device;    use STM32.Device;
 
---  This file provides register definitions for the STM32L4 (ARM Cortex M4F)
---  microcontrollers from ST Microelectronics.
+package body STM32.SPI.DMA is
 
-with STM32_SVD.EXTI;   use STM32_SVD.EXTI;
-with STM32_SVD.SYSCFG; use STM32_SVD.SYSCFG;
+   procedure Configure_DMA
+     (Controller : access DMA_Controller;
+      Channel    : DMA_Channel_Selector;
+      Data_Width : DMA_Data_Transfer_Widths);
 
-with STM32.EXTI;
-
-with STM32.Device;     use STM32.Device;
-
-package body STM32.SYSCFG is
-
-   subtype GPIO_Pin_Index is Natural range 0 .. 15;
-
-   procedure Connect_External_Interrupt
-     (Port : GPIO_Port;
-      Pin  : GPIO_Pin_Index);
-
-   --------------------------------
-   -- Connect_External_Interrupt --
-   --------------------------------
-
-   procedure Connect_External_Interrupt
-     (Port : GPIO_Port;
-      Pin  : GPIO_Pin_Index)
+   procedure Configure_DMA
+     (Controller : access DMA_Controller;
+      Channel    : DMA_Channel_Selector;
+      Data_Width : DMA_Data_Transfer_Widths)
    is
-      Port_Id  : constant UInt4 := GPIO_Port_Representation (Port);
+      Config : DMA_Channel_Configuration;
    begin
+      --  See app note AN4187 Table 3 for this configuration (other than the
+      --  channel number). It works, although it looks counterintuitive.
 
-      --  Finally we assign the port 'number' to the EXTI_n value within the
-      --  control register. We depend upon the Port enumerals' underlying
-      --  numeric representation values matching what the hardware expects,
-      --  that is, the values 0 .. n-1, which we get automatically unless
-      --  overridden.
-      case Pin is
-         when 0 .. 3 =>
-            SYSCFG_Periph.EXTICR1.EXTI.Arr (Pin) := Port_Id;
-         when 4 .. 7 =>
-            SYSCFG_Periph.EXTICR2.EXTI.Arr (Pin) := Port_Id;
-         when 8 .. 11 =>
-            SYSCFG_Periph.EXTICR3.EXTI.Arr (Pin) := Port_Id;
-         when 12 .. 15 =>
-            SYSCFG_Periph.EXTICR4.EXTI.Arr (Pin) := Port_Id;
-      end case;
-   end Connect_External_Interrupt;
+      Config.Channel                      := Channel_1;  -- arbitrary
+      Config.Direction                    := Memory_To_Peripheral;
+      Config.Memory_Data_Format           := Data_Width;
+      Config.Peripheral_Data_Format       := Bytes;
+      Config.Increment_Peripheral_Address := False;
+      Config.Increment_Memory_Address     := True;
+      Config.Operation_Mode               := Normal_Mode;
+      Config.Priority                     := Priority_Very_High;
+      Config.FIFO_Enabled                 := False;
+      Config.Memory_Burst_Size            := Memory_Burst_Single;
+      Config.Peripheral_Burst_Size        := Peripheral_Burst_Single;
+      Config.CS                           := 1;
+      Configure (Controller.all, Channel, Config);
+   end Configure_DMA;
 
-   --------------------------------
-   -- Connect_External_Interrupt --
-   --------------------------------
-
-   procedure Connect_External_Interrupt
-     (Port : GPIO_Port;
-      Pin  : GPIO_Pin)
+   procedure Transmit_DMA (This       : in out SPI_Port;
+                           Controller : access DMA_Controller;
+                           Channel    : DMA_Channel_Selector;
+                           Outgoing   : HAL.SPI.SPI_Data_8b)
    is
+      Data_Width  : DMA_Data_Transfer_Widths := Bytes;
    begin
-      Connect_External_Interrupt (Port, GPIO_Pin'Pos (Pin));
-   end Connect_External_Interrupt;
+      Configure_DMA (Controller, Channel, Data_Width);
+      --  We configure the unit each time to ensure the data width is right.
 
-   --------------------------------
-   -- Connect_External_Interrupt --
-   --------------------------------
+      Clear_All_Status (Controller.all, Channel);
+      --  Ensure previous calls or other use hasn't set any status flags.
 
-   procedure Connect_External_Interrupt
-     (Point  : GPIO_Point)
-   is
-   begin
-      Connect_External_Interrupt (Point.Periph.all, Point.Pin);
-   end Connect_External_Interrupt;
+      Start_Transfer_with_Interrupts
+        (Controller.all,
+         Channel,
+         Source             => Outgoing'Address,
+         Destination        => This.Periph.DR'Address,
+         Data_Count         => Outgoing'Length,
+         Enabled_Interrupts => (Transfer_Complete_Interrupt => True,
+                                others                      => False));
 
-   --------------------------------
-   -- Connect_External_Interrupt --
-   --------------------------------
+   end Transmit_DMA;
 
-   procedure Connect_External_Interrupt
-     (Port : GPIO_Port;
-      Pins : GPIO_Pins)
-   is
-   begin
-      for Pin of Pins loop
-         Connect_External_Interrupt (Port, Pin);
-      end loop;
-   end Connect_External_Interrupt;
-
-   ------------------------------
-   -- Clear_External_Interrupt --
-   ------------------------------
-
-   procedure Clear_External_Interrupt (Pin : GPIO_Pin) is
-      use STM32.EXTI;
-   begin
-      Clear_External_Interrupt (External_Line_Number'Val (GPIO_Pin'Pos (Pin)));
-   end Clear_External_Interrupt;
-
-end STM32.SYSCFG;
+end STM32.SPI.DMA;

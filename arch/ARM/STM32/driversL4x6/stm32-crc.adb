@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                        Copyright (C) 2016, AdaCore                       --
+--                       Copyright (C) 2017, AdaCore                        --
 --                                                                          --
 --  Redistribution and use in source and binary forms, with or without      --
 --  modification, are permitted provided that the following conditions are  --
@@ -29,34 +29,107 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with HAL.Real_Time_Clock;
+package body STM32.CRC is
 
-package STM32.RTC is
+   ----------------------
+   -- Reset_Calculator --
+   ----------------------
 
-   type RTC_Device is new HAL.Real_Time_Clock.RTC_Device with private;
+   procedure Reset_Calculator (This : in out CRC_32) is
+   begin
+      This.CR.RESET := True;
+   end Reset_Calculator;
 
-   overriding
-   procedure Set (This : in out RTC_Device;
-                  Time : HAL.Real_Time_Clock.RTC_Time;
-                  Date : HAL.Real_Time_Clock.RTC_Date);
+   -----------
+   -- Value --
+   -----------
 
-   overriding
-   procedure Get (This : in out RTC_Device;
-                  Time : out HAL.Real_Time_Clock.RTC_Time;
-                  Date : out HAL.Real_Time_Clock.RTC_Date);
+   function Value (This : CRC_32) return UInt32 is
+      (This.DR);
 
-   overriding
-   function Get_Time (This : RTC_Device) return HAL.Real_Time_Clock.RTC_Time;
+   ----------------
+   -- Update_CRC --
+   ----------------
 
-   overriding
-   function Get_Date (This : RTC_Device) return HAL.Real_Time_Clock.RTC_Date;
+   procedure Update_CRC
+     (This   : in out CRC_32;
+      Input  : UInt32;
+      Output : out UInt32)
+   is
+   begin
+      This.DR := Input;
+      --  Each write operation into the data register causes the device to
+      --  calculate a new CRC value based on the previous CRC value and Input,
+      --  so although this looks like a useless sequence that would just return
+      --  the Input value, it is necessary.
+      Output := This.DR;
+   end Update_CRC;
 
-   procedure Enable (This : in out RTC_Device);
-   procedure Disable (This : in out RTC_Device);
+   ----------------
+   -- Update_CRC --
+   ----------------
 
-private
+   procedure Update_CRC
+     (This   : in out CRC_32;
+      Input  : Block_32;
+      Output : out UInt32)
+   is
+   begin
+      for K in Input'Range loop
+         This.DR := Input (K);
+      end loop;
+      Output := This.DR;
+   end Update_CRC;
 
-   type RTC_Device is new HAL.Real_Time_Clock.RTC_Device with
-     null record;
+   ----------------
+   -- Update_CRC --
+   ----------------
 
-end STM32.RTC;
+   procedure Update_CRC
+     (This   : in out CRC_32;
+      Input  : Block_16;
+      Output : out UInt32)
+   is
+   begin
+      for K in Input'Range loop
+         This.DR := UInt32 (Input (K));
+      end loop;
+      Output := This.DR;
+   end Update_CRC;
+
+   ----------------
+   -- Update_CRC --
+   ----------------
+
+   procedure Update_CRC
+     (This   : in out CRC_32;
+      Input  : Block_8;
+      Output : out UInt32)
+   is
+   begin
+      for K in Input'Range loop
+         This.DR := UInt32 (Input (K));
+      end loop;
+      Output := This.DR;
+   end Update_CRC;
+
+   --------------------------
+   -- Set_Independent_Data --
+   --------------------------
+
+   procedure Set_Independent_Data
+     (This  : in out CRC_32;
+      Value : UInt8)
+   is
+   begin
+      This.IDR.IDR := Value;
+   end Set_Independent_Data;
+
+   ----------------------
+   -- Independent_Data --
+   ----------------------
+
+   function Independent_Data (This : CRC_32) return UInt8 is
+     (This.IDR.IDR);
+
+end STM32.CRC;

@@ -110,6 +110,7 @@ package body STM32.SPI is
       This.Periph.CR2.TXEIE := Conf.Transmit_DMA;
       This.Periph.CR2.RXDMAEN := Conf.Receive_DMA;
       This.Periph.CR2.RXNEIE := Conf.Receive_DMA;
+      This.Periph.CR2.FRXTH := Conf.Fifo_Level;
 
       --  Activate the SPI mode (Reset I2SMOD bit in I2SCFGR register)
 --      This.Periph.I2SCFGR.I2SMOD := False;
@@ -473,6 +474,10 @@ package body STM32.SPI is
          Enable (This);
       end if;
 
+      if This.Periph.CR1.BIDIMODE then  --  One wire mode
+         This.Periph.CR1.BIDIOE := True;
+      end if;
+
       Data_8bit := Outgoing;
 
       while not Tx_Is_Empty (This) loop
@@ -512,7 +517,19 @@ package body STM32.SPI is
          Enable (This);
       end if;
 
+      if This.Periph.CR1.BIDIMODE then  --  One wire mode RX only
+         Disable (This);
+         This.Periph.CR1.BIDIOE := False;
+         Enable (This);
+      end if;
+
       Receive_8bit_Mode (This, Data);
+
+      if This.Periph.CR1.BIDIMODE then  --  One wire mode TX only
+         Disable (This);
+         This.Periph.CR1.BIDIOE := True;
+         Enable (This);
+      end if;
 
       while Busy (This) loop
          null;
@@ -956,7 +973,7 @@ package body STM32.SPI is
      (This     : in out SPI_Port;
       Incoming : out HAL.SPI.SPI_Data_8b)
    is
-      Generate_Clock : constant Boolean := Current_Mode (This) = Master;
+      Generate_Clock : constant Boolean := Current_Mode (This) = Master and not This.Periph.CR1.BIDIMODE;
       Data_8bit      : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       for K of Incoming loop
@@ -969,5 +986,19 @@ package body STM32.SPI is
          K := Data_8bit;
       end loop;
    end Receive_8bit_Mode;
+
+   overriding
+   procedure Transmit_Receive
+     (This     : in out SPI_Port;
+      Outgoing : HAL.SPI.SPI_Data_8b;
+      Incoming : out HAL.SPI.SPI_Data_8b;
+      Status   : out HAL.SPI.SPI_Status;
+      Timeout  : Natural := 1000)
+   is
+      pragma Unreferenced (Timeout);
+   begin
+      Send_Receive_8bit_Mode (This, UInt8_Buffer (Outgoing), UInt8_Buffer (Incoming), Incoming'Length);
+      Status := HAL.SPI.Ok;
+   end Transmit_Receive;
 
 end STM32.SPI;

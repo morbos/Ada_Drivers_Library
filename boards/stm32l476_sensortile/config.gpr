@@ -1,8 +1,8 @@
 --  Version of the projects configuration for STM32L476-sensortile board
 
 --  Include the run-time project files to have them compiled
-with "../../embedded-runtimes/ravenscar-stm32l4nucleo/ravenscar_build";
-with "../../embedded-runtimes/ravenscar-stm32l4nucleo/runtime_build";
+with "../../embedded-runtimes/ravenscar-stm32l4x6/ravenscar_build";
+with "../../embedded-runtimes/ravenscar-stm32l4x6/runtime_build";
 
 abstract project Config extends "../common_config" is
 

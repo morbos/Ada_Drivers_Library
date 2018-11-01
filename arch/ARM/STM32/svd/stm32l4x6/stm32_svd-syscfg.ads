@@ -90,156 +90,176 @@ package STM32_SVD.SYSCFG is
       FPU_IE         at 0 range 26 .. 31;
    end record;
 
-   subtype EXTICR1_EXTI0_Field is HAL.UInt3;
-   subtype EXTICR1_EXTI1_Field is HAL.UInt3;
-   subtype EXTICR1_EXTI2_Field is HAL.UInt3;
-   subtype EXTICR1_EXTI3_Field is HAL.UInt3;
+   --  EXTICR1_EXTI array element
+   subtype EXTICR1_EXTI_Element is HAL.UInt4;
+
+   --  EXTICR1_EXTI array
+   type EXTICR1_EXTI_Field_Array is array (0 .. 3) of EXTICR1_EXTI_Element
+     with Component_Size => 4, Size => 16;
+
+   --  Type definition for EXTICR1_EXTI
+   type EXTICR1_EXTI_Field
+     (As_Array : Boolean := False)
+   is record
+      case As_Array is
+         when False =>
+            --  EXTI as a value
+            Val : HAL.UInt16;
+         when True =>
+            --  EXTI as an array
+            Arr : EXTICR1_EXTI_Field_Array;
+      end case;
+   end record
+     with Unchecked_Union, Size => 16;
+
+   for EXTICR1_EXTI_Field use record
+      Val at 0 range 0 .. 15;
+      Arr at 0 range 0 .. 15;
+   end record;
 
    --  external interrupt configuration register 1
    type EXTICR1_Register is record
       --  EXTI 0 configuration bits
-      EXTI0          : EXTICR1_EXTI0_Field := 16#0#;
+      EXTI           : EXTICR1_EXTI_Field :=
+                        (As_Array => False, Val => 16#0#);
       --  unspecified
-      Reserved_3_3   : HAL.Bit := 16#0#;
-      --  EXTI 1 configuration bits
-      EXTI1          : EXTICR1_EXTI1_Field := 16#0#;
-      --  unspecified
-      Reserved_7_7   : HAL.Bit := 16#0#;
-      --  EXTI 2 configuration bits
-      EXTI2          : EXTICR1_EXTI2_Field := 16#0#;
-      --  unspecified
-      Reserved_11_11 : HAL.Bit := 16#0#;
-      --  EXTI 3 configuration bits
-      EXTI3          : EXTICR1_EXTI3_Field := 16#0#;
-      --  unspecified
-      Reserved_15_31 : HAL.UInt17 := 16#0#;
+      Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for EXTICR1_Register use record
-      EXTI0          at 0 range 0 .. 2;
-      Reserved_3_3   at 0 range 3 .. 3;
-      EXTI1          at 0 range 4 .. 6;
-      Reserved_7_7   at 0 range 7 .. 7;
-      EXTI2          at 0 range 8 .. 10;
-      Reserved_11_11 at 0 range 11 .. 11;
-      EXTI3          at 0 range 12 .. 14;
-      Reserved_15_31 at 0 range 15 .. 31;
+      EXTI           at 0 range 0 .. 15;
+      Reserved_16_31 at 0 range 16 .. 31;
    end record;
 
-   subtype EXTICR2_EXTI4_Field is HAL.UInt3;
-   subtype EXTICR2_EXTI5_Field is HAL.UInt3;
-   subtype EXTICR2_EXTI6_Field is HAL.UInt3;
-   subtype EXTICR2_EXTI7_Field is HAL.UInt3;
+   --  EXTICR2_EXTI array element
+   subtype EXTICR2_EXTI_Element is HAL.UInt4;
+
+   --  EXTICR2_EXTI array
+   type EXTICR2_EXTI_Field_Array is array (4 .. 7) of EXTICR2_EXTI_Element
+     with Component_Size => 4, Size => 16;
+
+   --  Type definition for EXTICR2_EXTI
+   type EXTICR2_EXTI_Field
+     (As_Array : Boolean := False)
+   is record
+      case As_Array is
+         when False =>
+            --  EXTI as a value
+            Val : HAL.UInt16;
+         when True =>
+            --  EXTI as an array
+            Arr : EXTICR2_EXTI_Field_Array;
+      end case;
+   end record
+     with Unchecked_Union, Size => 16;
+
+   for EXTICR2_EXTI_Field use record
+      Val at 0 range 0 .. 15;
+      Arr at 0 range 0 .. 15;
+   end record;
 
    --  external interrupt configuration register 2
    type EXTICR2_Register is record
       --  EXTI 4 configuration bits
-      EXTI4          : EXTICR2_EXTI4_Field := 16#0#;
+      EXTI           : EXTICR2_EXTI_Field :=
+                        (As_Array => False, Val => 16#0#);
       --  unspecified
-      Reserved_3_3   : HAL.Bit := 16#0#;
-      --  EXTI 5 configuration bits
-      EXTI5          : EXTICR2_EXTI5_Field := 16#0#;
-      --  unspecified
-      Reserved_7_7   : HAL.Bit := 16#0#;
-      --  EXTI 6 configuration bits
-      EXTI6          : EXTICR2_EXTI6_Field := 16#0#;
-      --  unspecified
-      Reserved_11_11 : HAL.Bit := 16#0#;
-      --  EXTI 7 configuration bits
-      EXTI7          : EXTICR2_EXTI7_Field := 16#0#;
-      --  unspecified
-      Reserved_15_31 : HAL.UInt17 := 16#0#;
+      Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for EXTICR2_Register use record
-      EXTI4          at 0 range 0 .. 2;
-      Reserved_3_3   at 0 range 3 .. 3;
-      EXTI5          at 0 range 4 .. 6;
-      Reserved_7_7   at 0 range 7 .. 7;
-      EXTI6          at 0 range 8 .. 10;
-      Reserved_11_11 at 0 range 11 .. 11;
-      EXTI7          at 0 range 12 .. 14;
-      Reserved_15_31 at 0 range 15 .. 31;
+      EXTI           at 0 range 0 .. 15;
+      Reserved_16_31 at 0 range 16 .. 31;
    end record;
 
-   subtype EXTICR3_EXTI8_Field is HAL.UInt3;
-   subtype EXTICR3_EXTI9_Field is HAL.UInt3;
-   subtype EXTICR3_EXTI10_Field is HAL.UInt3;
-   subtype EXTICR3_EXTI11_Field is HAL.UInt3;
+   --  EXTICR3_EXTI array element
+   subtype EXTICR3_EXTI_Element is HAL.UInt4;
+
+   --  EXTICR3_EXTI array
+   type EXTICR3_EXTI_Field_Array is array (8 .. 11) of EXTICR3_EXTI_Element
+     with Component_Size => 4, Size => 16;
+
+   --  Type definition for EXTICR3_EXTI
+   type EXTICR3_EXTI_Field
+     (As_Array : Boolean := False)
+   is record
+      case As_Array is
+         when False =>
+            --  EXTI as a value
+            Val : HAL.UInt16;
+         when True =>
+            --  EXTI as an array
+            Arr : EXTICR3_EXTI_Field_Array;
+      end case;
+   end record
+     with Unchecked_Union, Size => 16;
+
+   for EXTICR3_EXTI_Field use record
+      Val at 0 range 0 .. 15;
+      Arr at 0 range 0 .. 15;
+   end record;
 
    --  external interrupt configuration register 3
    type EXTICR3_Register is record
       --  EXTI 8 configuration bits
-      EXTI8          : EXTICR3_EXTI8_Field := 16#0#;
+      EXTI           : EXTICR3_EXTI_Field :=
+                        (As_Array => False, Val => 16#0#);
       --  unspecified
-      Reserved_3_3   : HAL.Bit := 16#0#;
-      --  EXTI 9 configuration bits
-      EXTI9          : EXTICR3_EXTI9_Field := 16#0#;
-      --  unspecified
-      Reserved_7_7   : HAL.Bit := 16#0#;
-      --  EXTI 10 configuration bits
-      EXTI10         : EXTICR3_EXTI10_Field := 16#0#;
-      --  unspecified
-      Reserved_11_11 : HAL.Bit := 16#0#;
-      --  EXTI 11 configuration bits
-      EXTI11         : EXTICR3_EXTI11_Field := 16#0#;
-      --  unspecified
-      Reserved_15_31 : HAL.UInt17 := 16#0#;
+      Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for EXTICR3_Register use record
-      EXTI8          at 0 range 0 .. 2;
-      Reserved_3_3   at 0 range 3 .. 3;
-      EXTI9          at 0 range 4 .. 6;
-      Reserved_7_7   at 0 range 7 .. 7;
-      EXTI10         at 0 range 8 .. 10;
-      Reserved_11_11 at 0 range 11 .. 11;
-      EXTI11         at 0 range 12 .. 14;
-      Reserved_15_31 at 0 range 15 .. 31;
+      EXTI           at 0 range 0 .. 15;
+      Reserved_16_31 at 0 range 16 .. 31;
    end record;
 
-   subtype EXTICR4_EXTI12_Field is HAL.UInt3;
-   subtype EXTICR4_EXTI13_Field is HAL.UInt3;
-   subtype EXTICR4_EXTI14_Field is HAL.UInt3;
-   subtype EXTICR4_EXTI15_Field is HAL.UInt3;
+   --  EXTICR4_EXTI array element
+   subtype EXTICR4_EXTI_Element is HAL.UInt4;
+
+   --  EXTICR4_EXTI array
+   type EXTICR4_EXTI_Field_Array is array (12 .. 15) of EXTICR4_EXTI_Element
+     with Component_Size => 4, Size => 16;
+
+   --  Type definition for EXTICR4_EXTI
+   type EXTICR4_EXTI_Field
+     (As_Array : Boolean := False)
+   is record
+      case As_Array is
+         when False =>
+            --  EXTI as a value
+            Val : HAL.UInt16;
+         when True =>
+            --  EXTI as an array
+            Arr : EXTICR4_EXTI_Field_Array;
+      end case;
+   end record
+     with Unchecked_Union, Size => 16;
+
+   for EXTICR4_EXTI_Field use record
+      Val at 0 range 0 .. 15;
+      Arr at 0 range 0 .. 15;
+   end record;
 
    --  external interrupt configuration register 4
    type EXTICR4_Register is record
       --  EXTI12 configuration bits
-      EXTI12         : EXTICR4_EXTI12_Field := 16#0#;
+      EXTI           : EXTICR4_EXTI_Field :=
+                        (As_Array => False, Val => 16#0#);
       --  unspecified
-      Reserved_3_3   : HAL.Bit := 16#0#;
-      --  EXTI13 configuration bits
-      EXTI13         : EXTICR4_EXTI13_Field := 16#0#;
-      --  unspecified
-      Reserved_7_7   : HAL.Bit := 16#0#;
-      --  EXTI14 configuration bits
-      EXTI14         : EXTICR4_EXTI14_Field := 16#0#;
-      --  unspecified
-      Reserved_11_11 : HAL.Bit := 16#0#;
-      --  EXTI15 configuration bits
-      EXTI15         : EXTICR4_EXTI15_Field := 16#0#;
-      --  unspecified
-      Reserved_15_31 : HAL.UInt17 := 16#0#;
+      Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for EXTICR4_Register use record
-      EXTI12         at 0 range 0 .. 2;
-      Reserved_3_3   at 0 range 3 .. 3;
-      EXTI13         at 0 range 4 .. 6;
-      Reserved_7_7   at 0 range 7 .. 7;
-      EXTI14         at 0 range 8 .. 10;
-      Reserved_11_11 at 0 range 11 .. 11;
-      EXTI15         at 0 range 12 .. 14;
-      Reserved_15_31 at 0 range 15 .. 31;
+      EXTI           at 0 range 0 .. 15;
+      Reserved_16_31 at 0 range 16 .. 31;
    end record;
 
    --  SCSR

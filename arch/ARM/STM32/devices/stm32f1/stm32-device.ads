@@ -64,7 +64,9 @@ package STM32.Device is
    --  when that device is not present on the given hardware instance.
 
    procedure Enable_Clock (This : aliased in out GPIO_Port);
+   procedure Disable_Clock (This : aliased in out GPIO_Port);
    procedure Enable_Clock (Point : GPIO_Point);
+   procedure Disable_Clock (Point : GPIO_Point);
    procedure Enable_Clock (Points : GPIO_Points);
 
    procedure Reset (This : aliased in out GPIO_Port)

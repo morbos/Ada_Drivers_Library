@@ -31,21 +31,21 @@
 
 package SSD1306.Standard_Resolutions is
 
-   type SSD1306_96x16_Screen
-     (Port             : not null Any_I2C_Port;
-      RST              : not null Any_GPIO_Point;
-      Time             : not null HAL.Time.Any_Delays)
-   is new SSD1306_Screen ((96 * 16) / 8, 96, 16, Port, RST, Time) with null record;
+--   type SSD1306_96x16_Screen
+--     (Port             : not null Any_I2C_Port;
+--      RST              : not null Any_GPIO_Point;
+--      Time             : not null HAL.Time.Any_Delays)
+--   is new SSD1306_Screen ((96 * 16) / 8, 96, 16, Port, RST, Time) with null record;
 
-   type SSD1306_128x32_Screen
-     (Port             : not null Any_I2C_Port;
-      RST              : not null Any_GPIO_Point;
-      Time             : not null HAL.Time.Any_Delays)
-   is new SSD1306_Screen ((128 * 32) / 8, 128, 32, Port, RST, Time) with null record;
+--   type SSD1306_128x32_Screen
+--     (Port             : not null Any_I2C_Port;
+--      RST              : not null Any_GPIO_Point;
+--      Time             : not null HAL.Time.Any_Delays)
+--   is new SSD1306_Screen ((128 * 32) / 8, 128, 32, Port, RST, Time) with null record;
 
-   type SSD1306_128x64_Screen
-     (Port             : not null Any_I2C_Port;
-      RST              : not null Any_GPIO_Point;
-      Time             : not null HAL.Time.Any_Delays)
-   is new SSD1306_Screen ((128 * 64) / 8, 128, 64, Port, RST, Time) with null record;
+--   type SSD1306_128x64_Screen
+--     (Port             : not null Any_I2C_Port;
+--      RST              : not null Any_GPIO_Point;
+--      Time             : not null HAL.Time.Any_Delays)
+--   is new SSD1306_Screen ((128 * 64) / 8, 128, 64, Port, RST, Time) with null record;
 end SSD1306.Standard_Resolutions;

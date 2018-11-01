@@ -168,6 +168,10 @@ package body LIS3DSH is
       Temp  : UInt16;
       Value : UInt8;
    begin
+      if SPI_Wire = Serial_Interface_3Wire then
+         This.Loc_IO_Write (1, CTRL_REG5);
+      end if;
+
       Temp := Output_DataRate'Enum_Rep or
               Axes_Enable'Enum_Rep     or
               SPI_Wire'Enum_Rep        or
@@ -178,8 +182,8 @@ package body LIS3DSH is
       Value := UInt8 (Temp); -- the low UInt8 of the half-word
       This.Loc_IO_Write (Value, CTRL_REG4);
 
-      Value := UInt8 (Shift_Right (Temp, 8)); -- the high UInt8
-      This.Loc_IO_Write (Value, CTRL_REG5);
+--      Value := UInt8 (Shift_Right (Temp, 8)); -- the high UInt8
+--      This.Loc_IO_Write (Value, CTRL_REG5);
 
       case Full_Scale is
          when Fullscale_2g =>

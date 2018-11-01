@@ -188,14 +188,14 @@ package STM32.GPIO is
    --  For Point.Pin on the Point.Port.all, configures the
    --  characteristics specified by Config
 
-  function Interrupt_Line_Number
-    (This : GPIO_Point) return EXTI.External_Line_Number;
-  -- Returns the external interrupt line number that corresponds to the
-  --  GPIO point.
+   function Interrupt_Line_Number
+     (This : GPIO_Point) return EXTI.External_Line_Number;
+   --  Returns the external interrupt line number that corresponds to the
+   --  GPIO point.
 
---   procedure Configure_Trigger
---     (This    : GPIO_Point;
---      Trigger : EXTI.External_Triggers);
+   procedure Configure_Trigger
+     (This    : GPIO_Point;
+      Trigger : EXTI.External_Triggers);
    --  For Point.Pin on Point.Port.all, connects the external line and enables
    --  the external Trigger.  Enables the SYSCFG clock.
 
@@ -246,9 +246,9 @@ package STM32.GPIO is
    --  For Point.Pin on the Point.Port.all, configures the
    --  characteristics specified by Config
 
---   procedure Configure_Trigger
---     (Points  : GPIO_Points;
---      Trigger : EXTI.External_Triggers);
+   procedure Configure_Trigger
+     (Points  : GPIO_Points;
+      Trigger : EXTI.External_Triggers);
    --  For Point.Pin on Point.Port.all, configures the
    --  characteristics specified by Trigger
 

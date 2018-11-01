@@ -1355,8 +1355,7 @@ private
    end record;
 
    -------  representation for Timer 2, 5, and 11 remapping options  ----------
-   
-   -- vvvvvvvvv Fix this for L series
+   --  vvvvvvvvv Fix this for L series
    type TIMx_OR is record
       Reserved0 : UInt32;
    end record with Volatile_Full_Access, Size => 32;

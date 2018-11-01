@@ -43,7 +43,6 @@ with Ada.Unchecked_Conversion;
 with System;
 
 with STM32_SVD.SPI; use STM32_SVD.SPI;
-
 package body STM32.SPI is
 
    use type HAL.SPI.SPI_Data_Size;
@@ -107,6 +106,12 @@ package body STM32.SPI is
       This.Periph.CR1.BR       := Baud_Rate_Value (Conf.Baud_Rate_Prescaler);
       This.Periph.CR1.LSBFIRST := Conf.First_Bit = LSB;
 
+      This.Periph.CR2.TXDMAEN := Conf.Transmit_DMA;
+      This.Periph.CR2.TXEIE := Conf.Transmit_DMA;
+      This.Periph.CR2.RXDMAEN := Conf.Receive_DMA;
+      This.Periph.CR2.RXNEIE := Conf.Receive_DMA;
+      This.Periph.CR2.FRXTH := Conf.Fifo_Level;
+
       --  Activate the SPI mode (Reset I2SMOD bit in I2SCFGR register)
 --      This.Periph.I2SCFGR.I2SMOD := False;
 
@@ -149,6 +154,8 @@ package body STM32.SPI is
       This.Periph.DR.DR := Data;
    end Send;
 
+
+
    ----------
    -- Data --
    ----------
@@ -162,9 +169,11 @@ package body STM32.SPI is
    -- Send --
    ----------
 
-   procedure Send (This : in out SPI_Port; Data : UInt8) is
+   procedure Send (This : in out SPI_Port; Data : UInt8)
+   is
+      Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
-      Send (This, UInt16 (Data));
+      Data_8bit := Data;
    end Send;
 
    ----------
@@ -450,6 +459,7 @@ package body STM32.SPI is
      (This     : in out SPI_Port;
       Outgoing : UInt8)
    is
+      Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       if CRC_Enabled (This) then
          Reset_CRC (This);
@@ -464,7 +474,11 @@ package body STM32.SPI is
          Enable (This);
       end if;
 
-      This.Periph.DR.DR := UInt16 (Outgoing);
+      if This.Periph.CR1.BIDIMODE then  --  One wire mode
+         This.Periph.CR1.BIDIOE := True;
+      end if;
+
+      Data_8bit := Outgoing;
 
       while not Tx_Is_Empty (This) loop
          null;
@@ -503,7 +517,19 @@ package body STM32.SPI is
          Enable (This);
       end if;
 
+      if This.Periph.CR1.BIDIMODE then  --  One wire mode RX only
+         Disable (This);
+         This.Periph.CR1.BIDIOE := False;
+         Enable (This);
+      end if;
+
       Receive_8bit_Mode (This, Data);
+
+      if This.Periph.CR1.BIDIMODE then  --  One wire mode TX only
+         Disable (This);
+         This.Periph.CR1.BIDIOE := True;
+         Enable (This);
+      end if;
 
       while Busy (This) loop
          null;
@@ -558,6 +584,7 @@ package body STM32.SPI is
      (This     : in out SPI_Port;
       Incoming : out UInt8)
    is
+      Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       if CRC_Enabled (This) then
          Reset_CRC (This);
@@ -567,13 +594,13 @@ package body STM32.SPI is
          Enable (This);
       end if;
 
-      This.Periph.DR.DR := 0; -- generate clock
+      Data_8bit := 0;
 
       while Rx_Is_Empty (This) loop
          null;
       end loop;
 
-      Incoming := UInt8 (This.Periph.DR.DR);
+      Incoming := Data_8bit;
 
       if CRC_Enabled (This) then
          while Rx_Is_Empty (This) loop
@@ -651,6 +678,7 @@ package body STM32.SPI is
       Outgoing : UInt8;
       Incoming : out UInt8)
    is
+      Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       if CRC_Enabled (This) then
          Reset_CRC (This);
@@ -664,7 +692,7 @@ package body STM32.SPI is
          raise Program_Error;
       end if;
 
-      This.Periph.DR.DR := UInt16 (Outgoing);
+      Data_8bit := Outgoing;
 
       --  enable CRC transmission
       if CRC_Enabled (This) then
@@ -676,7 +704,7 @@ package body STM32.SPI is
          null;
       end loop;
 
-      Incoming := UInt8 (This.Periph.DR.DR);
+      Incoming := Data_8bit;
 
       --  Read CRC UInt8 to close CRC calculation
       if CRC_Enabled (This) then
@@ -790,9 +818,10 @@ package body STM32.SPI is
       Tx_Count : Natural := Size;
       Outgoing_Index : Natural := Outgoing'First;
       Incoming_Index : Natural := Incoming'First;
+      Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       if Current_Mode (This) = Slave or else Tx_Count = 1 then
-         This.Periph.DR.DR := UInt16 (Outgoing (Outgoing_Index));
+         Data_8bit := Outgoing (Outgoing_Index);
          Outgoing_Index := Outgoing_Index + 1;
          Tx_Count := Tx_Count - 1;
       end if;
@@ -808,11 +837,8 @@ package body STM32.SPI is
          while Rx_Is_Empty (This) loop
             null;
          end loop;
-
-         Incoming (Incoming_Index) := UInt8 (This.Periph.DR.DR);
-
+         Incoming (Incoming_Index) := Data_8bit;
          return;
-
       end if;
 
       while Tx_Count > 0 loop
@@ -821,7 +847,7 @@ package body STM32.SPI is
             null;
          end loop;
 
-         This.Periph.DR.DR := UInt16 (Outgoing (Outgoing_Index));
+         Data_8bit := Outgoing (Outgoing_Index);
          Outgoing_Index := Outgoing_Index + 1;
          Tx_Count := Tx_Count - 1;
 
@@ -835,7 +861,7 @@ package body STM32.SPI is
             null;
          end loop;
 
-         Incoming (Incoming_Index) := UInt8 (This.Periph.DR.DR);
+         Incoming (Incoming_Index) := Data_8bit;
          Incoming_Index := Incoming_Index + 1;
       end loop;
 
@@ -892,11 +918,12 @@ package body STM32.SPI is
      (This     : in out SPI_Port;
       Outgoing : HAL.SPI.SPI_Data_8b)
    is
-      Tx_Count : Natural := Outgoing'Length;
-      Index    : Natural := Outgoing'First;
+      Tx_Count  : Natural := Outgoing'Length;
+      Index     : Natural := Outgoing'First;
+      Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       if Current_Mode (This) = Slave or else Tx_Count = 1 then
-         This.Periph.DR.DR := UInt16 (Outgoing (Index));
+         Data_8bit := Outgoing (Index);
          Index := Index + 1;
          Tx_Count := Tx_Count - 1;
       end if;
@@ -907,7 +934,7 @@ package body STM32.SPI is
             null;
          end loop;
 
-         This.Periph.DR.DR := UInt16 (Outgoing (Index));
+         Data_8bit := Outgoing (Index);
          Index := Index + 1;
          Tx_Count := Tx_Count - 1;
       end loop;
@@ -946,17 +973,32 @@ package body STM32.SPI is
      (This     : in out SPI_Port;
       Incoming : out HAL.SPI.SPI_Data_8b)
    is
-      Generate_Clock : constant Boolean := Current_Mode (This) = Master;
+      Generate_Clock : constant Boolean := Current_Mode (This) = Master and not This.Periph.CR1.BIDIMODE;
+      Data_8bit      : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       for K of Incoming loop
          if Generate_Clock then
-            This.Periph.DR.DR := 0;
+            Data_8bit := 0;
          end if;
          while Rx_Is_Empty (This) loop
             null;
          end loop;
-         K := UInt8 (This.Periph.DR.DR);
+         K := Data_8bit;
       end loop;
    end Receive_8bit_Mode;
+
+   overriding
+   procedure Transmit_Receive
+     (This     : in out SPI_Port;
+      Outgoing : HAL.SPI.SPI_Data_8b;
+      Incoming : out HAL.SPI.SPI_Data_8b;
+      Status   : out HAL.SPI.SPI_Status;
+      Timeout  : Natural := 1000)
+   is
+      pragma Unreferenced (Timeout);
+   begin
+      Send_Receive_8bit_Mode (This, UInt8_Buffer (Outgoing), UInt8_Buffer (Incoming), Incoming'Length);
+      Status := HAL.SPI.Ok;
+   end Transmit_Receive;
 
 end STM32.SPI;

@@ -7,7 +7,7 @@ aggregate library project STM32L476_Sensortile is
    RTS : RTS_Type := External ("RTS", "ravenscar-full");
 
    RTS_Base := Project'Project_Dir &
-               "../embedded-runtimes/ravenscar-stm32l4nucleo";
+               "../embedded-runtimes/ravenscar-stm32l4x6";
    for Target use "arm-eabi";
 
    case RTS is

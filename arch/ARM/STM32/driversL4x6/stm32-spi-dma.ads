@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                        Copyright (C) 2016, AdaCore                       --
+--                    Copyright (C) 2015, AdaCore                           --
 --                                                                          --
 --  Redistribution and use in source and binary forms, with or without      --
 --  modification, are permitted provided that the following conditions are  --
@@ -11,7 +11,7 @@
 --        notice, this list of conditions and the following disclaimer in   --
 --        the documentation and/or other materials provided with the        --
 --        distribution.                                                     --
---     3. Neither the name of the copyright holder nor the names of its     --
+--     3. Neither the name of STMicroelectronics nor the names of its       --
 --        contributors may be used to endorse or promote products derived   --
 --        from this software without specific prior written permission.     --
 --                                                                          --
@@ -27,10 +27,30 @@
 --   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  --
 --   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   --
 --                                                                          --
+--                                                                          --
+--  This file is based on:                                                  --
+--                                                                          --
+--   @file    stm32f4xx_hal_spi.h                                           --
+--   @author  MCD Application Team                                          --
+--   @version V1.1.0                                                        --
+--   @date    19-June-2014                                                  --
+--   @brief   Header file of SPI HAL module.                                --
+--                                                                          --
+--   COPYRIGHT(c) 2014 STMicroelectronics                                   --
 ------------------------------------------------------------------------------
 
-package STM32.Power_Control is
-   procedure Enable;
-   procedure Enable_Backup_Domain_Protection;
-   procedure Disable_Backup_Domain_Protection;
-end STM32.Power_Control;
+--  This file provides definitions for the STM32F4 (ARM Cortex M4F
+--  from ST Microelectronics) Serial Peripheral Interface (SPI) facility.
+
+with STM32.DMA;    use STM32.DMA;
+with System;
+
+package STM32.SPI.DMA is
+   pragma Elaborate_Body;
+
+   procedure Transmit_DMA (This       : in out SPI_Port;
+                           Controller : access DMA_Controller;
+                           Channel    : DMA_Channel_Selector;
+                           Outgoing   : HAL.SPI.SPI_Data_8b);
+
+end STM32.SPI.DMA;

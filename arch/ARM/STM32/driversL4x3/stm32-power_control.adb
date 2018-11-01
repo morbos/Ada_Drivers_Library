@@ -29,8 +29,22 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-package STM32.Power_Control is
-   procedure Enable;
-   procedure Enable_Backup_Domain_Protection;
-   procedure Disable_Backup_Domain_Protection;
+with STM32_SVD.PWR; use STM32_SVD.PWR;
+package body STM32.Power_Control
+is
+   procedure Enable
+   is
+   begin
+      null;
+   end Enable;
+   procedure Enable_Backup_Domain_Protection
+   is
+   begin
+      PWR_Periph.CR1.DBP := True;
+   end Enable_Backup_Domain_Protection;
+   procedure Disable_Backup_Domain_Protection
+   is
+   begin
+      PWR_Periph.CR1.DBP := False;
+   end Disable_Backup_Domain_Protection;
 end STM32.Power_Control;

@@ -90,9 +90,6 @@ package STM32.DMA with SPARK_Mode => Off is
 
    type DMA_Controller is limited private;
 
-   --  Do not change the order of the enumerals in the types in this package.
-   --  The underlying canonical representation values are required.
-
    type DMA_Channel_Selector is
      (Channel_1,
       Channel_2,
@@ -102,27 +99,8 @@ package STM32.DMA with SPARK_Mode => Off is
       Channel_6,
       Channel_7);
 
-   type DMA_Request_Selector is
-     (Request_0,
-      Request_1,
-      Request_2,
-      Request_3,
-      Request_4,
-      Request_5,
-      Request_6,
-      Request_7,
-      Reserved_8,
-      Reserved_9,
-      Reserved_10,
-      Reserved_11,
-      Reserved_12,
-      Reserved_13,
-      Reserved_14,
-      Reserved_15
-     );
-
    procedure Enable
-     (This   : DMA_Controller;
+     (This    : in out DMA_Controller;
       Channel : DMA_Channel_Selector)
      with Inline;
    --  Before enabling a stream to start a new transfer, the event status flags
@@ -137,31 +115,27 @@ package STM32.DMA with SPARK_Mode => Off is
        Inline;
 
    function Enabled
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector)
       return Boolean with Inline;
 
    procedure Reset
-     (This   : in out DMA_Controller;
+     (This    : in out DMA_Controller;
       Channel : DMA_Channel_Selector)
---     with
---       Post =>
---         not Enabled (This, Channel)                               and
---         Operating_Mode (This, Channel) = Normal_Mode              and
---         Current_NDT (This, Channel) = 0                           and
---         Selected_Channel (This, Channel) = Channel_0              and
---         Transfer_Direction (This, Channel) = Peripheral_To_Memory and
---         not Double_Buffered (This, Channel)                       and
---         not Circular_Mode (This, Channel)                         and
---         Memory_Data_Width (This, Channel) = Bytes                 and
---         Peripheral_Data_Width (This, Channel) = Bytes             and
---         Priority (This, Channel) = Priority_Low                   and
---         Current_Memory_Buffer (This, Channel) = Memory_Buffer_0   and
---         (for all Flag in DMA_Status_Flag =>
---            not Status (This, Channel, Flag))                      and
---         (for all Interrupt in DMA_Interrupt =>
---            not Interrupt_Enabled (This, Channel, Interrupt));
-     ;
+     with
+       Post =>
+         not Enabled (This, Channel)                               and
+         Operating_Mode (This, Channel) = Normal_Mode              and
+         Current_NDT (This, Channel) = 0                           and
+         Transfer_Direction (This, Channel) = Peripheral_To_Memory and
+         not Circular_Mode (This, Channel)                         and
+         Memory_Data_Width (This, Channel) = Bytes                 and
+         Peripheral_Data_Width (This, Channel) = Bytes             and
+         Priority (This, Channel) = Priority_Low                   and
+         (for all Flag in DMA_Status_Flag =>
+            not Status (This, Channel, Flag))                      and
+         (for all Interrupt in DMA_Interrupt =>
+            not Interrupt_Enabled (This, Channel, Interrupt));
        --  In addition,
        --  M_Burst = Memory_Burst_Single and
        --  P_Burst = Peripheral_Burst_Single and
@@ -172,17 +146,16 @@ package STM32.DMA with SPARK_Mode => Off is
    --  is empty, and to set the FIFO filling threshold selection to 1/2 full.
 
    procedure Configure_Data_Flow
-     (This        : DMA_Controller;
-      Channel      : DMA_Channel_Selector;
+     (This        : in out DMA_Controller;
+      Channel     : DMA_Channel_Selector;
       Source      : Address;
       Destination : Address;
       Data_Count  : UInt16)
---     with
---       Pre =>
---         not Enabled (This, Channel) and
---         Valid_Addresses (Source, Destination) and
---         Compatible_Alignments (This, Channel, Source, Destination);
-     ;
+     with
+       Pre =>
+         not Enabled (This, Channel) and
+         Valid_Addresses (Source, Destination) and
+         Compatible_Alignments (This, Channel, Source, Destination);
    --  Sets the source and destination arguments within the specified stream,
    --  based on the direction previously specified by a call to procedure
    --  Configure.
@@ -212,18 +185,17 @@ package STM32.DMA with SPARK_Mode => Off is
    --  of bytes involved (assuming a four-UInt8 word).
 
    procedure Start_Transfer
-     (This        : DMA_Controller;
-      Channel      : DMA_Channel_Selector;
+     (This        : in out DMA_Controller;
+      Channel     : DMA_Channel_Selector;
       Source      : Address;
       Destination : Address;
       Data_Count  : UInt16)
---     with
---       Pre  =>
---         Valid_Addresses (Source, Destination) and
---         Compatible_Alignments (This, Channel, Source, Destination) and
---         (for all Flag in DMA_Status_Flag =>
---             (not Status (This, Channel, Flag)));
-     ;
+     with
+       Pre  =>
+         Valid_Addresses (Source, Destination) and
+         Compatible_Alignments (This, Channel, Source, Destination) and
+         (for all Flag in DMA_Status_Flag =>
+             (not Status (This, Channel, Flag)));
    --  Convenience routine: disables the stream, calls Configure_Data_Flow,
    --  and then enables the stream to start the transfer. DMA interrupts are
    --  not enabled by this routine, but could be enabled prior to the call.
@@ -233,27 +205,25 @@ package STM32.DMA with SPARK_Mode => Off is
    --  Configure_Data_Flow.
 
    type DMA_Interrupt is
-     (Direct_Mode_Error_Interrupt,
-      Transfer_Error_Interrupt,
+     (Transfer_Error_Interrupt,
       Half_Transfer_Complete_Interrupt,
-      Transfer_Complete_Interrupt,
-      FIFO_Error_Interrupt);
+      Transfer_Complete_Interrupt);
 
    type Interrupt_Selections is array (DMA_Interrupt) of Boolean;
 
    procedure Start_Transfer_with_Interrupts
-     (This               : DMA_Controller;
-      Channel             : DMA_Channel_Selector;
+     (This               : in out DMA_Controller;
+      Channel            : DMA_Channel_Selector;
       Source             : Address;
       Destination        : Address;
       Data_Count         : UInt16;
-      Enabled_Interrupts : Interrupt_Selections := (others => True));
---     with
---       Pre =>
---          Valid_Addresses (Source, Destination) and
---          Compatible_Alignments (This, Channel, Source, Destination) and
---          (for all Flag in DMA_Status_Flag =>
---              (not Status (This, Channel, Flag)));
+      Enabled_Interrupts : Interrupt_Selections := (others => True))
+     with
+       Pre =>
+          Valid_Addresses (Source, Destination) and
+          Compatible_Alignments (This, Channel, Source, Destination) and
+          (for all Flag in DMA_Status_Flag =>
+              (not Status (This, Channel, Flag)));
    --  Convenience routine: disables the stream, calls Configure_Data_Flow,
    --  enables the selected DMA interrupts (by default, all of them), and
    --  then enables the stream to start the transfer. All the selected DMA
@@ -273,9 +243,9 @@ package STM32.DMA with SPARK_Mode => Off is
       DMA_Device_Error);
 
    procedure Abort_Transfer
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector;
-      Result : out DMA_Error_Code)
+      Result  : out DMA_Error_Code)
      with Post => not Enabled (This, Channel);
    --  Disables the specified stream and then waits until the request is
    --  effective. If a stream is disabled while a data transfer is ongoing, the
@@ -288,14 +258,14 @@ package STM32.DMA with SPARK_Mode => Off is
 
    procedure Poll_For_Completion
      (This           : in out DMA_Controller;
-      Channel         : DMA_Channel_Selector;
+      Channel        : DMA_Channel_Selector;
       Expected_Level : DMA_Transfer_Level;
       Timeout        : Time_Span;
       Result         : out DMA_Error_Code);
 
    procedure Set_NDT
      (This       : DMA_Controller;
-      Channel     : DMA_Channel_Selector;
+      Channel    : DMA_Channel_Selector;
       Data_Count : UInt16)
      with
        Pre  => not Enabled (This, Channel),
@@ -307,13 +277,13 @@ package STM32.DMA with SPARK_Mode => Off is
    --  as described for procedure Configure_Data_Flow.
 
    function Items_Transferred
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector)
       return UInt16;
    --  returns the number of items transfetred
 
    function Current_NDT
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector)
       return UInt16
      with Inline;
@@ -322,15 +292,15 @@ package STM32.DMA with SPARK_Mode => Off is
    --  Items_Transferred()
 
    function Circular_Mode
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector)
       return Boolean
      with Inline;
 
    procedure Enable_Interrupt
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector;
-      Source : DMA_Interrupt)
+      Source  : DMA_Interrupt)
      with
        Post => Interrupt_Enabled (This, Channel, Source);
    --  The postcondition should not be relied upon completely because it is
@@ -338,64 +308,57 @@ package STM32.DMA with SPARK_Mode => Off is
    --  disabled immediately, prior to return from this routine
 
    procedure Disable_Interrupt
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector;
-      Source : DMA_Interrupt)
+      Source  : DMA_Interrupt)
      with
        Post => not Interrupt_Enabled (This, Channel, Source);
 
    function Interrupt_Enabled
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector;
-      Source : DMA_Interrupt)
+      Source  : DMA_Interrupt)
       return Boolean
      with Inline;
 
    type DMA_Status_Flag is
-     (FIFO_Error_Indicated,
-      Direct_Mode_Error_Indicated,
-      Transfer_Error_Indicated,
+     (Transfer_Error_Indicated,
       Half_Transfer_Complete_Indicated,
       Transfer_Complete_Indicated);
 
    procedure Clear_Status
-     (This   : in out DMA_Controller;
+     (This    : in out DMA_Controller;
       Channel : DMA_Channel_Selector;
-      Flag   : DMA_Status_Flag)
+      Flag    : DMA_Status_Flag)
      with
        Post => not Status (This, Channel, Flag),
        Inline;
 
    procedure Clear_All_Status
-     (This   : in out DMA_Controller;
+     (This    : in out DMA_Controller;
       Channel : DMA_Channel_Selector)
      with Post =>
        (for all Indicated in DMA_Status_Flag =>
           not Status (This, Channel, Indicated));
 
    function Status
-     (This   : DMA_Controller;
+     (This    : DMA_Controller;
       Channel : DMA_Channel_Selector;
-      Flag   : DMA_Status_Flag)
+      Flag    : DMA_Status_Flag)
       return Boolean
      with Inline;
    --  Returns whether the specified status flag is indicated
-
-   function Selected_Channel
-     (This : DMA_Controller;  Channel : DMA_Channel_Selector)
-      return DMA_Channel_Selector
-     with Inline;
 
    type DMA_Data_Transfer_Direction is
      (Peripheral_To_Memory,
       Memory_To_Peripheral,
       Memory_To_Memory);
-   --  Note that only DMA_2 is able to do Memory_To_Memory transfers, and that
-   --  in this direction the circular mode is not allowed and the internal FIFO
-   --  must be enabled.
+
+   --  Memory to memory is possible but... needs a diff setup
 
    function Transfer_Direction
-     (This : DMA_Controller;  Channel : DMA_Channel_Selector)
+     (This    : DMA_Controller;
+      Channel : DMA_Channel_Selector)
       return DMA_Data_Transfer_Direction
      with Inline;
 
@@ -405,12 +368,14 @@ package STM32.DMA with SPARK_Mode => Off is
       Words);
 
    function Peripheral_Data_Width
-     (This : DMA_Controller;  Channel : DMA_Channel_Selector)
+     (This    : DMA_Controller;
+      Channel : DMA_Channel_Selector)
       return DMA_Data_Transfer_Widths
      with Inline;
 
    function Memory_Data_Width
-     (This : DMA_Controller;  Channel : DMA_Channel_Selector)
+     (This    : DMA_Controller;
+      Channel : DMA_Channel_Selector)
       return DMA_Data_Transfer_Widths
      with Inline;
 
@@ -420,7 +385,8 @@ package STM32.DMA with SPARK_Mode => Off is
       Circular_Mode);
 
    function Operating_Mode
-     (This : DMA_Controller;  Channel : DMA_Channel_Selector)
+     (This    : DMA_Controller;
+      Channel : DMA_Channel_Selector)
       return DMA_Mode
      with Inline;
 
@@ -431,62 +397,9 @@ package STM32.DMA with SPARK_Mode => Off is
       Priority_Very_High);
 
    function Priority
-     (This : DMA_Controller;  Channel : DMA_Channel_Selector)
+     (This    : DMA_Controller;
+      Channel : DMA_Channel_Selector)
       return DMA_Priority_Level
-     with Inline;
-
-   type Memory_Buffer_Target is (Memory_Buffer_0, Memory_Buffer_1);
-
-   function Current_Memory_Buffer
-     (This : DMA_Controller;  Channel : DMA_Channel_Selector)
-      return Memory_Buffer_Target
-     with Inline;
-
-   procedure Select_Current_Memory_Buffer
-     (This   : DMA_Controller;
-      Channel : DMA_Channel_Selector;
-      Buffer : Memory_Buffer_Target)
-     with Inline;
-
-   procedure Set_Memory_Buffer
-     (This   : DMA_Controller;
-      Channel : DMA_Channel_Selector;
-      Buffer : Memory_Buffer_Target;
-      To     : System.Address)
-     with Inline;
-
-   procedure Configure_Double_Buffered_Mode
-     (This              : DMA_Controller;
-      Channel            : DMA_Channel_Selector;
-      Buffer_0_Value    : Address;
-      Buffer_1_Value    : Address;
-      First_Buffer_Used : Memory_Buffer_Target)
-     with
-       Pre  => not Enabled (This, Channel),
-       Post => not Enabled (This, Channel) and
-               Current_Memory_Buffer (This, Channel) = First_Buffer_Used;
-   --  A convenience routine that in effect calls Set_Memory_Buffer
-   --  once each for Buffer_1_Value and Buffer_2_Value, and then calls
-   --  Select_Current_Memory_Buffer so that First_Buffer_Used is the
-   --  buffer used first when the stream is enabled.
-
-   procedure Enable_Double_Buffered_Mode
-     (This   : DMA_Controller;
-      Channel : DMA_Channel_Selector)
-     with
-       Pre => Circular_Mode (This, Channel) and
-              Transfer_Direction (This, Channel) /= Memory_To_Memory,
-       Post => Double_Buffered (This, Channel);
-
-   procedure Disable_Double_Buffered_Mode
-     (This   : DMA_Controller;
-      Channel : DMA_Channel_Selector)
-     with Post => not Double_Buffered (This, Channel);
-
-   function Double_Buffered
-     (This   : DMA_Controller;
-      Channel : DMA_Channel_Selector)
-      return Boolean
      with Inline;
 
    type DMA_FIFO_Threshold_Level is
@@ -525,7 +438,7 @@ package STM32.DMA with SPARK_Mode => Off is
       --  however, that the default values specified do not represent a valid
       --  configuration as a whole.
 
-      Request : DMA_Request_Selector := DMA_Request_Selector'First;
+      Channel : DMA_Channel_Selector := DMA_Channel_Selector'First;
       --  The channel in the multiplexed connections of controllers, streams,
       --  and peripherals. It is vital to note that not all peripherals can
       --  be connected to all streams. The possibilities are organized by
@@ -582,6 +495,9 @@ package STM32.DMA with SPARK_Mode => Off is
       --  Specifies the the amount of data to be transferred in
       --  a single non-interruptible transaction. Note: The burst mode is
       --  possible only if the address increment mode is enabled.
+
+      CS  : UInt4;
+
    end record;
 
    procedure Configure
@@ -612,7 +528,7 @@ package STM32.DMA with SPARK_Mode => Off is
 
    function Compatible_Alignments
      (This           : DMA_Controller;
-      Channel         : DMA_Channel_Selector;
+      Channel        : DMA_Channel_Selector;
       Source         : Address;
       Destination    : Address)
       return Boolean is

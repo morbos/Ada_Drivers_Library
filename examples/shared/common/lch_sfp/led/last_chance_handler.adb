@@ -51,8 +51,12 @@ package body Last_Chance_Handler is
 
       --  No-return procedure...
       loop
-         Toggle (LCH_LED);
+         Turn_On (LCH_LED);
          delay until Clock + Milliseconds (500);
+         Turn_Off (LCH_LED);
+         delay until Clock + Milliseconds (500);
+--         Toggle (LCH_LED);
+--         delay until Clock + Milliseconds (500);
       end loop;
    end Last_Chance_Handler;
 

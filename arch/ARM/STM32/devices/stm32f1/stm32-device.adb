@@ -75,6 +75,27 @@ package body STM32.Device is
       end if;
    end Enable_Clock;
 
+   procedure Disable_Clock (This : aliased in out GPIO_Port) is
+   begin
+      if This'Address = GPIOA_Base then
+         RCC_Periph.APB2ENR.IOPAEN := False;
+      elsif This'Address = GPIOB_Base then
+         RCC_Periph.APB2ENR.IOPBEN := False;
+      elsif This'Address = GPIOC_Base then
+         RCC_Periph.APB2ENR.IOPCEN := False;
+      elsif This'Address = GPIOD_Base then
+         RCC_Periph.APB2ENR.IOPDEN := False;
+      elsif This'Address = GPIOE_Base then
+         RCC_Periph.APB2ENR.IOPEEN := False;
+      elsif This'Address = GPIOF_Base then
+         RCC_Periph.APB2ENR.IOPFEN := False;
+      elsif This'Address = GPIOG_Base then
+         RCC_Periph.APB2ENR.IOPGEN := False;
+      else
+         raise Unknown_Device;
+      end if;
+   end Disable_Clock;
+
    ------------------
    -- Enable_Clock --
    ------------------
@@ -84,6 +105,12 @@ package body STM32.Device is
    begin
       Enable_Clock (Point.Periph.all);
    end Enable_Clock;
+
+   procedure Disable_Clock (Point : GPIO_Point)
+   is
+   begin
+      Disable_Clock (Point.Periph.all);
+   end Disable_Clock;
 
    ------------------
    -- Enable_Clock --

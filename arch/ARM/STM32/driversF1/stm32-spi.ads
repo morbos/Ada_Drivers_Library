@@ -182,6 +182,14 @@ package STM32.SPI is
       Timeout : Natural := 1000);
 
    overriding
+   procedure Transmit_Receive
+     (This     : in out SPI_Port;
+      Outgoing : HAL.SPI.SPI_Data_8b;
+      Incoming : out HAL.SPI.SPI_Data_8b;
+      Status   : out HAL.SPI.SPI_Status;
+      Timeout  : Natural := 1000);
+
+   overriding
    procedure Receive
      (This    : in out SPI_Port;
       Data    : out HAL.SPI.SPI_Data_16b;

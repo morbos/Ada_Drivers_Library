@@ -83,6 +83,7 @@ package STM32.SPI is
       CRC_Poly            : UInt16;
       Transmit_DMA        : Boolean;
       Receive_DMA         : Boolean;
+      Fifo_Level          : Boolean; -- When RXNE assserts: 1 For 8bit, 0 for 16bit
    end record;
 
    procedure Configure (This : in out SPI_Port; Conf : SPI_Configuration);
@@ -182,6 +183,14 @@ package STM32.SPI is
       Data    : out HAL.SPI.SPI_Data_8b;
       Status  : out HAL.SPI.SPI_Status;
       Timeout : Natural := 1000);
+
+   overriding
+   procedure Transmit_Receive
+     (This     : in out SPI_Port;
+      Outgoing : HAL.SPI.SPI_Data_8b;
+      Incoming : out HAL.SPI.SPI_Data_8b;
+      Status   : out HAL.SPI.SPI_Status;
+      Timeout  : Natural := 1000);
 
    overriding
    procedure Receive

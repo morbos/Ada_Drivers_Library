@@ -83,4 +83,13 @@ package HAL.SPI is
      with
        Pre'Class => Data_Size (This) = Data_Size_16b;
 
+   procedure Transmit_Receive
+     (This     : in out SPI_Port;
+      Outgoing : SPI_Data_8b;
+      Incoming : out SPI_Data_8b;
+      Status   : out SPI_Status;
+      Timeout  : Natural := 1000) is abstract
+     with
+       Pre'Class => (Data_Size (This) = Data_Size_8b) and (Outgoing'Length = Incoming'Length);
+
 end HAL.SPI;

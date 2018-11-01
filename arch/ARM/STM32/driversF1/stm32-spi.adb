@@ -960,4 +960,18 @@ package body STM32.SPI is
       end loop;
    end Receive_8bit_Mode;
 
+   overriding
+   procedure Transmit_Receive
+     (This     : in out SPI_Port;
+      Outgoing : HAL.SPI.SPI_Data_8b;
+      Incoming : out HAL.SPI.SPI_Data_8b;
+      Status   : out HAL.SPI.SPI_Status;
+      Timeout  : Natural := 1000)
+   is
+      pragma Unreferenced (Timeout);
+   begin
+      Send_Receive_8bit_Mode (This, UInt8_Buffer (Outgoing), UInt8_Buffer (Incoming), Incoming'Length);
+      Status := HAL.SPI.Ok;
+   end Transmit_Receive;
+
 end STM32.SPI;
