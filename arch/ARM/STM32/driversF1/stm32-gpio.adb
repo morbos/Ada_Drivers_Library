@@ -512,17 +512,12 @@ package body STM32.GPIO is
    is
       use STM32.EXTI;
       Line : constant External_Line_Number := External_Line_Number'Val (GPIO_Pin'Pos (This.Pin));
-      use STM32.SYSCFG, STM32.RCC;
    begin
---      SYSCFG_Clock_Enable;
-
---      Connect_External_Interrupt (This);
----      if Trigger in Interrupt_Triggers then
---         Enable_External_Interrupt (Line, Trigger);
---      else
---         Enable_External_Event (Line, Trigger);
---      end if;
-      null;
+      if Trigger in Interrupt_Triggers then
+         Enable_External_Interrupt (Line, Trigger);
+      else
+         Enable_External_Event (Line, Trigger);
+      end if;
    end Configure_Trigger;
 
    -----------------------

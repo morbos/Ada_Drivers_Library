@@ -78,6 +78,8 @@ package STM32.I2C is
 
    function Is_Configured (Port : I2C_Port) return Boolean;
 
+   procedure Reset_Port_State (Port : in out I2C_Port);
+
    overriding
    procedure Master_Transmit
      (This    : in out I2C_Port;

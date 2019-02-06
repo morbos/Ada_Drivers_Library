@@ -107,12 +107,21 @@ package body STM32.I2C is
       This.Periph.CR1.PE := False;
 
       --  Reset the timing register to 100_000 Hz
-      This.Periph.TIMINGR :=
-        (SCLL   => 50,
-         SCLH   => 39,
-         SDADEL => 1,
-         SCLDEL => 9,
-         PRESC  => 4,
+--      This.Periph.TIMINGR :=
+--        (SCLL   => 50,
+--         SCLH   => 39,
+--         SDADEL => 1,
+--         SCLDEL => 9,
+--         PRESC  => 4,
+--         others => <>);
+
+      --  Test only!!!
+      I2C3_Periph.TIMINGR :=
+        (SCLL   => 16#41#,
+         SCLH   => 16#15#,
+         SDADEL => 0,
+         SCLDEL => 8,
+         PRESC  => 1,
          others => <>);
 
       --  I2C Own Address Register configuration
@@ -214,6 +223,12 @@ package body STM32.I2C is
       CR2.RD_WRN  := False;
       Port.Periph.CR2 := CR2;
    end Reset_Config;
+
+   procedure Reset_Port_State (Port : in out I2C_Port)
+   is
+   begin
+      Port.State := Reset; --  hkjr force a reconfig on this type of error
+   end Reset_Port_State;
 
    ----------------
    -- Check_Nack --

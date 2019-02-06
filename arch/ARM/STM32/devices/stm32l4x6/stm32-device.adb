@@ -360,14 +360,20 @@ package body STM32.Device is
          RCC_Periph.APB1ENR1.TIM2EN := True;
       elsif This'Address = TIM3_Base then
          RCC_Periph.APB1ENR1.TIM3EN := True;
+      elsif This'Address = TIM4_Base then
+         RCC_Periph.APB1ENR1.TIM4EN := True;
       elsif This'Address = TIM6_Base then
          RCC_Periph.APB1ENR1.TIM6EN := True;
       elsif This'Address = TIM7_Base then
          RCC_Periph.APB1ENR1.TIM7EN := True;
+      elsif This'Address = TIM8_Base then
+         RCC_Periph.APB2ENR.TIM8EN := True;
       elsif This'Address = TIM15_Base then
          RCC_Periph.APB2ENR.TIM15EN := True;
       elsif This'Address = TIM16_Base then
          RCC_Periph.APB2ENR.TIM16EN := True;
+      elsif This'Address = TIM17_Base then
+         RCC_Periph.APB2ENR.TIM17EN := True;
       else
          raise Unknown_Device;
       end if;
@@ -388,16 +394,79 @@ package body STM32.Device is
       elsif This'Address = TIM3_Base then
          RCC_Periph.APB1RSTR1.TIM3RST := True;
          RCC_Periph.APB1RSTR1.TIM3RST := False;
+      elsif This'Address = TIM4_Base then
+         RCC_Periph.APB1RSTR1.TIM4RST := True;
+         RCC_Periph.APB1RSTR1.TIM4RST := False;
+      elsif This'Address = TIM5_Base then
+         RCC_Periph.APB1RSTR1.TIM5RST := True;
+         RCC_Periph.APB1RSTR1.TIM5RST := False;
       elsif This'Address = TIM6_Base then
          RCC_Periph.APB1RSTR1.TIM6RST := True;
          RCC_Periph.APB1RSTR1.TIM6RST := False;
       elsif This'Address = TIM7_Base then
          RCC_Periph.APB1RSTR1.TIM7RST := True;
          RCC_Periph.APB1RSTR1.TIM7RST := False;
+      elsif This'Address = TIM8_Base then
+         RCC_Periph.APB2RSTR.TIM8RST := True;
+         RCC_Periph.APB2RSTR.TIM8RST := False;
+      elsif This'Address = TIM15_Base then
+         RCC_Periph.APB2RSTR.TIM15RST := True;
+         RCC_Periph.APB2RSTR.TIM15RST := False;
+      elsif This'Address = TIM16_Base then
+         RCC_Periph.APB2RSTR.TIM16RST := True;
+         RCC_Periph.APB2RSTR.TIM16RST := False;
+      elsif This'Address = TIM17_Base then
+         RCC_Periph.APB2RSTR.TIM17RST := True;
+         RCC_Periph.APB2RSTR.TIM17RST := False;
       else
          raise Unknown_Device;
       end if;
    end Reset;
+
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (This : in out SAI_Port)
+   is
+   begin
+      if This'Address = SAI1_Base then
+         RCC_Periph.APB2ENR.SAI1EN := True;
+      elsif This'Address = SAI2_Base then
+         RCC_Periph.APB2ENR.SAI2EN := True;
+      else
+         raise Unknown_Device;
+      end if;
+   end Enable_Clock;
+
+   -----------
+   -- Reset --
+   -----------
+
+   procedure Reset (This : in out SAI_Port)
+   is
+   begin
+      if This'Address = SAI1_Base then
+         RCC_Periph.APB2RSTR.SAI1RST := True;
+         RCC_Periph.APB2RSTR.SAI1RST := False;
+      elsif This'Address = SAI2_Base then
+         RCC_Periph.APB2RSTR.SAI2RST := True;
+         RCC_Periph.APB2RSTR.SAI2RST := False;
+      else
+         raise Unknown_Device;
+      end if;
+   end Reset;
+
+   ---------------------
+   -- Get_Input_Clock --
+   ---------------------
+
+   function Get_Input_Clock (Periph : SAI_Port) return UInt32
+   is
+   begin
+      --  Returns the SAI clock. This needs work
+      return 48_000_000;
+   end Get_Input_Clock;
 
    ------------------
    -- Enable_Clock --
@@ -458,5 +527,11 @@ package body STM32.Device is
       Result.I2SCLK := 0;
       return Result;
    end System_Clock_Frequencies;
+
+   procedure Enable_Clock (This : aliased in out DFSDM_Block)
+   is
+   begin
+      RCC_Periph.APB2ENR.DFSDMEN := True;
+   end Enable_Clock;
 
 end STM32.Device;

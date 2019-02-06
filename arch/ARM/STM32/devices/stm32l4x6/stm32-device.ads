@@ -43,6 +43,7 @@
 --  manufactured by ST Microelectronics.  For example, an STM32F405.
 
 with STM32_SVD;     use STM32_SVD;
+with STM32_SVD.SAI;
 
 with STM32.GPIO;    use STM32.GPIO;
 with STM32.I2C;     use STM32.I2C;
@@ -51,6 +52,7 @@ with STM32.Timers;  use STM32.Timers;
 with STM32.DAC;     use STM32.DAC;
 with STM32.ADC;     use STM32.ADC;
 with STM32.DMA;     use STM32.DMA;
+with STM32.DFSDM;   use STM32.DFSDM;
 
 package STM32.Device is
    pragma Elaborate_Body;
@@ -67,10 +69,14 @@ package STM32.Device is
    Timer_1  : aliased Timer with Import, Volatile, Address => TIM1_Base;
    Timer_2  : aliased Timer with Import, Volatile, Address => TIM2_Base;
    Timer_3  : aliased Timer with Import, Volatile, Address => TIM3_Base;
+   Timer_4  : aliased Timer with Import, Volatile, Address => TIM4_Base;
+   Timer_5  : aliased Timer with Import, Volatile, Address => TIM5_Base;
    Timer_6  : aliased Timer with Import, Volatile, Address => TIM6_Base;
    Timer_7  : aliased Timer with Import, Volatile, Address => TIM7_Base;
+   Timer_8  : aliased Timer with Import, Volatile, Address => TIM8_Base;
    Timer_15 : aliased Timer with Import, Volatile, Address => TIM15_Base;
    Timer_16 : aliased Timer with Import, Volatile, Address => TIM16_Base;
+   Timer_17 : aliased Timer with Import, Volatile, Address => TIM17_Base;
 
    procedure Reset (This : aliased in out GPIO_Port)
      with Inline;
@@ -79,6 +85,19 @@ package STM32.Device is
    procedure Reset (Points : GPIO_Points)
      with Inline;
    procedure Reset (This : in out Timer);
+
+   -----------
+   -- Audio --
+   -----------
+
+   subtype SAI_Port is STM32_SVD.SAI.SAI_Peripheral;
+
+   SAI_1 : SAI_Port renames STM32_SVD.SAI.SAI1_Periph;
+   SAI_2 : SAI_Port renames STM32_SVD.SAI.SAI2_Periph;
+
+   procedure Enable_Clock (This : in out SAI_Port);
+   procedure Reset (This : in out SAI_Port);
+   function Get_Input_Clock (Periph : SAI_Port) return UInt32;
 
    function GPIO_Port_Representation (Port : GPIO_Port) return UInt4
      with Inline;
@@ -279,8 +298,18 @@ package STM32.Device is
    GPIO_AF_ETH_11      : constant GPIO_Alternate_Function;
    GPIO_AF_FMC_12      : constant GPIO_Alternate_Function;
    GPIO_AF_OTG_FS_12   : constant GPIO_Alternate_Function;
-   GPIO_AF_DCMI_13     : constant GPIO_Alternate_Function;
+   GPIO_AF_SAI1_13     : constant GPIO_Alternate_Function;
+   GPIO_AF_SAI2_13     : constant GPIO_Alternate_Function;
    GPIO_AF_EVENTOUT_15 : constant GPIO_Alternate_Function;
+
+   GPIO_AF_DFSDM1_0    : constant GPIO_Alternate_Function;
+   GPIO_AF_DFSDM1_1    : constant GPIO_Alternate_Function;
+   GPIO_AF_DFSDM1_2    : constant GPIO_Alternate_Function;
+   GPIO_AF_DFSDM1_3    : constant GPIO_Alternate_Function;
+   GPIO_AF_DFSDM1_4    : constant GPIO_Alternate_Function;
+   GPIO_AF_DFSDM1_5    : constant GPIO_Alternate_Function;
+   GPIO_AF_DFSDM1_6    : constant GPIO_Alternate_Function;
+   GPIO_AF_DFSDM1_7    : constant GPIO_Alternate_Function;
 
    -----------------------------
    -- Reset and Clock Control --
@@ -357,6 +386,10 @@ package STM32.Device is
    procedure Enable_Clock (This : aliased in out DMA_Controller);
    procedure Reset (This : aliased in out DMA_Controller);
 
+   DFSDM1 : aliased DFSDM_Block with Import, Volatile, Address => DFSDM1_Base;
+
+   procedure Enable_Clock (This : aliased in out DFSDM_Block);
+
 private
 
    GPIO_AF_RTC_50Hz_0  : constant GPIO_Alternate_Function := 0;
@@ -400,8 +433,18 @@ private
    GPIO_AF_ETH_11      : constant GPIO_Alternate_Function := 11;
    GPIO_AF_FMC_12      : constant GPIO_Alternate_Function := 12;
    GPIO_AF_OTG_FS_12   : constant GPIO_Alternate_Function := 12;
-   GPIO_AF_DCMI_13     : constant GPIO_Alternate_Function := 13;
+   GPIO_AF_SAI1_13     : constant GPIO_Alternate_Function := 13;
+   GPIO_AF_SAI2_13     : constant GPIO_Alternate_Function := 13;
+
    GPIO_AF_EVENTOUT_15 : constant GPIO_Alternate_Function := 15;
 
+   GPIO_AF_DFSDM1_0    : constant GPIO_Alternate_Function := 6;
+   GPIO_AF_DFSDM1_1    : constant GPIO_Alternate_Function := 6;
+   GPIO_AF_DFSDM1_2    : constant GPIO_Alternate_Function := 6;
+   GPIO_AF_DFSDM1_3    : constant GPIO_Alternate_Function := 6;
+   GPIO_AF_DFSDM1_4    : constant GPIO_Alternate_Function := 6;
+   GPIO_AF_DFSDM1_5    : constant GPIO_Alternate_Function := 6;
+   GPIO_AF_DFSDM1_6    : constant GPIO_Alternate_Function := 6;
+   GPIO_AF_DFSDM1_7    : constant GPIO_Alternate_Function := 6;
 
 end STM32.Device;
