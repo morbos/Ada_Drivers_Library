@@ -62,10 +62,10 @@ package body STM32.EXTI is
       Val2 := Trigger in Interrupt_Falling_Edge | Interrupt_Rising_Falling_Edge;
       EXTI_Periph.IMR1 := EXTI_Periph.IMR1 or (2 ** Index);
       if Val1 then
-         EXTI_Periph.RTSR1.RT := (2 ** Index);
+         EXTI_Periph.RTSR1.RT := EXTI_Periph.RTSR1.RT or (2 ** Index);
       end if;
       if Val2 then
-         EXTI_Periph.FTSR1.FT := (2 ** Index);
+         EXTI_Periph.FTSR1.FT := EXTI_Periph.FTSR1.FT or (2 ** Index);
       end if;
    end Enable_External_Interrupt;
 
