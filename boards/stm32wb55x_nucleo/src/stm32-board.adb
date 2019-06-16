@@ -8,7 +8,7 @@ package body STM32.Board is
 
    procedure Initialize_LEDs is
       Configuration : GPIO_Port_Configuration;
-      LEDs : GPIO_Points := Red_LED & Green_LED & Blue_LED;
+      LEDs : GPIO_Points := Red_LED & Green_LED; --  & Blue_LED;
    begin
       Enable_Clock (LEDs);
 
