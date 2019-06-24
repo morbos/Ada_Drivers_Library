@@ -38,8 +38,8 @@ with HAL.Real_Time_Clock; use HAL.Real_Time_Clock;
 
 package body STM32.RTC is
 
-   procedure Disable_Write_Protection;
-   procedure Enable_Write_Protection;
+--   procedure Disable_Write_Protection;
+--   procedure Enable_Write_Protection;
 
    ------------------------------
    -- Disable_Write_Protection --

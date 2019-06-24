@@ -40,11 +40,11 @@ is
    procedure Enable_Backup_Domain_Protection
    is
    begin
-      PWR_Periph.CR1.DBP := True;
+      PWR_Periph.CR1.DBP := False;
    end Enable_Backup_Domain_Protection;
    procedure Disable_Backup_Domain_Protection
    is
    begin
-      PWR_Periph.CR1.DBP := False;
+      PWR_Periph.CR1.DBP := True;
    end Disable_Backup_Domain_Protection;
 end STM32.Power_Control;

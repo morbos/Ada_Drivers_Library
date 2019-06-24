@@ -54,6 +54,9 @@ package STM32.RTC is
    procedure Enable (This : in out RTC_Device);
    procedure Disable (This : in out RTC_Device);
 
+   procedure Disable_Write_Protection;
+   procedure Enable_Write_Protection;
+
 private
 
    type RTC_Device is new HAL.Real_Time_Clock.RTC_Device with
