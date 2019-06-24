@@ -10,6 +10,8 @@ with System;
 package STM32_SVD.HSEM is
    pragma Preelaborate;
 
+   type Sema_Range is range 0 .. 31;
+
    ---------------
    -- Registers --
    ---------------
@@ -34,6 +36,8 @@ package STM32_SVD.HSEM is
       LOCK           at 0 range 31 .. 31;
    end record;
 
+   type R_Array is array (Sema_Range) of R_Register;
+
    subtype RLR_PROCID_Field is HAL.UInt8;
    subtype RLR_COREID_Field is HAL.UInt4;
 
@@ -53,6 +57,8 @@ package STM32_SVD.HSEM is
       Reserved_12_30 at 0 range 12 .. 30;
       LOCK           at 0 range 31 .. 31;
    end record;
+
+   type RLR_Array is array (Sema_Range) of RLR_Register;
 
    subtype CR_COREID_Field is HAL.UInt4;
    subtype CR_KEY_Field is HAL.UInt16;
@@ -95,12 +101,8 @@ package STM32_SVD.HSEM is
    -----------------
 
    type HSEM_Peripheral is record
-      R0     : aliased R_Register;
-      R1     : aliased R_Register;
-      R31    : aliased R_Register;
-      RLR0   : aliased RLR_Register;
-      RLR1   : aliased RLR_Register;
-      RLR31  : aliased RLR_Register;
+      R      : aliased R_Array;
+      RLR    : aliased RLR_Array;
       C1IER  : aliased HAL.UInt32;
       C1ICR  : aliased HAL.UInt32;
       C1ISR  : aliased HAL.UInt32;
@@ -115,12 +117,8 @@ package STM32_SVD.HSEM is
      with Volatile;
 
    for HSEM_Peripheral use record
-      R0     at 16#0# range 0 .. 31;
-      R1     at 16#4# range 0 .. 31;
-      R31    at 16#7C# range 0 .. 31;
-      RLR0   at 16#80# range 0 .. 31;
-      RLR1   at 16#84# range 0 .. 31;
-      RLR31  at 16#FC# range 0 .. 31;
+      R      at 16#0# range 0 .. 1023;
+      RLR    at 16#80# range 0 .. 1023;
       C1IER  at 16#100# range 0 .. 31;
       C1ICR  at 16#104# range 0 .. 31;
       C1ISR  at 16#108# range 0 .. 31;
