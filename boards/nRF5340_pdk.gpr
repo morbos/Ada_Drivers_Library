@@ -1,0 +1,27 @@
+aggregate library project nRF5340_pdk is
+
+   Build := external ("BUILD", "Debug");
+
+   type RTS_Type is ("ravenscar-sfp", "ravenscar-full");
+--   RTS : RTS_Type := External ("RTS", "ravenscar-sfp");
+   RTS : RTS_Type := External ("RTS", "ravenscar-full");
+
+   RTS_Base := Project'Project_Dir &
+               "../embedded-runtimes/ravenscar-nRF5340-pdk";
+   for Target use "arm-eabi";
+
+   case RTS is
+      when "ravenscar-sfp" =>
+         for Runtime ("Ada") use RTS_Base & "/sfp";
+      when "ravenscar-full" =>
+         for Runtime ("Ada") use RTS_Base & "/full";
+   end case;
+
+   for Project_Path use ("nRF5340_pdk");
+
+   for Project_Files use ("nRF5340_pdk/board.gpr");
+
+   for Library_Dir use "lib/nRF5340_pdk/" & RTS & "/" & Build;
+   for Library_Name use "nRF5340_pdk";
+
+end nRF5340_pdk;

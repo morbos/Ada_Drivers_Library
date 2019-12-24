@@ -1,0 +1,21 @@
+with "config";
+with "../../hal/HAL";
+with "../cortex_m/cortex_m0.gpr";
+
+library project STM32L073 is
+
+   for Library_Name use "stm32l073";
+   for Library_Kind use "static";
+   for Library_Dir use "lib/" & Config.Object_Subdir;
+   for Object_Dir use "obj/" & Config.Object_Subdir;
+
+   for Source_Dirs use Project'Source_Dirs &
+     ("driversL0",
+      "svd/stm32l0x3",
+      "devices/stm32l0"
+      );
+
+   package Compiler renames Config.Compiler;
+   package Builder renames Config.Builder;
+
+end STM32L073;

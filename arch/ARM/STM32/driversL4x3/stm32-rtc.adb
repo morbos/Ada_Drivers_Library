@@ -192,7 +192,7 @@ package body STM32.RTC is
    -- Enable --
    ------------
 
-   procedure Enable (This : in out RTC_Device) is
+   procedure Enable (This : in out RTC_Device; Clock_Source : RTCSEL) is
       pragma Unreferenced (This);
    begin
 
@@ -200,26 +200,44 @@ package body STM32.RTC is
 
       Power_Control.Disable_Backup_Domain_Protection;
 
-      --  Turn on internal low speed oscillator
-      RCC_Periph.CSR.LSION := True;
+      RCC_Periph.BDCR.BDRST := True;
+      RCC_Periph.BDCR.BDRST := False;
 
-      while not RCC_Periph.CSR.LSIRDY loop
-         null;
-      end loop;
+      case Clock_Source is
+         when Use_LSE =>
+            RCC_Periph.BDCR.LSEDRV := 2;
+            RCC_Periph.BDCR.LSEON := True;
+            loop
+               exit when RCC_Periph.BDCR.LSERDY;
+            end loop;
+         when Use_LSI =>
+            --  Turn on internal low speed oscillator
+            RCC_Periph.CSR.LSION := True;
+            loop
+               exit when RCC_Periph.CSR.LSIRDY;
+            end loop;
 
-      --  Select LSI as source clock
-      RCC_Periph.BDCR.RTCSEL := 2#10#;
-      if RCC_Periph.BDCR.RTCSEL /= 2#10# then
+         when others =>
+            null;
+      end case;
+
+      Power_Control.Disable_Backup_Domain_Protection;
+
+      RCC_Periph.BDCR.RTCSEL := Clock_Source'Enum_Rep;
+      if RCC_Periph.BDCR.RTCSEL /= Clock_Source'Enum_Rep then
          raise Program_Error with "Cannot select RTC clock";
       end if;
 
       RCC_Periph.BDCR.RTCEN := True;
 
-      while not RTC_Periph.ISR.RSF loop
-         null;
+      if Clock_Source = Use_LSE then
+         RCC_Periph.BDCR.LSECSSON := True;
+      end if;
+
+      loop
+         exit when RTC_Periph.ISR.RSF;
       end loop;
 
---      Power_Control.Enable_Backup_Domain_Protection;
    end Enable;
 
    -------------
@@ -233,5 +251,43 @@ package body STM32.RTC is
       RCC_Periph.BDCR.RTCEN := False;
 --      Power_Control.Enable_Backup_Domain_Protection;
    end Disable;
+
+   procedure Set_WUT_Interrupt (This : in out RTC_Device; Time2Wakeup : UInt16) is
+      pragma Unreferenced (This);
+   begin
+      Power_Control.Disable_Backup_Domain_Protection;
+      Disable_Write_Protection;
+
+      if RTC_Periph.CR.WUTE then
+         while RTC_Periph.ISR.WUTWF loop
+            null; --  Timeout needed
+         end loop;
+      end if;
+
+      RTC_Periph.CR.WUTE    := False; --  Disable WU timer
+      Clear_RTC_Wakeup;
+
+      while not RTC_Periph.ISR.WUTWF loop
+         null;
+      end loop;
+
+      RTC_Periph.WUTR.WUT      := Time2Wakeup;
+      --      RTC_Periph.CR.WCKSEL     := 4; --  Should be a param for 1Hz
+      RTC_Periph.CR.WCKSEL     := 0;  --  RTC/16
+      RTC_Periph.CR.WUTIE      := True;
+      RTC_Periph.CR.WUTE       := True;
+      RTC_Periph.PRER.PREDIV_S := 16#f9#;
+      RTC_Periph.BKP1R         := 16#32f2#;
+      Enable_Write_Protection;
+      Power_Control.Disable_Backup_Domain_Protection; --  Undo ^^^ or.. RTC ints won't come
+   end Set_WUT_Interrupt;
+
+   procedure Clear_RTC_Wakeup is
+   begin
+      RTC_Periph.ISR.WUTF := False;
+   end Clear_RTC_Wakeup;
+
+   function RTC_Wakeup_Flag return Boolean is
+      (RTC_Periph.ISR.WUTF);
 
 end STM32.RTC;

@@ -59,7 +59,7 @@ package STM32.Board is
 
    procedure Turn_On  (This : in out User_LED) renames STM32.GPIO.Clear;
    procedure Turn_Off (This : in out User_LED) renames STM32.GPIO.Set;
---   procedure Toggle   (This : in out User_LED) renames STM32.GPIO.Toggle;
+   procedure Toggle   (This : in out User_LED) renames STM32.GPIO.Toggle;
 
    procedure Toggle_LEDs (These : in out GPIO_Points)
      renames STM32.GPIO.Toggle;

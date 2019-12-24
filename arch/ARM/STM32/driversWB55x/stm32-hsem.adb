@@ -22,6 +22,13 @@ package body STM32.HSEM is
         STM32_SVD.HSEM.HSEM_Periph.R (Idx).PROCID = Process;
    end Locked;
 
+   function AnyLock (Semaphore : UInt5) return Boolean
+   is
+      Idx : Sema_Range := Sema_Range (Semaphore);
+   begin
+      return STM32_SVD.HSEM.HSEM_Periph.R (Idx).LOCK;
+   end AnyLock;
+
    procedure ReleaseLock (Semaphore : UInt5; Process : UInt8)
    is
       Idx : Sema_Range := Sema_Range (Semaphore);

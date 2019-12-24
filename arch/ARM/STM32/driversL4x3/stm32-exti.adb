@@ -57,10 +57,17 @@ package body STM32.EXTI is
       Index : constant Natural := External_Line_Number'Pos (Line);
    begin
       EXTI_Periph.IMR1.Arr (Index) := True;
-      EXTI_Periph.RTSR1.TR.Arr (Index) :=
-        Trigger in Interrupt_Rising_Edge  | Interrupt_Rising_Falling_Edge;
-      EXTI_Periph.FTSR1.TR.Arr (Index) :=
-        Trigger in Interrupt_Falling_Edge | Interrupt_Rising_Falling_Edge;
+      if Index >= 18 then
+         EXTI_Periph.RTSR1.TR_1.Arr (Index) :=
+           Trigger in Interrupt_Rising_Edge  | Interrupt_Rising_Falling_Edge;
+         EXTI_Periph.FTSR1.TR_1.Arr (Index) :=
+           Trigger in Interrupt_Falling_Edge | Interrupt_Rising_Falling_Edge;
+      else
+         EXTI_Periph.RTSR1.TR.Arr (Index) :=
+           Trigger in Interrupt_Rising_Edge  | Interrupt_Rising_Falling_Edge;
+         EXTI_Periph.FTSR1.TR.Arr (Index) :=
+           Trigger in Interrupt_Falling_Edge | Interrupt_Rising_Falling_Edge;
+      end if;
    end Enable_External_Interrupt;
 
    --------------------------------
@@ -71,8 +78,13 @@ package body STM32.EXTI is
       Index : constant Natural := External_Line_Number'Pos (Line);
    begin
       EXTI_Periph.IMR1.Arr (Index)  := False;
-      EXTI_Periph.RTSR1.TR.Arr (Index) := False;
-      EXTI_Periph.FTSR1.TR.Arr (Index) := False;
+      if Index >= 18 then
+         EXTI_Periph.RTSR1.TR_1.Arr (Index) := False;
+         EXTI_Periph.FTSR1.TR_1.Arr (Index) := False;
+      else
+         EXTI_Periph.RTSR1.TR.Arr (Index) := False;
+         EXTI_Periph.FTSR1.TR.Arr (Index) := False;
+      end if;
    end Disable_External_Interrupt;
 
    ---------------------------
@@ -117,9 +129,14 @@ package body STM32.EXTI is
    -- External_Interrupt_Pending --
    --------------------------------
 
-   function External_Interrupt_Pending (Line : External_Line_Number)
-     return Boolean
-   is (EXTI_Periph.PR1.PR.Arr (External_Line_Number'Pos (Line)));
+   function External_Interrupt_Pending (Line : External_Line_Number) return Boolean is
+   begin
+      if External_Line_Number'Pos (Line) <= 17 then --  Split fields in SVD
+         return (EXTI_Periph.PR1.PR.Arr (External_Line_Number'Pos (Line)));
+      else
+         return (EXTI_Periph.PR1.PR_1.Arr (External_Line_Number'Pos (Line)));
+      end if;
+   end External_Interrupt_Pending;
 
    ------------------------------
    -- Clear_External_Interrupt --
@@ -128,8 +145,11 @@ package body STM32.EXTI is
    procedure Clear_External_Interrupt (Line : External_Line_Number) is
    begin
       --  yes, one to clear
-      EXTI_Periph.PR1.PR.Arr (External_Line_Number'Pos (Line)) := True;
+      if External_Line_Number'Pos (Line) <= 17 then --  Split fields in SVD
+         EXTI_Periph.PR1.PR.Arr (External_Line_Number'Pos (Line)) := True;
+      else
+         EXTI_Periph.PR1.PR_1.Arr (External_Line_Number'Pos (Line)) := True;
+      end if;
    end Clear_External_Interrupt;
-
 
 end STM32.EXTI;

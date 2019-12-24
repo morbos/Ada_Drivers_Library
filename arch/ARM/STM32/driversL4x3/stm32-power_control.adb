@@ -30,21 +30,23 @@
 ------------------------------------------------------------------------------
 
 with STM32_SVD.PWR; use STM32_SVD.PWR;
+with STM32_SVD.RCC; use STM32_SVD.RCC;
+
 package body STM32.Power_Control
 is
    procedure Enable
    is
    begin
-      null;
+      RCC_Periph.APB1ENR1.PWREN := True;
    end Enable;
    procedure Enable_Backup_Domain_Protection
    is
    begin
-      PWR_Periph.CR1.DBP := True;
+      PWR_Periph.CR1.DBP := False;
    end Enable_Backup_Domain_Protection;
    procedure Disable_Backup_Domain_Protection
    is
    begin
-      PWR_Periph.CR1.DBP := False;
+      PWR_Periph.CR1.DBP := True;
    end Disable_Backup_Domain_Protection;
 end STM32.Power_Control;

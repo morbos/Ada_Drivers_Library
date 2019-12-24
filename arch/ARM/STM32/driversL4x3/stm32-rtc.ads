@@ -35,6 +35,13 @@ package STM32.RTC is
 
    type RTC_Device is new HAL.Real_Time_Clock.RTC_Device with private;
 
+   type RTCSEL is (Use_LSE, Use_LSI, Use_HSE);
+
+   for RTCSEL use
+     (Use_LSE => 2#01#,
+      Use_LSI => 2#10#,
+      Use_HSE => 2#11#);
+
    overriding
    procedure Set (This : in out RTC_Device;
                   Time : HAL.Real_Time_Clock.RTC_Time;
@@ -51,8 +58,14 @@ package STM32.RTC is
    overriding
    function Get_Date (This : RTC_Device) return HAL.Real_Time_Clock.RTC_Date;
 
-   procedure Enable (This : in out RTC_Device);
+   procedure Enable (This : in out RTC_Device; Clock_Source : RTCSEL);
    procedure Disable (This : in out RTC_Device);
+
+   procedure Set_WUT_Interrupt (This : in out RTC_Device; Time2Wakeup : UInt16);
+
+   procedure Clear_RTC_Wakeup;
+
+   function RTC_Wakeup_Flag return Boolean;
 
 private
 

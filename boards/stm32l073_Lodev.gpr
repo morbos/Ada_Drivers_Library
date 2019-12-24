@@ -1,0 +1,28 @@
+aggregate library project STM32L073_Lodev is
+
+   Build := external ("BUILD", "Debug");
+
+   type RTS_Type is ("ravenscar-ssfp", "ravenscar-sfp", "ravenscar-full");
+   RTS : RTS_Type := External ("RTS", "ravenscar-ssfp");
+
+   RTS_Base := Project'Project_Dir &
+               "../embedded-runtimes/ravenscar-stm32l073lodev";
+   for Target use "arm-eabi";
+
+   case RTS is
+      when "ravenscar-ssfp" =>
+         for Runtime ("Ada") use RTS_Base & "/ssfp";
+      when "ravenscar-sfp" =>
+         for Runtime ("Ada") use RTS_Base & "/sfp";
+      when "ravenscar-full" =>
+         for Runtime ("Ada") use RTS_Base & "/full";
+   end case;
+
+   for Project_Path use ("stm32l073_Lodev");
+
+   for Project_Files use ("stm32l073_Lodev/board.gpr");
+
+   for Library_Dir use "lib/stm32l073lodev/" & RTS & "/" & Build;
+   for Library_Name use "stm32l073lodev";
+
+end STM32L073_Lodev;
