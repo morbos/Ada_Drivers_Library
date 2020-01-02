@@ -1,4 +1,4 @@
---  Version of the projects configuration for STM32L522-Nucleo board
+--  Version of the projects configuration for STM32L552-Nucleo board
 
 --  Include the run-time project files to have them compiled
 with "../../embedded-runtimes/ravenscar-stm32l5nucleo_s/ravenscar_build";

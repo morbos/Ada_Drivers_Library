@@ -200,6 +200,43 @@ package body STM32.Device is
       end if;
    end GPIO_Port_Representation;
 
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (This : SPI_Port) is
+   begin
+      if This.Periph.all'Address = S_NS_Periph (SPI1_Base) then
+         RCC.APB2ENR.SPI1EN := True;
+      elsif This.Periph.all'Address = S_NS_Periph (SPI2_Base) then
+         RCC.APB1ENR1.SPI2EN := True;
+      elsif This.Periph.all'Address = S_NS_Periph (SPI3_Base) then
+         RCC.APB1ENR1.SPI3EN := True;
+      else
+         raise Unknown_Device;
+      end if;
+   end Enable_Clock;
+
+   -----------
+   -- Reset --
+   -----------
+
+   procedure Reset (This : in out SPI_Port) is
+   begin
+      if This.Periph.all'Address = S_NS_Periph (SPI1_Base) then
+         RCC.APB2RSTR.SPI1RST := True;
+         RCC.APB2RSTR.SPI1RST := False;
+      elsif This.Periph.all'Address = S_NS_Periph (SPI2_Base) then
+         RCC.APB1RSTR1.SPI2RST := True;
+         RCC.APB1RSTR1.SPI2RST := False;
+      elsif This.Periph.all'Address = S_NS_Periph (SPI3_Base) then
+         RCC.APB1RSTR1.SPI3RST := True;
+         RCC.APB1RSTR1.SPI3RST := False;
+      else
+         raise Unknown_Device;
+      end if;
+   end Reset;
+
    function S_NS_Periph (Addr : System.Address) return System.Address
    is
       X : UInt32;

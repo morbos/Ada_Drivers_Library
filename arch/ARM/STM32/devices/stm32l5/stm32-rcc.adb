@@ -29,8 +29,17 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-package STM32.RCC is
+with STM32_SVD.RCC; use STM32_SVD.RCC;
 
-   procedure SYSCFG_Clock_Enable with Inline;
+package body STM32.RCC is
+
+   -------------------------
+   -- SYSCFG_Clock_Enable --
+   -------------------------
+
+   procedure SYSCFG_Clock_Enable is
+   begin
+      RCC_Periph.APB2ENR.SYSCFGEN := True;
+   end SYSCFG_Clock_Enable;
 
 end STM32.RCC;

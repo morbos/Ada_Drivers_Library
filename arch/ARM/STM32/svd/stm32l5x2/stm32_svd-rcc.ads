@@ -957,7 +957,7 @@ package STM32_SVD.RCC is
       --  SPI2 clock enable
       SPI2EN         : Boolean := False;
       --  SPI3 clock enable
-      SP3EN          : Boolean := False;
+      SPI3EN          : Boolean := False;
       --  unspecified
       Reserved_16_16 : HAL.Bit := 16#0#;
       --  USART2 clock enable
@@ -1002,7 +1002,7 @@ package STM32_SVD.RCC is
       WWDGEN         at 0 range 11 .. 11;
       Reserved_12_13 at 0 range 12 .. 13;
       SPI2EN         at 0 range 14 .. 14;
-      SP3EN          at 0 range 15 .. 15;
+      SPI3EN         at 0 range 15 .. 15;
       Reserved_16_16 at 0 range 16 .. 16;
       USART2EN       at 0 range 17 .. 17;
       USART3EN       at 0 range 18 .. 18;

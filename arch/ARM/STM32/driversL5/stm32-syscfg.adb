@@ -42,19 +42,79 @@
 --  This file provides register definitions for the STM32F4 (ARM Cortex M4F)
 --  microcontrollers from ST Microelectronics.
 
-with STM32.GPIO;  use STM32.GPIO;
+with STM32_SVD.EXTI;   use STM32_SVD.EXTI;
+with STM32_SVD.SYSCFG; use STM32_SVD.SYSCFG;
 
-package STM32.SYSCFG is
+with STM32.EXTI;
+
+with STM32.Device;     use STM32.Device;
+
+package body STM32.SYSCFG is
+
+   subtype GPIO_Pin_Index is Natural range 0 .. 15;
 
    procedure Connect_External_Interrupt
-     (Port : GPIO_Port;  Pin  : GPIO_Pin) with Inline;
+     (Port : GPIO_Port;
+      Pin  : GPIO_Pin_Index);
+
+   --------------------------------
+   -- Connect_External_Interrupt --
+   --------------------------------
 
    procedure Connect_External_Interrupt
-     (Point  : GPIO_Point) with Inline;
+     (Port : GPIO_Port;
+      Pin  : GPIO_Pin_Index)
+   is
+--      Port_Id  : constant UInt4 := GPIO_Port_Representation (Port);
+   begin
+      null;  --  L4 is diff than F4 here...
+   end Connect_External_Interrupt;
+
+   --------------------------------
+   -- Connect_External_Interrupt --
+   --------------------------------
 
    procedure Connect_External_Interrupt
-     (Port : GPIO_Port;  Pins : GPIO_Pins) with Inline;
+     (Port : GPIO_Port;
+      Pin  : GPIO_Pin)
+   is
+   begin
+      Connect_External_Interrupt (Port, GPIO_Pin'Pos (Pin));
+   end Connect_External_Interrupt;
 
-   procedure Clear_External_Interrupt (Pin : GPIO_Pin) with Inline;
+   --------------------------------
+   -- Connect_External_Interrupt --
+   --------------------------------
+
+   procedure Connect_External_Interrupt
+     (Point  : GPIO_Point)
+   is
+   begin
+      Connect_External_Interrupt (Point.Periph.all, Point.Pin);
+   end Connect_External_Interrupt;
+
+   --------------------------------
+   -- Connect_External_Interrupt --
+   --------------------------------
+
+   procedure Connect_External_Interrupt
+     (Port : GPIO_Port;
+      Pins : GPIO_Pins)
+   is
+   begin
+      for Pin of Pins loop
+         Connect_External_Interrupt (Port, Pin);
+      end loop;
+   end Connect_External_Interrupt;
+
+   ------------------------------
+   -- Clear_External_Interrupt --
+   ------------------------------
+
+   procedure Clear_External_Interrupt (Pin : GPIO_Pin) is
+      use STM32.EXTI;
+   begin
+      Clear_External_Interrupt (External_Line_Number'Val (GPIO_Pin'Pos (Pin)));
+   end Clear_External_Interrupt;
 
 end STM32.SYSCFG;

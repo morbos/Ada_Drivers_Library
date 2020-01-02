@@ -44,6 +44,7 @@
 
 with STM32_SVD;     use STM32_SVD;
 with STM32.GPIO;    use STM32.GPIO;
+with STM32.SPI;     use STM32.SPI;
 with System;
 
 package STM32.Device is
@@ -205,6 +206,20 @@ package STM32.Device is
    GPIO_AF_OTG_FS_12   : constant GPIO_Alternate_Function;
    GPIO_AF_DCMI_13     : constant GPIO_Alternate_Function;
    GPIO_AF_EVENTOUT_15 : constant GPIO_Alternate_Function;
+
+   Internal_SPI_1 : aliased Internal_SPI_Port
+     with Import, Volatile, Address => S_NS_Periph (SPI1_Base);
+   Internal_SPI_2 : aliased Internal_SPI_Port
+     with Import, Volatile, Address => S_NS_Periph (SPI2_Base);
+   Internal_SPI_3 : aliased Internal_SPI_Port
+     with Import, Volatile, Address => S_NS_Periph (SPI3_Base);
+
+   SPI_1 : aliased SPI_Port (Internal_SPI_1'Access);
+   SPI_2 : aliased SPI_Port (Internal_SPI_2'Access);
+   SPI_3 : aliased SPI_Port (Internal_SPI_3'Access);
+
+   procedure Enable_Clock (This : SPI_Port);
+   procedure Reset (This : in out SPI_Port);
 
 private
 
