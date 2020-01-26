@@ -45,6 +45,7 @@
 
 with STM32.Device;  use STM32.Device;
 with STM32.GPIO;    use STM32.GPIO;
+with STM32.EXTI;    use STM32.EXTI;
 
 package STM32.Board is
    pragma Elaborate_Body;
@@ -57,10 +58,13 @@ package STM32.Board is
 
    LEDs      : GPIO_Points := Red_LED & Blue_LED & Green_LED;
 
+   User_Button : GPIO_Point renames PC13;
+
    LCH_LED   : User_LED renames PA9;
 
    procedure Initialize_Board;
    procedure Initialize_LEDs;
+   procedure Initialize_Button;
 
    procedure Turn_On  (This : in out User_LED) renames STM32.GPIO.Set;
    procedure Turn_Off (This : in out User_LED) renames STM32.GPIO.Clear;

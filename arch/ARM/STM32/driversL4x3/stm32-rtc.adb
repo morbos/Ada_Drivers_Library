@@ -252,7 +252,7 @@ package body STM32.RTC is
 --      Power_Control.Enable_Backup_Domain_Protection;
    end Disable;
 
-   procedure Set_WUT_Interrupt (This : in out RTC_Device; Time2Wakeup : UInt16) is
+   procedure Set_WUT_Interrupt (This : in out RTC_Device; Timeout : UInt16) is
       pragma Unreferenced (This);
    begin
       Power_Control.Disable_Backup_Domain_Protection;
@@ -271,9 +271,8 @@ package body STM32.RTC is
          null;
       end loop;
 
-      RTC_Periph.WUTR.WUT      := Time2Wakeup;
-      --      RTC_Periph.CR.WCKSEL     := 4; --  Should be a param for 1Hz
-      RTC_Periph.CR.WCKSEL     := 0;  --  RTC/16
+      RTC_Periph.WUTR.WUT      := Timeout;
+      RTC_Periph.CR.WCKSEL     := 0; --  RTC / 16
       RTC_Periph.CR.WUTIE      := True;
       RTC_Periph.CR.WUTE       := True;
       RTC_Periph.PRER.PREDIV_S := 16#f9#;

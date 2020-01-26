@@ -52,11 +52,13 @@ package body STM32.EXTI is
 
    procedure Enable_External_Interrupt
      (Line    : External_Line_Number;
-      Trigger : Interrupt_Triggers)
+      Trigger : Interrupt_Triggers;
+      Secure  : Boolean)
    is
       Index : constant Natural := External_Line_Number'Pos (Line);
    begin
       EXTI_Periph.IMR1.Arr (Index) := True;
+      EXTI_Periph.SECCFGR1.Arr (Index) := Secure;
       if Index >= 18 then
          EXTI_Periph.RTSR1.RT_1.Arr (Index) :=
            Trigger in Interrupt_Rising_Edge  | Interrupt_Rising_Falling_Edge;

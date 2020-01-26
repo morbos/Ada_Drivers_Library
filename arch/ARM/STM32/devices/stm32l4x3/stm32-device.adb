@@ -71,6 +71,33 @@ package body STM32.Device is
       end if;
    end Enable_Clock;
 
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (Point : GPIO_Point)
+   is
+   begin
+      Enable_Clock (Point.Periph.all);
+   end Enable_Clock;
+
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (Points : GPIO_Points)
+   is
+   begin
+      for Point of Points loop
+         Enable_Clock (Point.Periph.all);
+      end loop;
+   end Enable_Clock;
+
+
+   ------------------
+   -- Disable_Clock --
+   ------------------
+
    procedure Disable_Clock (This : aliased in out GPIO_Port) is
    begin
       if This'Address = GPIOA_Base then
@@ -89,14 +116,8 @@ package body STM32.Device is
    end Disable_Clock;
 
    ------------------
-   -- Enable_Clock --
+   -- Disable_Clock --
    ------------------
-
-   procedure Enable_Clock (Point : GPIO_Point)
-   is
-   begin
-      Enable_Clock (Point.Periph.all);
-   end Enable_Clock;
 
    procedure Disable_Clock (Point : GPIO_Point)
    is
@@ -104,19 +125,9 @@ package body STM32.Device is
       Disable_Clock (Point.Periph.all);
    end Disable_Clock;
 
-
    ------------------
-   -- Enable_Clock --
+   -- Disable_Clock --
    ------------------
-
-   procedure Enable_Clock (Points : GPIO_Points)
-   is
-   begin
-      for Point of Points loop
-         Enable_Clock (Point.Periph.all);
-      end loop;
-   end Enable_Clock;
-
 
    procedure Disable_Clock (Points : GPIO_Points)
    is

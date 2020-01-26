@@ -66,159 +66,207 @@ package STM32_SVD.NVIC is
    --  Nested Vectored Interrupt Controller
    type NVIC_Peripheral is record
       --  Interrupt Set-Enable Register
-      ISER0 : aliased HAL.UInt32;
+      ISER0  : aliased HAL.UInt32;
       --  Interrupt Set-Enable Register
-      ISER1 : aliased HAL.UInt32;
+      ISER1  : aliased HAL.UInt32;
       --  Interrupt Set-Enable Register
-      ISER2 : aliased HAL.UInt32;
+      ISER2  : aliased HAL.UInt32;
       --  Interrupt Set-Enable Register
-      ISER3 : aliased HAL.UInt32;
+      ISER3  : aliased HAL.UInt32;
       --  Interrupt Clear-Enable Register
-      ICER0 : aliased HAL.UInt32;
+      ICER0  : aliased HAL.UInt32;
       --  Interrupt Clear-Enable Register
-      ICER1 : aliased HAL.UInt32;
+      ICER1  : aliased HAL.UInt32;
       --  Interrupt Clear-Enable Register
-      ICER2 : aliased HAL.UInt32;
+      ICER2  : aliased HAL.UInt32;
       --  Interrupt Clear-Enable Register
-      ICER3 : aliased HAL.UInt32;
+      ICER3  : aliased HAL.UInt32;
       --  Interrupt Set-Pending Register
-      ISPR0 : aliased HAL.UInt32;
+      ISPR0  : aliased HAL.UInt32;
       --  Interrupt Set-Pending Register
-      ISPR1 : aliased HAL.UInt32;
+      ISPR1  : aliased HAL.UInt32;
       --  Interrupt Set-Pending Register
-      ISPR2 : aliased HAL.UInt32;
+      ISPR2  : aliased HAL.UInt32;
       --  Interrupt Set-Pending Register
-      ISPR3 : aliased HAL.UInt32;
+      ISPR3  : aliased HAL.UInt32;
       --  Interrupt Clear-Pending Register
-      ICPR0 : aliased HAL.UInt32;
+      ICPR0  : aliased HAL.UInt32;
       --  Interrupt Clear-Pending Register
-      ICPR1 : aliased HAL.UInt32;
+      ICPR1  : aliased HAL.UInt32;
       --  Interrupt Clear-Pending Register
-      ICPR2 : aliased HAL.UInt32;
+      ICPR2  : aliased HAL.UInt32;
       --  Interrupt Clear-Pending Register
-      ICPR3 : aliased HAL.UInt32;
+      ICPR3  : aliased HAL.UInt32;
       --  Interrupt Active Bit Register
-      IABR0 : aliased HAL.UInt32;
+      IABR0  : aliased HAL.UInt32;
       --  Interrupt Active Bit Register
-      IABR1 : aliased HAL.UInt32;
+      IABR1  : aliased HAL.UInt32;
       --  Interrupt Active Bit Register
-      IABR2 : aliased HAL.UInt32;
+      IABR2  : aliased HAL.UInt32;
       --  Interrupt Active Bit Register
-      IABR3 : aliased HAL.UInt32;
+      IABR3  : aliased HAL.UInt32;
+      --  ITNS0
+      ITNS0  : aliased HAL.UInt32;
+      --  ITNS1
+      ITNS1  : aliased HAL.UInt32;
+      --  ITNS2
+      ITNS2  : aliased HAL.UInt32;
+      --  ITNS3
+      ITNS3  : aliased HAL.UInt32;
+      --  ITNS4
+      ITNS4  : aliased HAL.UInt32;
+      --  ITNS5
+      ITNS5  : aliased HAL.UInt32;
+      --  ITNS6
+      ITNS6  : aliased HAL.UInt32;
+      --  ITNS7
+      ITNS7  : aliased HAL.UInt32;
+      --  ITNS8
+      ITNS8  : aliased HAL.UInt32;
+      --  ITNS9
+      ITNS9  : aliased HAL.UInt32;
+      --  ITNS10
+      ITNS10 : aliased HAL.UInt32;
+      --  ITNS11
+      ITNS11 : aliased HAL.UInt32;
+      --  ITNS12
+      ITNS12 : aliased HAL.UInt32;
+      --  ITNS13
+      ITNS13 : aliased HAL.UInt32;
+      --  ITNS14
+      ITNS14 : aliased HAL.UInt32;
+      --  ITNS15
+      ITNS15 : aliased HAL.UInt32;
       --  Interrupt Priority Register
-      IPR0  : aliased IPR_Register;
+      IPR0   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR1  : aliased IPR_Register;
+      IPR1   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR2  : aliased IPR_Register;
+      IPR2   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR3  : aliased IPR_Register;
+      IPR3   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR4  : aliased IPR_Register;
+      IPR4   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR5  : aliased IPR_Register;
+      IPR5   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR6  : aliased IPR_Register;
+      IPR6   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR7  : aliased IPR_Register;
+      IPR7   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR8  : aliased IPR_Register;
+      IPR8   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR9  : aliased IPR_Register;
+      IPR9   : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR10 : aliased IPR_Register;
+      IPR10  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR11 : aliased IPR_Register;
+      IPR11  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR12 : aliased IPR_Register;
+      IPR12  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR13 : aliased IPR_Register;
+      IPR13  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR14 : aliased IPR_Register;
+      IPR14  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR15 : aliased IPR_Register;
+      IPR15  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR16 : aliased IPR_Register;
+      IPR16  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR17 : aliased IPR_Register;
+      IPR17  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR18 : aliased IPR_Register;
+      IPR18  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR19 : aliased IPR_Register;
+      IPR19  : aliased IPR_Register;
       --  Interrupt Priority Register
-      IPR20 : aliased IPR_Register;
+      IPR20  : aliased IPR_Register;
       --  IPR21
-      IPR21 : aliased HAL.UInt32;
+      IPR21  : aliased HAL.UInt32;
       --  IPR22
-      IPR22 : aliased HAL.UInt32;
+      IPR22  : aliased HAL.UInt32;
       --  IPR23
-      IPR23 : aliased HAL.UInt32;
+      IPR23  : aliased HAL.UInt32;
       --  IPR24
-      IPR24 : aliased HAL.UInt32;
+      IPR24  : aliased HAL.UInt32;
       --  IPR25
-      IPR25 : aliased HAL.UInt32;
+      IPR25  : aliased HAL.UInt32;
       --  IPR26
-      IPR26 : aliased HAL.UInt32;
+      IPR26  : aliased HAL.UInt32;
       --  IPR27
-      IPR27 : aliased HAL.UInt32;
+      IPR27  : aliased HAL.UInt32;
       --  IPR28
-      IPR28 : aliased HAL.UInt32;
+      IPR28  : aliased HAL.UInt32;
       --  IPR29
-      IPR29 : aliased HAL.UInt32;
+      IPR29  : aliased HAL.UInt32;
    end record
      with Volatile;
 
    for NVIC_Peripheral use record
-      ISER0 at 16#0# range 0 .. 31;
-      ISER1 at 16#4# range 0 .. 31;
-      ISER2 at 16#8# range 0 .. 31;
-      ISER3 at 16#C# range 0 .. 31;
-      ICER0 at 16#80# range 0 .. 31;
-      ICER1 at 16#84# range 0 .. 31;
-      ICER2 at 16#88# range 0 .. 31;
-      ICER3 at 16#8C# range 0 .. 31;
-      ISPR0 at 16#100# range 0 .. 31;
-      ISPR1 at 16#104# range 0 .. 31;
-      ISPR2 at 16#108# range 0 .. 31;
-      ISPR3 at 16#10C# range 0 .. 31;
-      ICPR0 at 16#180# range 0 .. 31;
-      ICPR1 at 16#184# range 0 .. 31;
-      ICPR2 at 16#188# range 0 .. 31;
-      ICPR3 at 16#18C# range 0 .. 31;
-      IABR0 at 16#200# range 0 .. 31;
-      IABR1 at 16#204# range 0 .. 31;
-      IABR2 at 16#208# range 0 .. 31;
-      IABR3 at 16#20C# range 0 .. 31;
-      IPR0  at 16#300# range 0 .. 31;
-      IPR1  at 16#304# range 0 .. 31;
-      IPR2  at 16#308# range 0 .. 31;
-      IPR3  at 16#30C# range 0 .. 31;
-      IPR4  at 16#310# range 0 .. 31;
-      IPR5  at 16#314# range 0 .. 31;
-      IPR6  at 16#318# range 0 .. 31;
-      IPR7  at 16#31C# range 0 .. 31;
-      IPR8  at 16#320# range 0 .. 31;
-      IPR9  at 16#324# range 0 .. 31;
-      IPR10 at 16#328# range 0 .. 31;
-      IPR11 at 16#32C# range 0 .. 31;
-      IPR12 at 16#330# range 0 .. 31;
-      IPR13 at 16#334# range 0 .. 31;
-      IPR14 at 16#338# range 0 .. 31;
-      IPR15 at 16#33C# range 0 .. 31;
-      IPR16 at 16#340# range 0 .. 31;
-      IPR17 at 16#344# range 0 .. 31;
-      IPR18 at 16#348# range 0 .. 31;
-      IPR19 at 16#34C# range 0 .. 31;
-      IPR20 at 16#350# range 0 .. 31;
-      IPR21 at 16#354# range 0 .. 31;
-      IPR22 at 16#358# range 0 .. 31;
-      IPR23 at 16#35C# range 0 .. 31;
-      IPR24 at 16#360# range 0 .. 31;
-      IPR25 at 16#364# range 0 .. 31;
-      IPR26 at 16#368# range 0 .. 31;
-      IPR27 at 16#36C# range 0 .. 31;
-      IPR28 at 16#370# range 0 .. 31;
-      IPR29 at 16#374# range 0 .. 31;
+      ISER0  at 16#0# range 0 .. 31;
+      ISER1  at 16#4# range 0 .. 31;
+      ISER2  at 16#8# range 0 .. 31;
+      ISER3  at 16#C# range 0 .. 31;
+      ICER0  at 16#80# range 0 .. 31;
+      ICER1  at 16#84# range 0 .. 31;
+      ICER2  at 16#88# range 0 .. 31;
+      ICER3  at 16#8C# range 0 .. 31;
+      ISPR0  at 16#100# range 0 .. 31;
+      ISPR1  at 16#104# range 0 .. 31;
+      ISPR2  at 16#108# range 0 .. 31;
+      ISPR3  at 16#10C# range 0 .. 31;
+      ICPR0  at 16#180# range 0 .. 31;
+      ICPR1  at 16#184# range 0 .. 31;
+      ICPR2  at 16#188# range 0 .. 31;
+      ICPR3  at 16#18C# range 0 .. 31;
+      IABR0  at 16#200# range 0 .. 31;
+      IABR1  at 16#204# range 0 .. 31;
+      IABR2  at 16#208# range 0 .. 31;
+      IABR3  at 16#20C# range 0 .. 31;
+      ITNS0  at 16#280# range 0 .. 31;
+      ITNS1  at 16#284# range 0 .. 31;
+      ITNS2  at 16#288# range 0 .. 31;
+      ITNS3  at 16#28C# range 0 .. 31;
+      ITNS4  at 16#290# range 0 .. 31;
+      ITNS5  at 16#294# range 0 .. 31;
+      ITNS6  at 16#298# range 0 .. 31;
+      ITNS7  at 16#29C# range 0 .. 31;
+      ITNS8  at 16#2A0# range 0 .. 31;
+      ITNS9  at 16#2A4# range 0 .. 31;
+      ITNS10 at 16#2A8# range 0 .. 31;
+      ITNS11 at 16#2AC# range 0 .. 31;
+      ITNS12 at 16#2B0# range 0 .. 31;
+      ITNS13 at 16#2B4# range 0 .. 31;
+      ITNS14 at 16#2B8# range 0 .. 31;
+      ITNS15 at 16#2BC# range 0 .. 31;
+      IPR0   at 16#300# range 0 .. 31;
+      IPR1   at 16#304# range 0 .. 31;
+      IPR2   at 16#308# range 0 .. 31;
+      IPR3   at 16#30C# range 0 .. 31;
+      IPR4   at 16#310# range 0 .. 31;
+      IPR5   at 16#314# range 0 .. 31;
+      IPR6   at 16#318# range 0 .. 31;
+      IPR7   at 16#31C# range 0 .. 31;
+      IPR8   at 16#320# range 0 .. 31;
+      IPR9   at 16#324# range 0 .. 31;
+      IPR10  at 16#328# range 0 .. 31;
+      IPR11  at 16#32C# range 0 .. 31;
+      IPR12  at 16#330# range 0 .. 31;
+      IPR13  at 16#334# range 0 .. 31;
+      IPR14  at 16#338# range 0 .. 31;
+      IPR15  at 16#33C# range 0 .. 31;
+      IPR16  at 16#340# range 0 .. 31;
+      IPR17  at 16#344# range 0 .. 31;
+      IPR18  at 16#348# range 0 .. 31;
+      IPR19  at 16#34C# range 0 .. 31;
+      IPR20  at 16#350# range 0 .. 31;
+      IPR21  at 16#354# range 0 .. 31;
+      IPR22  at 16#358# range 0 .. 31;
+      IPR23  at 16#35C# range 0 .. 31;
+      IPR24  at 16#360# range 0 .. 31;
+      IPR25  at 16#364# range 0 .. 31;
+      IPR26  at 16#368# range 0 .. 31;
+      IPR27  at 16#36C# range 0 .. 31;
+      IPR28  at 16#370# range 0 .. 31;
+      IPR29  at 16#374# range 0 .. 31;
    end record;
 
    --  Nested Vectored Interrupt Controller

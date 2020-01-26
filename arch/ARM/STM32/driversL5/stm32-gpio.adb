@@ -347,10 +347,11 @@ package body STM32.GPIO is
    is
       Index : constant GPIO_Pin_Index := GPIO_Pin'Pos (This.Pin);
    begin
-      This.Periph.MODER.Arr (Index)     := Pin_IO_Modes'Enum_Rep (Config.Mode);
-      This.Periph.OTYPER.OT.Arr (Index) := Config.Output_Type = Open_Drain;
-      This.Periph.OSPEEDR.Arr (Index)   := Pin_Output_Speeds'Enum_Rep (Config.Speed);
-      This.Periph.PUPDR.Arr (Index)     := Internal_Pin_Resistors'Enum_Rep (Config.Resistors);
+      This.Periph.SECCFGR.SEC.Arr (Index)  := Config.Secure;
+      This.Periph.MODER.Arr (Index)        := Pin_IO_Modes'Enum_Rep (Config.Mode);
+      This.Periph.OTYPER.OT.Arr (Index)    := Config.Output_Type = Open_Drain;
+      This.Periph.OSPEEDR.Arr (Index)      := Pin_Output_Speeds'Enum_Rep (Config.Speed);
+      This.Periph.PUPDR.Arr (Index)        := Internal_Pin_Resistors'Enum_Rep (Config.Resistors);
    end Configure_IO;
 
    ------------------
@@ -415,7 +416,8 @@ package body STM32.GPIO is
 
    procedure Configure_Trigger
      (This    : GPIO_Point;
-      Trigger : EXTI.External_Triggers)
+      Trigger : EXTI.External_Triggers;
+      Secure  : Boolean)
    is
       use STM32.EXTI;
       Line : constant External_Line_Number := External_Line_Number'Val (GPIO_Pin'Pos (This.Pin));
@@ -425,7 +427,7 @@ package body STM32.GPIO is
 
 --      Connect_External_Interrupt (This);
       if Trigger in Interrupt_Triggers then
-         Enable_External_Interrupt (Line, Trigger);
+         Enable_External_Interrupt (Line, Trigger, Secure);
       else
          Enable_External_Event (Line, Trigger);
       end if;
@@ -437,11 +439,12 @@ package body STM32.GPIO is
 
    procedure Configure_Trigger
      (Points  : GPIO_Points;
-      Trigger : EXTI.External_Triggers)
+      Trigger : EXTI.External_Triggers;
+      Secure  : Boolean)
    is
    begin
       for Point of Points loop
-         Point.Configure_Trigger (Trigger);
+         Point.Configure_Trigger (Trigger, Secure);
       end loop;
    end Configure_Trigger;
 

@@ -124,6 +124,7 @@ package STM32.GPIO is
       Output_Type : Pin_Output_Types;
       Speed       : Pin_Output_Speeds;
       Resistors   : Internal_Pin_Resistors;
+      Secure      : Boolean;
    end record;
 
    type GPIO_Point is new HAL.GPIO.GPIO_Point with record
@@ -195,7 +196,8 @@ package STM32.GPIO is
 
    procedure Configure_Trigger
      (This    : GPIO_Point;
-      Trigger : EXTI.External_Triggers);
+      Trigger : EXTI.External_Triggers;
+      Secure  : Boolean);
    --  For Point.Pin on Point.Port.all, connects the external line and enables
    --  the external Trigger.  Enables the SYSCFG clock.
 
@@ -248,7 +250,8 @@ package STM32.GPIO is
 
    procedure Configure_Trigger
      (Points  : GPIO_Points;
-      Trigger : EXTI.External_Triggers);
+      Trigger : EXTI.External_Triggers;
+      Secure  : Boolean);
    --  For Point.Pin on Point.Port.all, configures the
    --  characteristics specified by Trigger
 

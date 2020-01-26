@@ -61,7 +61,7 @@ package STM32.RTC is
    procedure Enable (This : in out RTC_Device; Clock_Source : RTCSEL);
    procedure Disable (This : in out RTC_Device);
 
-   procedure Set_WUT_Interrupt (This : in out RTC_Device; Time2Wakeup : UInt16);
+   procedure Set_WUT_Interrupt (This : in out RTC_Device; Timeout : UInt16);
 
    procedure Clear_RTC_Wakeup;
 

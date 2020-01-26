@@ -52,7 +52,7 @@ with STM32.DAC;     use STM32.DAC;
 with STM32.ADC;     use STM32.ADC;
 with STM32.DMA;     use STM32.DMA;
 with STM32.RTC;     use STM32.RTC;
-with STM32.CRC;    use STM32.CRC;
+with STM32.CRC;     use STM32.CRC;
 
 package STM32.Device is
    pragma Elaborate_Body;

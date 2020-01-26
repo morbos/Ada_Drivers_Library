@@ -85,7 +85,8 @@ package STM32.EXTI is
 
    procedure Enable_External_Interrupt
      (Line    : External_Line_Number;
-      Trigger : Interrupt_Triggers)
+      Trigger : Interrupt_Triggers;
+      Secure  : Boolean)
      with Inline;
 
    procedure Disable_External_Interrupt (Line : External_Line_Number)

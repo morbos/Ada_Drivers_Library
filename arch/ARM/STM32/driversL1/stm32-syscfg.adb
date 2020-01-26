@@ -65,10 +65,8 @@ package body STM32.SYSCFG is
      (Port : GPIO_Port;
       Pin  : GPIO_Pin_Index)
    is
---      Port_Id  : constant UInt4 := GPIO_Port_Representation (Port);
       Port_Id  : constant UInt4 := GPIO_Port_Representation (Port);
    begin
-      null;  --  L4 is diff than F4 here...
       --  overridden.
       case Pin is
          when 0 .. 3 =>
@@ -130,4 +128,3 @@ package body STM32.SYSCFG is
    end Clear_External_Interrupt;
 
 end STM32.SYSCFG;
-

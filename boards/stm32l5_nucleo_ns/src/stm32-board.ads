@@ -57,6 +57,8 @@ package STM32.Board is
 
    LEDs      : GPIO_Points := Red_LED & Blue_LED & Green_LED;
 
+   User_Button : GPIO_Point renames PC13;
+
    LCH_LED   : User_LED renames PA9;
 
    procedure Initialize_Board;

@@ -508,7 +508,15 @@ package body STM32.SPI is
       Timeout : Natural := 1000)
    is
       pragma Unreferenced (Timeout);
+      Dummy : UInt8;
+      Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
+      --  vvvv hack to
+      while not This.Rx_Is_Empty loop
+         Dummy := Data_8bit;
+      end loop;
+      --  ^^^ drain any data before we read
+
       if CRC_Enabled (This) then
          Reset_CRC (This);
       end if;

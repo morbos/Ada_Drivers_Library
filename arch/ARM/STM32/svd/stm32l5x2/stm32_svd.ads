@@ -200,6 +200,10 @@ package STM32_SVD is
      System'To_Address (16#40010000#);
    SEC_SYSCFG_Base : constant System.Address :=
      System'To_Address (16#50010000#);
+   SEC_RNG_Base : constant System.Address :=
+     System'To_Address (16#520c0800#);
+   RNG_Base : constant System.Address :=
+     System'To_Address (16#420c0800#);
    PKA_Base : constant System.Address :=
      System'To_Address (16#420C2000#);
    SEC_PKA_Base : constant System.Address :=
