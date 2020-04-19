@@ -282,5 +282,13 @@ package STM32_SVD is
      System'To_Address (16#E000E100#);
    NVIC_STIR_Base : constant System.Address :=
      System'To_Address (16#E000EF00#);
+   SAU_Base : constant System.Address :=
+     System'To_Address (16#E000EDD0#);
+   MPU_Base : constant System.Address :=
+     System'To_Address (16#E000ED90#);
+   HASH_Base : constant System.Address :=
+     System'To_Address (16#420C0400#);
+   SEC_HASH_Base : constant System.Address :=
+     System'To_Address (16#520C0400#);
 
 end STM32_SVD;

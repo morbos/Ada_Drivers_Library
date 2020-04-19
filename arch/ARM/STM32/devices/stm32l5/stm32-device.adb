@@ -60,6 +60,12 @@ package body STM32.Device is
          RCC.AHB2ENR.GPIODEN := True;
       elsif This'Address = S_NS_Periph (GPIOE_Base) then
          RCC.AHB2ENR.GPIOEEN := True;
+      elsif This'Address = S_NS_Periph (GPIOF_Base) then
+         RCC.AHB2ENR.GPIOFEN := True;
+      elsif This'Address = S_NS_Periph (GPIOG_Base) then
+         RCC.AHB2ENR.GPIOGEN := True;
+      elsif This'Address = S_NS_Periph (GPIOH_Base) then
+         RCC.AHB2ENR.GPIOHEN := True;
       else
          raise Unknown_Device;
       end if;
@@ -77,6 +83,12 @@ package body STM32.Device is
          RCC.AHB2ENR.GPIODEN := False;
       elsif This'Address = S_NS_Periph (GPIOE_Base) then
          RCC.AHB2ENR.GPIOEEN := False;
+      elsif This'Address = S_NS_Periph (GPIOF_Base) then
+         RCC.AHB2ENR.GPIOFEN := False;
+      elsif This'Address = S_NS_Periph (GPIOG_Base) then
+         RCC.AHB2ENR.GPIOGEN := False;
+      elsif This'Address = S_NS_Periph (GPIOH_Base) then
+         RCC.AHB2ENR.GPIOHEN := False;
       else
          raise Unknown_Device;
       end if;

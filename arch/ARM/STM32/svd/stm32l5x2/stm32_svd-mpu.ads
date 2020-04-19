@@ -19,13 +19,13 @@ package STM32_SVD.MPU is
    --  MPU Type Register
    type MPU_TYPE_Register is record
       --  Separate instr/data
-      SEP            : Boolean := False;
+      SEP            : Boolean;
       --  unspecified
-      Reserved_1_7   : HAL.UInt7 := 16#0#;
+      Reserved_1_7   : HAL.UInt7;
       --  Data Regions
-      DREGION        : MPU_TYPE_DREGION_Field := 16#0#;
+      DREGION        : MPU_TYPE_DREGION_Field;
       --  unspecified
-      Reserved_16_31 : HAL.UInt16 := 16#0#;
+      Reserved_16_31 : HAL.UInt16;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -38,11 +38,11 @@ package STM32_SVD.MPU is
    end record;
 
    type MPU_CTRL_Register is record
-      ENABLE        : Boolean := False;
-      HFNMIENA      : Boolean := False;
-      PRIVDEFENA    : Boolean := False;
+      ENABLE        : Boolean;
+      HFNMIENA      : Boolean;
+      PRIVDEFENA    : Boolean;
       --  unspecified
-      Reserved_3_31 : HAL.UInt29 := 16#0#;
+      Reserved_3_31 : HAL.UInt29;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -58,9 +58,9 @@ package STM32_SVD.MPU is
 
    --  Region select
    type MPU_RNR_Register is record
-      REGION        : MPU_RNR_REGION_Field := 16#0#;
+      REGION        : MPU_RNR_REGION_Field;
       --  unspecified
-      Reserved_8_31 : HAL.UInt24 := 16#0#;
+      Reserved_8_31 : HAL.UInt24;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -76,11 +76,11 @@ package STM32_SVD.MPU is
 
    --  MPU Region Base Address Register
    type MPU_RBAR_Register is record
-      XN    : Boolean := False;
-      AP    : MPU_RBAR_AP_Field := 16#0#;
-      SH    : MPU_RBAR_SH_Field := 16#0#;
+      XN    : Boolean;
+      AP    : MPU_RBAR_AP_Field;
+      SH    : MPU_RBAR_SH_Field;
       --  Holds bits [31:5] of the base address for the selected MPU region
-      BADDR : MPU_RBAR_BADDR_Field := 16#0#;
+      BADDR : MPU_RBAR_BADDR_Field;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -96,11 +96,11 @@ package STM32_SVD.MPU is
    subtype MPU_RLAR_LIMIT_Field is HAL.UInt27;
 
    type MPU_RLAR_Register is record
-      EN       : Boolean := False;
-      AttrIndx : MPU_RLAR_AttrIndx_Field := 16#0#;
-      PXN      : Boolean := False;
+      EN       : Boolean;
+      AttrIndx : MPU_RLAR_AttrIndx_Field;
+      PXN      : Boolean;
       --  Holds bits [31:5] of the limit for the selected MPU region
-      LIMIT    : MPU_RLAR_LIMIT_Field := 16#0#;
+      LIMIT    : MPU_RLAR_LIMIT_Field;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -117,11 +117,11 @@ package STM32_SVD.MPU is
    subtype MPU_RBAR_ALIAS_BADDR_Field is HAL.UInt27;
 
    type MPU_RBAR_ALIAS_Register is record
-      XN    : Boolean := False;
-      AP    : MPU_RBAR_ALIAS_AP_Field := 16#0#;
-      SH    : MPU_RBAR_ALIAS_SH_Field := 16#0#;
+      XN    : Boolean;
+      AP    : MPU_RBAR_ALIAS_AP_Field;
+      SH    : MPU_RBAR_ALIAS_SH_Field;
       --  Holds bits [31:5] of the base address for the selected MPU region
-      BADDR : MPU_RBAR_ALIAS_BADDR_Field := 16#0#;
+      BADDR : MPU_RBAR_ALIAS_BADDR_Field;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -137,11 +137,11 @@ package STM32_SVD.MPU is
    subtype MPU_RLAR_ALIAS_LIMIT_Field is HAL.UInt27;
 
    type MPU_RLAR_ALIAS_Register is record
-      EN       : Boolean := False;
-      AttrIndx : MPU_RLAR_ALIAS_AttrIndx_Field := 16#0#;
-      PXN      : Boolean := False;
+      EN       : Boolean;
+      AttrIndx : MPU_RLAR_ALIAS_AttrIndx_Field;
+      PXN      : Boolean;
       --  Holds bits [31:5] of the limit for the selected MPU region
-      LIMIT    : MPU_RLAR_ALIAS_LIMIT_Field := 16#0#;
+      LIMIT    : MPU_RLAR_ALIAS_LIMIT_Field;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;

@@ -1,15 +1,15 @@
---  Version of the projects configuration for STM32L552-Nucleo board
+--  Version of the projects configuration for STM32L562-Discovery board
 
 --  Include the run-time project files to have them compiled
-with "../../embedded-runtimes/ravenscar-stm32l5nucleo_ns/ravenscar_build";
-with "../../embedded-runtimes/ravenscar-stm32l5nucleo_ns/runtime_build";
+with "../../embedded-runtimes/ravenscar-stm32l5discovery_ns/ravenscar_build";
+with "../../embedded-runtimes/ravenscar-stm32l5discovery_ns/runtime_build";
 
 abstract project Config extends "../common_config" is
 
    RTS   := Runtime_Build.RTS;
    Build := Common_Config.Build;
 
-   Object_Subdir := "stm32l5nucleo_ns/" & RTS & "/" & Build;
+   Object_Subdir := "stm32l5discovery_ns/" & RTS & "/" & Build;
 
    --  Need that for abstract projects
    for Source_Dirs use ();

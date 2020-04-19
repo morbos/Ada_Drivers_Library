@@ -39,8 +39,8 @@
 --   COPYRIGHT(c) 2014 STMicroelectronics                                   --
 ------------------------------------------------------------------------------
 
-with System;          use System;
-with STM32_SVD.GPIO;  use STM32_SVD.GPIO;
+with System;           use System;
+with STM32_SVD.GPIO;   use STM32_SVD.GPIO;
 
 with STM32.RCC;
 with STM32.SYSCFG;

@@ -17,12 +17,12 @@ package STM32_SVD.SAU is
    --  SAU Control Register
    type SAU_CTRL_Register is record
       --  Enables the SAU
-      ENABLE        : Boolean := False;
+      ENABLE        : Boolean;
       --  All Non-secure. When SAU_CTRL.ENABLE is 0 this bit controls if the
       --  memory is marked as Non-secure or Secure
-      ALLNS         : Boolean := False;
+      ALLNS         : Boolean;
       --  unspecified
-      Reserved_2_31 : HAL.UInt30 := 16#0#;
+      Reserved_2_31 : HAL.UInt30;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -39,9 +39,9 @@ package STM32_SVD.SAU is
    --  Unit.
    type SAU_TYPE_Register is record
       --  The number of implemented SAU regions
-      SREGION       : SAU_TYPE_SREGION_Field := 16#8#;
+      SREGION       : SAU_TYPE_SREGION_Field;
       --  unspecified
-      Reserved_8_31 : HAL.UInt24 := 16#0#;
+      Reserved_8_31 : HAL.UInt24;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -56,9 +56,9 @@ package STM32_SVD.SAU is
    --  Selects the region currently accessed by SAU_RBAR and SAU_RLAR
    type SAU_RNR_Register is record
       --  Indicates the SAU region accessed by SAU_RBAR and SAU_RLAR
-      REGION        : SAU_RNR_REGION_Field := 16#0#;
+      REGION        : SAU_RNR_REGION_Field;
       --  unspecified
-      Reserved_8_31 : HAL.UInt24 := 16#0#;
+      Reserved_8_31 : HAL.UInt24;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -73,9 +73,9 @@ package STM32_SVD.SAU is
    --  SAU Region Base Address Register
    type SAU_RBAR_Register is record
       --  unspecified
-      Reserved_0_4 : HAL.UInt5 := 16#0#;
+      Reserved_0_4 : HAL.UInt5;
       --  Holds bits [31:5] of the base address for the selected SAU region
-      BADDR        : SAU_RBAR_BADDR_Field := 16#0#;
+      BADDR        : SAU_RBAR_BADDR_Field;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -90,14 +90,14 @@ package STM32_SVD.SAU is
    --  SAU Region Limit Address Register
    type SAU_RLAR_Register is record
       --  SAU region enable
-      ENABLE       : Boolean := False;
+      ENABLE       : Boolean;
       --  Controls whether Non-secure state is permitted to execute an SG
       --  instruction from this region
-      NSC          : Boolean := False;
+      NSC          : Boolean;
       --  unspecified
-      Reserved_2_4 : HAL.UInt3 := 16#0#;
+      Reserved_2_4 : HAL.UInt3;
       --  Holds bits [31:5] of the limit address for the selected SAU region
-      LADDR        : SAU_RLAR_LADDR_Field := 16#0#;
+      LADDR        : SAU_RLAR_LADDR_Field;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
@@ -115,32 +115,32 @@ package STM32_SVD.SAU is
       --  exception targets a non-SG instruction in the Secure state. This bit
       --  is also set if the target address is an SG instruction, but there is
       --  no matching SAU/IDAU region with the NSC flag set.
-      INVEP         : Boolean := False;
+      INVEP         : Boolean;
       --  This bit is set if the integrity signature in an exception stack
       --  frame is found to be invalid during the unstacking operation
-      INVIS         : Boolean := False;
+      INVIS         : Boolean;
       --  This can be caused by EXC_RETURN.DCRS being set to 0 when returning
       --  from an exception in the Non-secure state, or by EXC_RETURN.ES being
       --  set to 1 when returning from an exception in the Non-secure state
-      INVER         : Boolean := False;
+      INVER         : Boolean;
       --  Sticky flag indicating that an attempt was made to access parts of
       --  the address space that are marked as Secure with NS-Req for the
       --  transaction set to Non-secure
-      AUVIOL        : Boolean := False;
+      AUVIOL        : Boolean;
       --  Sticky flag indicating that an exception was raised due to a branch
       --  that was not flagged as being domain crossing causing a transition
       --  from Secure to Non-secure memory
-      INVTRAN       : Boolean := False;
+      INVTRAN       : Boolean;
       --  Sticky flag indicating that an SAU or IDAU violation occurred during
       --  the lazy preservation of Floating-point state
-      LSPERR        : Boolean := False;
+      LSPERR        : Boolean;
       --  This bit is set when the SFAR register contains a valid value
-      SFARVALID     : Boolean := False;
+      SFARVALID     : Boolean;
       --  Sticky flag indicating that an error occurred during lazy state
       --  activation or deactivation
-      LSERR         : Boolean := False;
+      LSERR         : Boolean;
       --  unspecified
-      Reserved_8_31 : HAL.UInt24 := 16#0#;
+      Reserved_8_31 : HAL.UInt24;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;

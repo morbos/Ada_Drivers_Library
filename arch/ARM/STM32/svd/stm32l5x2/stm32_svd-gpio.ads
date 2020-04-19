@@ -536,7 +536,7 @@ package STM32_SVD.GPIO is
 
    --  General-purpose I/Os
    SEC_GPIOA_Periph : aliased GPIO_Peripheral
-     with Import, Address => System'To_Address (16#5202000#);
+     with Import, Address => System'To_Address (16#52020000#);
 
    --  General-purpose I/Os
    SEC_GPIOB_Periph : aliased GPIO_Peripheral
