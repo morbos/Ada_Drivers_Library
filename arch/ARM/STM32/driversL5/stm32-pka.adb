@@ -688,7 +688,7 @@ package body STM32.PKA is
             when '5' =>
                ECDSA.A := ECDSA.T2;
             when '6' =>
-               ECDSA.B := ECDSA.T3;
+               ECDSA.A := ECDSA.T3;
             when '7' =>
                ECDSA.B := ECDSA.T1;
             when '8' =>
