@@ -778,7 +778,19 @@ package body STM32.PKA is
       if NClamp then
          One := (1 => '0', others => '0');
          One (One'Length) := '1';
-         --  compute 1 + ((TmpStr-1) % n)
+         --  n : group order (sometimes a cursive l in papers)
+         --  compute 1 + (TmpStr % (n - 1)) using the PKA
+         --  'N' send group order to A operand ('n' would be to B)
+         --  'B' -> B arg -> B operand (B arg is 0x1 in this code here)
+         --  '-' do A-B on the 2 operands (or output := group order - 1)
+         --  'A' A arg -> A operand
+         --  'o' output of last calc -> B operand ('O' goes to A operand btw)
+         --  '%' A modulo B
+         --  'O' output to A operand
+         --  'B' -> B arg -> B operand
+         --  '+' A+B
+         --  '1' move output to Temp1
+         --  '=' Temp1 to O1 (output1)
          ECDSA_Math (Work => "NB-Ao%OB+1=", A => TmpStr, B => One, O1 => Result, O2 => Result);
       else
          Result := TmpStr;
