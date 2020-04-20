@@ -201,6 +201,11 @@ package body STM32.PKA is
               "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" &
               "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" &
               "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFC";
+         Curve.B := "0051" &
+              "953EB961" & "8E1C9A1F" & "929A21A0" & "B68540EE" &
+              "A2DA725B" & "99B315F3" & "B8B48991" & "8EF109E1" &
+              "56193951" & "EC7E937B" & "1652C0BD" & "3BB1BF07" &
+              "3573DF88" & "3D2C34F1" & "EF451FD4" & "6B503F00";
          Curve.X := "00C6" &
               "858E06B7" & "0404E9CD" & "9E3ECB66" & "2395B442" &
               "9C648139" & "053FB521" & "F828AF60" & "6B4D3DBA" &
@@ -225,12 +230,18 @@ package body STM32.PKA is
               "AA87CA22" & "BE8B0537" & "8EB1C71E" & "F320AD74" &
               "6E1D3B62" & "8BA79B98" & "59F741E0" & "82542A38" &
               "5502F25D" & "BF55296C" & "3A545E38" & "72760AB7";
-         Curve.Y := "3617DE4A" & "96262C6F" & "5D9E98BF" & "9292DC29" &
+         Curve.Y :=
+              "3617DE4A" & "96262C6F" & "5D9E98BF" & "9292DC29" &
               "F8F41DBD" & "289A147C" & "E9DA3113" & "B5F0B8C0" &
               "0A60B1CE" & "1D7E819D" & "7A431D7C" & "90EA0E5F";
-         Curve.A := "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" &
+         Curve.A :=
+              "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" &
               "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFE" &
               "FFFFFFFF" & "00000000" & "00000000" & "FFFFFFFC";
+         Curve.B :=
+              "B3312FA7" & "E23EE7E4" & "988E056B" & "E3F82D19" &
+              "181D9C6E" & "FE814112" & "0314088F" & "5013875A" &
+              "C656398D" & "8A2ED19D" & "2A85C8ED" & "D3EC2AEF";
          Curve.N := "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" & "FFFFFFFF" &
               "FFFFFFFF" & "FFFFFFFF" & "C7634D81" & "F4372DDF" &
               "581A0DB2" & "48B0A77A" & "ECEC196A" & "CCC52973";
@@ -243,6 +254,8 @@ package body STM32.PKA is
            "4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5";
          Curve.A :=
            "FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC";
+         Curve.B :=
+           "5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B";
          Curve.N :=
            "FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551";
       elsif Curve_Name = "secp256k1" then
@@ -254,6 +267,8 @@ package body STM32.PKA is
            "483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8";
          Curve.A :=
            "0000000000000000000000000000000000000000000000000000000000000000";
+         Curve.B :=
+           "0000000000000000000000000000000000000000000000000000000000000007";
          Curve.N :=
            "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141";
          Neg := False;
@@ -262,18 +277,21 @@ package body STM32.PKA is
          Curve.X := "161FF7528B899B2D0C28607CA52C5B86";
          Curve.Y := "CF5AC8395BAFEB13C02DA292DDED7A83";
          Curve.A := "FFFFFFFDFFFFFFFFFFFFFFFFFFFFFFFC";
+         Curve.B := "E87579C11079F43DD824993C2CEE5ED3";
          Curve.N := "FFFFFFFE0000000075A30D1B9038A115";
       elsif Curve_Name = "secp112r1" then
          Curve.P := "DB7C2ABF62E35E668076BEAD208B";
          Curve.X := "09487239995A5EE76B55F9C2F098";
          Curve.Y := "A89CE5AF8724C0A23E0E0FF77500";
          Curve.A := "DB7C2ABF62E35E668076BEAD2088";
+         Curve.B := "659EF8BA043916EEDE8911702B22";
          Curve.N := "DB7C2ABF62E35E7628DFAC6561C5";
       elsif Curve_Name = "secp112r2" then
          Curve.P := "DB7C2ABF62E35E668076BEAD208B";
          Curve.X := "4BA30AB5E892B4E1649DD0928643";
          Curve.Y := "ADCD46F5882E3747DEF36E956E97";
          Curve.A := "6127C24C05F38A0AAAF65C0EF02C";
+         Curve.B := "51DEF1815DB5ED74FCC34C85D709";
          Curve.N := "36DF0AAFD8B8D7597CA10520D04B";
          Neg := False;
       elsif Curve_Name = "nistp521" then
@@ -297,6 +315,11 @@ package body STM32.PKA is
               "ffffffff" & "ffffffff" & "ffffffff" & "ffffffff" &
               "ffffffff" & "ffffffff" & "ffffffff" & "ffffffff" &
               "ffffffff" & "ffffffff" & "ffffffff" & "fffffffc";
+         Curve.B := "0051" &
+              "953eb961" & "8e1c9a1f" & "929a21a0" & "b68540ee" &
+              "a2da725b" & "99b315f3" & "b8b48991" & "8ef109e1" &
+              "56193951" & "ec7e937b" & "1652c0bd" & "3bb1bf07" &
+              "3573df88" & "3d2c34f1" & "ef451fd4" & "6b503f00";
          Curve.N := "01ff" &
               "ffffffff" & "ffffffff" & "ffffffff" & "ffffffff" &
               "ffffffff" & "ffffffff" & "ffffffff" & "fffffffa" &
@@ -319,6 +342,10 @@ package body STM32.PKA is
               "ffffffff" & "ffffffff" & "ffffffff" & "ffffffff" &
               "ffffffff" & "ffffffff" & "ffffffff" & "fffffffe" &
               "ffffffff" & "00000000" & "00000000" & "fffffffc";
+         Curve.B :=
+              "b3312fa7" & "e23ee7e4" & "988e056b" & "e3f82d19" &
+              "181d9c6e" & "fe814112" & "0314088f" & "5013875a" &
+              "c656398d" & "8a2ed19d" & "2a85c8ed" & "d3ec2aef";
          Curve.N :=
               "ffffffff" & "ffffffff" & "ffffffff" & "ffffffff" &
               "ffffffff" & "ffffffff" & "c7634d81" & "f4372ddf" &
@@ -328,24 +355,28 @@ package body STM32.PKA is
          Curve.X := "6b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296";
          Curve.Y := "4fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5";
          Curve.A := "ffffffff00000001000000000000000000000000fffffffffffffffffffffffc";
+         Curve.B := "5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b";
          Curve.N := "ffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551";
       elsif Curve_Name = "nistp224" then
          Curve.P := "ffffffffffffffffffffffffffffffff000000000000000000000001";
          Curve.X := "b70e0cbd6bb4bf7f321390b94a03c1d356c21122343280d6115c1d21";
          Curve.Y := "bd376388b5f723fb4c22dfe6cd4375a05a07476444d5819985007e34";
          Curve.A := "fffffffffffffffffffffffffffffffefffffffffffffffffffffffe";
+         Curve.B := "b4050a850c04b3abf54132565044b0b7d7bfd8ba270b39432355ffb4";
          Curve.N := "ffffffffffffffffffffffffffff16a2e0b8f03e13dd29455c5c2a3d";
       elsif Curve_Name = "nistp192" then
          Curve.P := "fffffffffffffffffffffffffffffffeffffffffffffffff";
          Curve.X := "188da80eb03090f67cbf20eb43a18800f4ff0afd82ff1012";
          Curve.Y := "07192b95ffc8da78631011ed6b24cdd573f977a11e794811";
          Curve.A := "fffffffffffffffffffffffffffffffefffffffffffffffc";
+         Curve.B := "64210519e59c80e70fa7e9ab72243049feb8deecc146b9b1";
          Curve.N := "ffffffffffffffffffffffff99def836146bc9b1b4d22831";
       elsif Curve_Name = "brainpool256r1" then
          Curve.P := "A9FB57DBA1EEA9BC3E660A909D838D726E3BF623D52620282013481D1F6E5377";
          Curve.X := "8BD2AEB9CB7E57CB2C4B482FFC81B7AFB9DE27E1E3BD23C23A4453BD9ACE3262";
          Curve.Y := "547EF835C3DAC4FD97F8461A14611DC9C27745132DED8E545C1D54C72F046997";
          Curve.A := "7D5A0975FC2C3057EEF67530417AFFE7FB8055C126DC5C6CE94A4B44F330B5D9";
+         Curve.B := "26DC5C6CE94A4B44F330B5D9BBD77CBF958416295CF7E1CE6BCCDC18FF8C07B6";
          Curve.N := "A9FB57DBA1EEA9BC3E660A909D838D718C397AA3B561A6F7901E0E82974856A7";
          Neg := False;
       elsif Curve_Name = "brainpool256t1" then
@@ -353,12 +384,14 @@ package body STM32.PKA is
          Curve.X := "A3E8EB3CC1CFE7B7732213B23A656149AFA142C47AAFBC2B79A191562E1305F4";
          Curve.Y := "2D996C823439C56D7F7B22E14644417E69BCB6DE39D027001DABE8F35B25C9BE";
          Curve.A := "A9FB57DBA1EEA9BC3E660A909D838D726E3BF623D52620282013481D1F6E5374";
+         Curve.B := "662C61C430D84EA4FE66A7733D0B76B7BF93EBC4AF2F49256AE58101FEE92B04";
          Curve.N := "A9FB57DBA1EEA9BC3E660A909D838D718C397AA3B561A6F7901E0E82974856A7";
       elsif Curve_Name = "brainpool384r1" then
          Curve.P := "8CB91E82A3386D280F5D6F7E50E641DF152F7109ED5456B412B1DA197FB71123ACD3A729901D1A71874700133107EC53";
          Curve.X := "1D1C64F068CF45FFA2A63A81B7C13F6B8847A3E77EF14FE3DB7FCAFE0CBD10E8E826E03436D646AAEF87B2E247D4AF1E";
          Curve.Y := "8ABE1D7520F9C2A45CB1EB8E95CFD55262B70B29FEEC5864E19C054FF99129280E4646217791811142820341263C5315";
          Curve.A := "7BC382C63D8C150C3C72080ACE05AFA0C2BEA28E4FB22787139165EFBA91F90F8AA5814A503AD4EB04A8C7DD22CE2826";
+         Curve.B := "04A8C7DD22CE28268B39B55416F0447C2FB77DE107DCD2A62E880EA53EEB62D57CB4390295DBC9943AB78696FA504C11";
          Curve.N := "8CB91E82A3386D280F5D6F7E50E641DF152F7109ED5456B31F166E6CAC0425A7CF3AB6AF6B7FC3103B883202E9046565";
          Neg := False;
       elsif Curve_Name = "brainpool384t1" then
@@ -366,6 +399,7 @@ package body STM32.PKA is
          Curve.X := "18DE98B02DB9A306F2AFCD7235F72A819B80AB12EBD653172476FECD462AABFFC4FF191B946A5F54D8D0AA2F418808CC";
          Curve.Y := "25AB056962D30651A114AFD2755AD336747F93475B7A1FCA3B88F2B6A208CCFE469408584DC2B2912675BF5B9E582928";
          Curve.A := "8CB91E82A3386D280F5D6F7E50E641DF152F7109ED5456B412B1DA197FB71123ACD3A729901D1A71874700133107EC50";
+         Curve.B := "7F519EADA7BDA81BD826DBA647910F8C4B9346ED8CCDC64E4B1ABD11756DCE1D2074AA263B88805CED70355A33B471EE";
          Curve.N := "8CB91E82A3386D280F5D6F7E50E641DF152F7109ED5456B31F166E6CAC0425A7CF3AB6AF6B7FC3103B883202E9046565";
       else
          raise Program_Error with "Curve not supported";
@@ -390,6 +424,19 @@ package body STM32.PKA is
             Copy_S_To_U32 (Curve.N, ECDSA.Order_N);
             if Neg then
                ECDSA.A_Coeff_Sign   := 1;
+               ECDSA.A_Coeff (0)    := 3;
+            else
+               Copy_S_To_U32 (Curve.A, ECDSA.A_Coeff);
+            end if;
+         end;
+      elsif Mode = Point_Check then
+         declare
+            ECDSA : aliased ECDSA_Point_Check_Ram with Import, Address => S_NS_Periph (PKA_Base);
+         begin
+            Copy_S_To_U32 (Curve.P, ECDSA.Curve_Mod);
+            Copy_S_To_U32 (Curve.B, ECDSA.B_Coeff);
+            if Neg then
+               ECDSA.A_Sign         := 1;
                ECDSA.A_Coeff (0)    := 3;
             else
                Copy_S_To_U32 (Curve.A, ECDSA.A_Coeff);
@@ -750,6 +797,21 @@ package body STM32.PKA is
       Copy_U32_To_S (ECDSA.X, X_Res);
       Copy_U32_To_S (ECDSA.Y, Y_Res);
    end ECDSA_Point_Mult;
+
+   function ECDSA_Point_On_Curve (Point : ECDSA_PointStr) return Boolean
+   is
+      ECDSA : aliased ECDSA_Point_Check_Ram with Import, Address => S_NS_Periph (PKA_Base);
+   begin
+      Enable_Pka;
+      Clear_Ram;
+      Curve := Common_Init (Point_Check);
+      ECDSA.N_Bits := Num_Bits;
+      Copy_S_To_U32 (Point.X, ECDSA.X);
+      Copy_S_To_U32 (Point.Y, ECDSA.Y);
+      StartPKA (Point_On_Elliptic_Curve_Fp_Check);
+      Disable_Pka;
+      return (ECDSA.Result = 0);
+   end ECDSA_Point_On_Curve;
 
    function Make_Random_Group_String (NClamp : Boolean := False) return ECDSA_String
    is

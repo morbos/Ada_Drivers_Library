@@ -39,10 +39,12 @@ package STM32.PKA is
       S : ECDSA_String;
    end record;
 
-   type ECDSA_PublicKeyStr is record
+   type ECDSA_PointStr is record
       X : ECDSA_String;
       Y : ECDSA_String;
    end record;
+
+   subtype ECDSA_PublicKeyStr is ECDSA_PointStr;
 
    subtype Digest_Buffer is UInt8_Array (0 .. Integer (N_By_8 - 1));
    subtype Digest_BufferStr is String (1 .. Integer ((2 * N_By_8)));
@@ -177,6 +179,28 @@ package STM32.PKA is
       Y              at 16#05b0# range 0 .. 671;
    end record;
 
+   type ECDSA_Point_Check_Ram is record
+      Result         : UInt32;
+      N_Bits         : UInt32;
+      A_Sign         : UInt32;
+      A_Coeff        : UInt32_Array (0 .. 20);
+      Curve_Mod      : UInt32_Array (0 .. 20);
+      X              : UInt32_Array (0 .. 20);
+      Y              : UInt32_Array (0 .. 20);
+      B_Coeff        : UInt32_Array (0 .. 20);
+   end record;
+
+   for ECDSA_Point_Check_Ram use record
+      Result         at 16#0400# range 0 .. 31;
+      N_Bits         at 16#0404# range 0 .. 31;
+      A_Sign         at 16#0408# range 0 .. 31;
+      A_Coeff        at 16#040c# range 0 .. 671;
+      Curve_Mod      at 16#0460# range 0 .. 671;
+      X              at 16#055c# range 0 .. 671;
+      Y              at 16#05b0# range 0 .. 671;
+      B_Coeff        at 16#07fc# range 0 .. 671;
+   end record;
+
    type All_PKA_Ram is record
       RAM            : UInt32_Array (0 .. 893);
    end record;
@@ -233,10 +257,11 @@ package STM32.PKA is
       X : String (1 .. Integer (N_By_8 * 2));
       Y : String (1 .. Integer (N_By_8 * 2));
       A : String (1 .. Integer (N_By_8 * 2));
+      B : String (1 .. Integer (N_By_8 * 2));
       N : String (1 .. Integer (N_By_8 * 2));
    end record;
 
-   type Init_Mode is (Signing, Validation, Arithmetic, Field_Arithmetic);
+   type Init_Mode is (Signing, Validation, Point_Check, Arithmetic, Field_Arithmetic);
    procedure Copy_S_To_U32 (S : String; To : out UInt32_Array);
    procedure Copy_U8_To_U32 (From : UInt8_Array; To : out UInt32_Array);
    procedure Copy_U32_To_U8 (From : UInt32_Array; To : out UInt8_Array);
@@ -285,6 +310,8 @@ package STM32.PKA is
    procedure ECDSA_Point_Mult (Scalar : ECDSA_String;
                                X_Res  : out ECDSA_String;
                                Y_Res  : out ECDSA_String);
+
+   function ECDSA_Point_On_Curve (Point : ECDSA_PointStr) return Boolean;
 
    function Make_Random_Group_String (NClamp : Boolean := False) return ECDSA_String;
 
