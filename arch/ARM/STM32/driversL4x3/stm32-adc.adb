@@ -193,6 +193,8 @@ package body STM32.ADC is
    begin
       This.CFGR.RES := ADC_Resolution'Enum_Rep (Resolution);
       This.CFGR.ALIGN := Alignment = Left_Aligned;
+      This.CR.DEEPPWD := False;
+      This.CR.ADVREGEN := True;
    end Configure_Unit;
 
    ------------------------
@@ -264,21 +266,22 @@ package body STM32.ADC is
          begin
             Configure_Regular_Channel
               (This, Conversion.Channel, Rank, Conversion.Sample_Time);
---
---            --  We check the VBat first because that channel is also used for
---            --  the temperature sensor channel on some MCUs, in which case the
---            --  VBat conversion is the only one done. This order reflects that
---            --  hardware behavior.
---            if VBat_Conversion (This, Conversion.Channel) then
---               Enable_VBat_Connection;
---            elsif VRef_TemperatureSensor_Conversion (This, Conversion.Channel)
---            then
---               Enable_VRef_TemperatureSensor_Connection;
---            end if;
+
+            --  We check the VBat first because that channel is also used for
+            --  the temperature sensor channel on some MCUs, in which case the
+            --  VBat conversion is the only one done. This order reflects that
+            --  hardware behavior.
+            if VBat_Conversion (This, Conversion.Channel) then
+               Enable_VBat_Connection;
+            elsif VRef_Conversion (This, Conversion.Channel) then
+               Enable_VRef_Connection;
+            elsif TemperatureSensor_Conversion (This, Conversion.Channel) then
+               Enable_TemperatureSensor_Connection;
+            end if;
          end;
       end loop;
 
-      This.SQR1.L3 := UInt4 (Conversions'Length - 1);  -- biased rep
+      This.SQR1.L := UInt4 (Conversions'Length - 1);  -- biased rep
 
    end Configure_Regular_Conversions;
 
@@ -328,9 +331,10 @@ package body STM32.ADC is
             --  hardware behavior.
             if VBat_Conversion (This, Conversion.Channel) then
                Enable_VBat_Connection;
-            elsif VRef_TemperatureSensor_Conversion (This, Conversion.Channel)
-            then
-               Enable_VRef_TemperatureSensor_Connection;
+            elsif VRef_Conversion (This, Conversion.Channel) then
+               Enable_VRef_Connection;
+            elsif TemperatureSensor_Conversion (This, Conversion.Channel) then
+               Enable_TemperatureSensor_Connection;
             end if;
          end;
       end loop;
@@ -344,8 +348,7 @@ package body STM32.ADC is
 
    procedure Enable_VBat_Connection is
    begin
-      --      C_ADC_Periph.CCR.VBATE := True;
-      null;
+      ADC123_Common_Periph.CCR.CH18SEL := True;
    end Enable_VBat_Connection;
 
    ------------------
@@ -353,27 +356,43 @@ package body STM32.ADC is
    ------------------
 
    function VBat_Enabled return Boolean is
-      --      (C_ADC_Periph.CCR.VBATE);
-      (False);
+      (ADC123_Common_Periph.CCR.CH18SEL);
 
    ----------------------------------------------
-   -- Enable_VRef_TemperatureSensor_Connection --
+   -- Enable_VRef_Connection --
    ----------------------------------------------
 
-   procedure Enable_VRef_TemperatureSensor_Connection is
+   procedure Enable_VRef_Connection is
    begin
---      C_ADC_Periph.CCR.TSVREFE := True;
+      ADC123_Common_Periph.CCR.VREFEN := True;
 --      delay until Clock + Temperature_Sensor_Stabilization;
       null;
-   end Enable_VRef_TemperatureSensor_Connection;
+   end Enable_VRef_Connection;
 
    --------------------------------------
-   -- VRef_TemperatureSensor_Connected --
+   -- VRef_Connected --
    --------------------------------------
 
-   function VRef_TemperatureSensor_Enabled return Boolean is
-      --      (C_ADC_Periph.CCR.TSVREFE);
-      (False);
+   function VRef_Enabled return Boolean is
+      (ADC123_Common_Periph.CCR.VREFEN);
+
+   ----------------------------------------------
+   -- Enable_TemperatureSensor_Connection --
+   ----------------------------------------------
+
+   procedure Enable_TemperatureSensor_Connection is
+   begin
+      ADC123_Common_Periph.CCR.CH17SEL := True;
+--      delay until Clock + Temperature_Sensor_Stabilization;
+      null;
+   end Enable_TemperatureSensor_Connection;
+
+   --------------------------------------
+   -- VRef_Connected --
+   --------------------------------------
+
+   function TemperatureSensor_Enabled return Boolean is
+      (ADC123_Common_Periph.CCR.CH17SEL);
 
    ----------------------------------
    -- Regular_Conversions_Expected --
@@ -381,7 +400,7 @@ package body STM32.ADC is
 
    function Regular_Conversions_Expected (This : Analog_To_Digital_Converter)
      return Natural is
-     (Natural (This.SQR1.L3) + 1);
+     (Natural (This.SQR1.L) + 1);
 
    -----------------------------------
    -- Injected_Conversions_Expected --
@@ -397,8 +416,7 @@ package body STM32.ADC is
 
    function Scan_Mode_Enabled (This : Analog_To_Digital_Converter)
                                return Boolean
-     --     is (This.CFGR.SCAN);
-     is (False);
+   is (False);
 
    ---------------------------
    -- EOC_Selection_Enabled --
@@ -993,5 +1011,14 @@ package body STM32.ADC is
          when 4 => This.OFR4.OFFSET4 := Offset;
       end case;
    end Set_Injected_Channel_Offset;
+
+   function Check_Conversions
+     (This        : in out Analog_To_Digital_Converter;
+      Conversions : Regular_Channel_Conversions;
+      Enable_EOC  : Boolean) return Boolean
+   is
+   begin
+      return Length_Matches_Expected (This, Conversions);
+   end Check_Conversions;
 
 end STM32.ADC;

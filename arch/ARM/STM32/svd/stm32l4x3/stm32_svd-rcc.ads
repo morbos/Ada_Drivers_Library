@@ -59,7 +59,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_28_31 : HAL.UInt4 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -103,7 +103,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_29_31 : HAL.UInt3 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ICSCR_Register use record
@@ -172,7 +172,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_31_31 : HAL.Bit := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CFGR_Register use record
@@ -229,7 +229,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_27_31 : HAL.UInt5 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PLLCFGR_Register use record
@@ -281,7 +281,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_27_31 : HAL.UInt5 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PLLSAI1CFGR_Register use record
@@ -324,7 +324,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_11_31 : HAL.UInt21 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CIER_Register use record
@@ -368,7 +368,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_11_31 : HAL.UInt21;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CIFR_Register use record
@@ -413,7 +413,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_11_31 : HAL.UInt21 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CICR_Register use record
@@ -452,7 +452,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_17_31 : HAL.UInt15 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB1RSTR_Register use record
@@ -498,7 +498,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB2RSTR_Register use record
@@ -527,7 +527,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_9_31 : HAL.UInt23 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB3RSTR_Register use record
@@ -587,7 +587,7 @@ package STM32_SVD.RCC is
       --  Low Power Timer 1 reset
       LPTIM1RST      : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1RSTR1_Register use record
@@ -632,7 +632,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1RSTR2_Register use record
@@ -673,7 +673,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_22_31 : HAL.UInt10 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB2RSTR_Register use record
@@ -703,17 +703,17 @@ package STM32_SVD.RCC is
       --  Flash memory interface clock enable
       FLASHEN        : Boolean := True;
       --  unspecified
-      Reserved_9_11  : HAL.UInt3 := 16#0#;
+      Reserved_9_10  : HAL.UInt2 := 16#0#;
       --  CRC clock enable
       CRCEN          : Boolean := False;
       --  unspecified
-      Reserved_13_15 : HAL.UInt3 := 16#0#;
+      Reserved_12_15 : HAL.UInt4 := 16#0#;
       --  Touch Sensing Controller clock enable
       TSCEN          : Boolean := False;
       --  unspecified
       Reserved_17_31 : HAL.UInt15 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB1ENR_Register use record
@@ -721,9 +721,9 @@ package STM32_SVD.RCC is
       DMA2EN         at 0 range 1 .. 1;
       Reserved_2_7   at 0 range 2 .. 7;
       FLASHEN        at 0 range 8 .. 8;
-      Reserved_9_11  at 0 range 9 .. 11;
-      CRCEN          at 0 range 12 .. 12;
-      Reserved_13_15 at 0 range 13 .. 15;
+      Reserved_9_10  at 0 range 9 .. 10;
+      CRCEN          at 0 range 11 .. 11;
+      Reserved_12_15 at 0 range 12 .. 15;
       TSCEN          at 0 range 16 .. 16;
       Reserved_17_31 at 0 range 17 .. 31;
    end record;
@@ -759,7 +759,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB2ENR_Register use record
@@ -788,7 +788,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_9_31 : HAL.UInt23 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB3ENR_Register use record
@@ -852,7 +852,7 @@ package STM32_SVD.RCC is
       --  Low power timer 1 clock enable
       LPTIM1EN       : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1ENR1_Register use record
@@ -899,7 +899,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1ENR2_Register use record
@@ -944,7 +944,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_22_31 : HAL.UInt10 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB2ENR_Register use record
@@ -988,7 +988,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_17_31 : HAL.UInt15 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB1SMENR_Register use record
@@ -1039,7 +1039,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB2SMENR_Register use record
@@ -1070,7 +1070,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_9_31 : HAL.UInt23 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AHB3SMENR_Register use record
@@ -1134,7 +1134,7 @@ package STM32_SVD.RCC is
       --  Low power timer 1 clocks enable during Sleep and Stop modes
       LPTIM1SMEN     : Boolean := True;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1SMENR1_Register use record
@@ -1181,7 +1181,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1SMENR2_Register use record
@@ -1222,7 +1222,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_22_31 : HAL.UInt10 := 16#5#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB2SMENR_Register use record
@@ -1289,7 +1289,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_31_31 : HAL.Bit := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CCIPR_Register use record
@@ -1347,7 +1347,7 @@ package STM32_SVD.RCC is
       --  unspecified
       Reserved_26_31 : HAL.UInt6 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BDCR_Register use record
@@ -1401,7 +1401,7 @@ package STM32_SVD.RCC is
       --  Read-only. Low-power reset flag
       LPWRSTF        : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CSR_Register use record
@@ -1522,6 +1522,6 @@ package STM32_SVD.RCC is
 
    --  Reset and clock control
    RCC_Periph : aliased RCC_Peripheral
-     with Import, Address => System'To_Address (16#40021000#);
+     with Import, Address => RCC_Base;
 
 end STM32_SVD.RCC;

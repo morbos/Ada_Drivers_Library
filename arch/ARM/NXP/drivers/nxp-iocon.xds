@@ -1,0 +1,55 @@
+private with NXP_SVD.IOCON;
+with NXP.GPIO;
+
+package NXP.IOCON is
+
+   type IOCON_Pin_Speeds is (Speed_Low, Speed_High)
+     with Size => 1;
+
+   type IOCON_Digital_Mode is (Disabled, Enabled)
+     with Size => 1;
+
+   type IOCON_Mode is (Floating, Pull_Down, Pull_Up, Repeater)
+     with Size => 2;
+
+   type IOCON_Func is
+     (AF0, AF1, AF2, AF3,
+      AF4, AF5, AF6, AF7,
+      AF8, AF9, AF10, AF11,
+      AF12, AF13, AF14, AF15)
+     with Size => 4;
+
+   type IOCON_Invert is (Disabled, Enabled)
+     with Size => 1;
+
+   type IOCON_Output_Type is (Push_Pull, Open_Drain)
+     with Size => 1;
+
+   type IOCON_Configuration is record
+      Func    : IOCON_Func;
+      Mode    : IOCON_Mode;
+      Speed   : IOCON_Pin_Speeds;
+      Invert  : IOCON_Invert;
+      Digital : IOCON_Digital_Mode;
+      Output  : IOCON_Output_Type;
+   end record;
+
+--      Invert : Boolean;
+--                                         IOCON_PIO_FUNC1 |
+--                                         /* No addition pin function */
+--                                         IOCON_PIO_MODE_INACT |
+--                                         /* Standard mode, output slew rate control is enabled */
+--                                         IOCON_PIO_SLEW_STANDARD |
+--                                         /* Input function is not inverted */
+--                                         IOCON_PIO_INV_DI |
+--                                         /* Enables digital function */
+--                                         IOCON_PIO_DIGITAL_EN |
+--                                         /* Open drain is disabled */
+--                                         IOCON_PIO_OPENDRAIN_DI);
+--    /* PORT0 PIN30 (coords: 94) is configured as FC0_TXD_SCL_MISO_WS */
+--    IOCON_PinMuxSet(IOCON, 0U, 30U, port0_pin30_config);
+
+   procedure Enable_IOCON;
+   procedure Disable_IOCON;
+   procedure PinMuxSet (Point : NXP.GPIO.GPIO_Point; Config : IOCON_Configuration);
+end NXP.IOCON;

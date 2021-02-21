@@ -25,7 +25,7 @@ package STM32_SVD.RNG is
       --  unspecified
       Reserved_4_31 : HAL.UInt28 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -52,7 +52,7 @@ package STM32_SVD.RNG is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SR_Register use record
@@ -88,6 +88,6 @@ package STM32_SVD.RNG is
 
    --  Random number generator
    RNG_Periph : aliased RNG_Peripheral
-     with Import, Address => System'To_Address (16#50060800#);
+     with Import, Address => RNG_Base;
 
 end STM32_SVD.RNG;

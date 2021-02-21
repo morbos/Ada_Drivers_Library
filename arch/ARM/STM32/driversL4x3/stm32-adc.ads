@@ -82,15 +82,12 @@ package STM32.ADC is
       Channel : Analog_Input_Channel;
    end record;
 
-   VRef_Channel : constant Analog_Input_Channel := 17;
-   --  See RM pg 389 section 13.3.3
-   --  Note only available with ADC_1
+   VRef_Channel              : constant Analog_Input_Channel := 0;
 
-   VBat_Channel : constant Analog_Input_Channel := 18;
-   --  See RM pg 410, section 13.10; also pg 389 section 13.3.3
-   --  Note only available with ADC_1
+   TemperatureSensor_Channel : constant Analog_Input_Channel := 17;
 
-   subtype TemperatureSensor_Channel is Analog_Input_Channel;
+   VBat_Channel              : constant Analog_Input_Channel := 18;
+
    --  TODO: ??? The below predicate does not compile with GNAT GPL 2015.
    --  with Static_Predicate => TemperatureSensor_Channel in 16 | VBat_Channel;
    --  See RM pg 389 section 13.3.3. On some MCUs the temperature channel is
@@ -190,6 +187,11 @@ package STM32.ADC is
    type Regular_Channel_Conversions is
      array (Regular_Channel_Rank range <>) of Regular_Channel_Conversion;
 
+   function Check_Conversions
+     (This        : in out Analog_To_Digital_Converter;
+      Conversions : Regular_Channel_Conversions;
+      Enable_EOC  : Boolean) return Boolean;
+
    procedure Configure_Regular_Conversions
      (This        : in out Analog_To_Digital_Converter;
       Continuous  : Boolean;
@@ -199,22 +201,14 @@ package STM32.ADC is
      with
        Pre => Conversions'Length > 0,
        Post =>
-         Length_Matches_Expected (This, Conversions) and
-         --  if there are multiple channels to be converted, we must want to
-         --  scan them so we set Scan_Mode accordingly
-         (if Conversions'Length > 1 then Scan_Mode_Enabled (This)) and
-         (if Enable_EOC then EOC_Selection_Enabled (This)) and
-         --  The VBat and VRef internal connections are enabled if This is
-         --  ADC_1 and the corresponding channels are included in the lists.
-         (VBat_May_Be_Enabled (This, Conversions) or else
-          VRef_TemperatureSensor_May_Be_Enabled (This, Conversions));
+           Check_Conversions (This, Conversions, Enable_EOC);
+
    --  Configures all the regular channel conversions described in the array
    --  Conversions. Note that the order of conversions in the array is the
    --  order in which they are scanned, ie, their index is their "rank" in
    --  the data structure. Note that if the VBat and Temperature channels are
    --  the same channel, then only the VBat conversion takes place and only
    --  that one will be enabled, so we must check the two in that order.
-
    function Regular_Conversions_Expected (This : Analog_To_Digital_Converter)
      return Natural;
    --  Returns the total number of regular channel conversions specified in the
@@ -298,7 +292,9 @@ package STM32.ADC is
          --  The VBat and VRef internal connections are enabled if This is
          --  ADC_1 and the corresponding channels are included in the lists.
          (VBat_May_Be_Enabled (This, Conversions)  or else
-          VRef_TemperatureSensor_May_Be_Enabled (This, Conversions));
+            VRef_May_Be_Enabled (This, Conversions) or else
+            TemperatureSensor_May_Be_Enabled (This, Conversions));
+
    --  Configures all the injected channel conversions described in the array
    --  Conversions. Note that the order of conversions in the array is the
    --  order in which they are scanned, ie, their index is their "rank" in
@@ -313,9 +309,11 @@ package STM32.ADC is
    function VBat_Enabled return Boolean;
    --  Returns whether the hardware has the VBat internal connection enabled
 
-   function VRef_TemperatureSensor_Enabled return Boolean;
-   --  Returns whether the hardware has the VRef or temperature sensor internal
-   --  connection enabled
+   function VRef_Enabled return Boolean;
+   --  Returns whether the hardware has the VRef internal connection enabled
+
+   function TemperatureSensor_Enabled return Boolean;
+   --  Returns whether the hardware has the temperature sensor connection enabled
 
    procedure Start_Conversion (This : in out Analog_To_Digital_Converter) with
      Pre => Enabled (This) and Regular_Conversions_Expected (This) > 0;
@@ -644,7 +642,7 @@ package STM32.ADC is
       Channel : Analog_Input_Channel)
       return Boolean with Inline;
 
-   function VRef_TemperatureSensor_Conversion
+   function VRef_Conversion
      (This    : Analog_To_Digital_Converter;
       Channel : Analog_Input_Channel)
       return Boolean with Inline;
@@ -652,6 +650,11 @@ package STM32.ADC is
    --  OR a temperature sensor conversion. Note that one control bit is used
    --  to enable either one, ie it is shared.
 
+   function TemperatureSensor_Conversion
+     (This    : Analog_To_Digital_Converter;
+      Channel : Analog_Input_Channel)
+      return Boolean with Inline;
+
    function VBat_May_Be_Enabled
      (This  : Analog_To_Digital_Converter;
       These : Regular_Channel_Conversions)
@@ -668,23 +671,41 @@ package STM32.ADC is
      ((for all Conversion of These =>
         (if VBat_Conversion (This, Conversion.Channel) then VBat_Enabled)));
 
-   function VRef_TemperatureSensor_May_Be_Enabled
+   function VRef_May_Be_Enabled
      (This  : Analog_To_Digital_Converter;
       These : Regular_Channel_Conversions)
       return Boolean
    is
      (for all Conversion of These =>
-        (if VRef_TemperatureSensor_Conversion (This, Conversion.Channel) then
-              VRef_TemperatureSensor_Enabled));
+        (if VRef_Conversion (This, Conversion.Channel) then
+              VRef_Enabled));
 
-   function VRef_TemperatureSensor_May_Be_Enabled
+   function VRef_May_Be_Enabled
      (This  : Analog_To_Digital_Converter;
       These : Injected_Channel_Conversions)
       return Boolean
    is
      (for all Conversion of These =>
-        (if VRef_TemperatureSensor_Conversion (This, Conversion.Channel) then
-              VRef_TemperatureSensor_Enabled));
+        (if VRef_Conversion (This, Conversion.Channel) then
+              VRef_Enabled));
+
+   function TemperatureSensor_May_Be_Enabled
+     (This  : Analog_To_Digital_Converter;
+      These : Regular_Channel_Conversions)
+      return Boolean
+   is
+     (for all Conversion of These =>
+        (if TemperatureSensor_Conversion (This, Conversion.Channel) then
+              TemperatureSensor_Enabled));
+
+   function TemperatureSensor_May_Be_Enabled
+     (This  : Analog_To_Digital_Converter;
+      These : Injected_Channel_Conversions)
+      return Boolean
+   is
+     (for all Conversion of These =>
+        (if TemperatureSensor_Conversion (This, Conversion.Channel) then
+              TemperatureSensor_Enabled));
 
 
    --  The *_Conversions_Expected functions will always return at least the
@@ -736,24 +757,33 @@ private
    procedure Enable_VBat_Connection with
      Post => VBat_Enabled;
 
-   procedure Enable_VRef_TemperatureSensor_Connection with
-     Post => VRef_TemperatureSensor_Enabled;
-   --  One bit controls both the VRef and the temperature internal connections
+   procedure Enable_VRef_Connection with
+     Post => VRef_Enabled;
 
-   type Analog_To_Digital_Converter is new STM32_SVD.ADC.ADC_Peripheral;
+   procedure Enable_TemperatureSensor_Connection with
+     Post => TemperatureSensor_Enabled;
+
+   type Analog_To_Digital_Converter is new STM32_SVD.ADC.ADC1_Peripheral;
 
    function VBat_Conversion
      (This    : Analog_To_Digital_Converter;
       Channel : Analog_Input_Channel)
       return Boolean
-   is (This'Address = STM32_SVD.ADC.ADC_Periph'Address and
+   is (This'Address = STM32_SVD.ADC.ADC1_Periph'Address and
          Channel = VBat_Channel);
 
-   function VRef_TemperatureSensor_Conversion
+   function VRef_Conversion
      (This    : Analog_To_Digital_Converter;
       Channel : Analog_Input_Channel)
       return Boolean
-   is (This'Address = STM32_SVD.ADC.ADC_Periph'Address and
-         (Channel in VRef_Channel | TemperatureSensor_Channel));
+   is (This'Address = STM32_SVD.ADC.ADC1_Periph'Address and
+         (Channel = VRef_Channel));
+
+   function TemperatureSensor_Conversion
+     (This    : Analog_To_Digital_Converter;
+      Channel : Analog_Input_Channel)
+      return Boolean
+   is (This'Address = STM32_SVD.ADC.ADC1_Periph'Address and
+         (Channel = TemperatureSensor_Channel));
 
 end STM32.ADC;

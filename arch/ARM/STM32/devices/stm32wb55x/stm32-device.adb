@@ -66,6 +66,8 @@ package body STM32.Device is
          RCC_Periph.AHB2ENR.GPIODEN := True;
       elsif This'Address = GPIOE_Base then
          RCC_Periph.AHB2ENR.GPIOEEN := True;
+      elsif This'Address = GPIOH_Base then
+         RCC_Periph.AHB2ENR.GPIOHEN := True;
       else
          raise Unknown_Device;
       end if;
@@ -168,6 +170,8 @@ package body STM32.Device is
          return 3;
       elsif Port'Address = GPIOE_Base then
          return 4;
+      elsif Port'Address = GPIOH_Base then
+         return 7;
       else
          raise Program_Error;
       end if;

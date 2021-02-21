@@ -39,7 +39,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_15_31 : HAL.UInt17 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ACR_Register use record
@@ -88,7 +88,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_17_31 : HAL.UInt15 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SR_Register use record
@@ -150,7 +150,7 @@ package STM32_SVD.Flash is
       --  FLASH_CR Lock
       LOCK           : Boolean := True;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -195,7 +195,7 @@ package STM32_SVD.Flash is
       --  ECC detection
       ECCD           : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ECCR_Register use record
@@ -249,7 +249,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_26_31 : HAL.UInt6 := 16#3C#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OPTR_Register use record
@@ -281,7 +281,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#FFFF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PCROP1SR_Register use record
@@ -300,7 +300,7 @@ package STM32_SVD.Flash is
       --  PCROP area preserved when RDP level decreased
       PCROP_RDP      : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PCROP1ER_Register use record
@@ -880,7 +880,786 @@ package STM32_SVD.Flash is
       --  
       --  
       --  
-      --  ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“AÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  
+      --  ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œAÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬
       --  start offset
       WRP1A_STRT     : WRP1AR_WRP1A_STRT_Field := 16#0#;
       --  unspecified
@@ -890,7 +1669,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#FF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for WRP1AR_Register use record
@@ -900,27 +1679,27 @@ package STM32_SVD.Flash is
       Reserved_24_31 at 0 range 24 .. 31;
    end record;
 
-   subtype WRP1BR_WRP1B_END_Field is HAL.UInt8;
    subtype WRP1BR_WRP1B_STRT_Field is HAL.UInt8;
+   subtype WRP1BR_WRP1B_END_Field is HAL.UInt8;
 
    --  Flash Bank 1 WRP area B address register
    type WRP1BR_Register is record
       --  Bank 1 WRP second area B start offset
-      WRP1B_END      : WRP1BR_WRP1B_END_Field := 16#0#;
+      WRP1B_STRT     : WRP1BR_WRP1B_STRT_Field := 16#0#;
       --  unspecified
       Reserved_8_15  : HAL.UInt8 := 16#FF#;
       --  Bank 1 WRP second area B end offset
-      WRP1B_STRT     : WRP1BR_WRP1B_STRT_Field := 16#0#;
+      WRP1B_END      : WRP1BR_WRP1B_END_Field := 16#0#;
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#FF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for WRP1BR_Register use record
-      WRP1B_END      at 0 range 0 .. 7;
+      WRP1B_STRT     at 0 range 0 .. 7;
       Reserved_8_15  at 0 range 8 .. 15;
-      WRP1B_STRT     at 0 range 16 .. 23;
+      WRP1B_END      at 0 range 16 .. 23;
       Reserved_24_31 at 0 range 24 .. 31;
    end record;
 
@@ -933,7 +1712,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#FFFF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PCROP2SR_Register use record
@@ -950,7 +1729,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#FFFF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PCROP2ER_Register use record
@@ -972,7 +1751,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#FF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for WRP2AR_Register use record
@@ -996,7 +1775,7 @@ package STM32_SVD.Flash is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#FF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for WRP2BR_Register use record
@@ -1068,6 +1847,6 @@ package STM32_SVD.Flash is
 
    --  Flash
    FLASH_Periph : aliased FLASH_Peripheral
-     with Import, Address => System'To_Address (16#40022000#);
+     with Import, Address => FLASH_Base;
 
 end STM32_SVD.Flash;

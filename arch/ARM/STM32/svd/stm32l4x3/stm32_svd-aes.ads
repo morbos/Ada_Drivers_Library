@@ -44,7 +44,7 @@ package STM32_SVD.AES is
       --  unspecified
       Reserved_13_31 : HAL.UInt19 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -72,7 +72,7 @@ package STM32_SVD.AES is
       --  unspecified
       Reserved_3_31 : HAL.UInt29;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SR_Register use record
@@ -132,6 +132,6 @@ package STM32_SVD.AES is
 
    --  Advanced encryption standard hardware accelerator
    AES_Periph : aliased AES_Peripheral
-     with Import, Address => System'To_Address (16#50060000#);
+     with Import, Address => AES_Base;
 
 end STM32_SVD.AES;

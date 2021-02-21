@@ -35,7 +35,7 @@ package STM32_SVD.SWPMI is
       --  unspecified
       Reserved_11_31 : HAL.UInt21 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -59,7 +59,7 @@ package STM32_SVD.SWPMI is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BRR_Register use record
@@ -94,7 +94,7 @@ package STM32_SVD.SWPMI is
       --  unspecified
       Reserved_11_31 : HAL.UInt21;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -133,7 +133,7 @@ package STM32_SVD.SWPMI is
       --  unspecified
       Reserved_9_31 : HAL.UInt23 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ICR_Register use record
@@ -171,7 +171,7 @@ package STM32_SVD.SWPMI is
       --  unspecified
       Reserved_9_31 : HAL.UInt23 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IER_Register use record
@@ -196,7 +196,7 @@ package STM32_SVD.SWPMI is
       --  unspecified
       Reserved_5_31 : HAL.UInt27;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RFL_Register use record
@@ -242,6 +242,6 @@ package STM32_SVD.SWPMI is
 
    --  Single Wire Protocol Master Interface
    SWPMI1_Periph : aliased SWPMI1_Peripheral
-     with Import, Address => System'To_Address (16#40008800#);
+     with Import, Address => SWPMI1_Base;
 
 end STM32_SVD.SWPMI;

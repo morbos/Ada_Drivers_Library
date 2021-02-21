@@ -33,7 +33,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_7_31 : HAL.UInt25;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -66,7 +66,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ICR_Register use record
@@ -99,7 +99,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IER_Register use record
@@ -159,7 +159,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_25_31 : HAL.UInt7 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CFGR_Register use record
@@ -194,7 +194,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_3_31 : HAL.UInt29 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -213,7 +213,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CMP_Register use record
@@ -230,7 +230,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ARR_Register use record
@@ -247,7 +247,7 @@ package STM32_SVD.LPTIM is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CNT_Register use record
@@ -293,10 +293,10 @@ package STM32_SVD.LPTIM is
 
    --  Low power timer
    LPTIM1_Periph : aliased LPTIM_Peripheral
-     with Import, Address => System'To_Address (16#40007C00#);
+     with Import, Address => LPTIM1_Base;
 
    --  Low power timer
    LPTIM2_Periph : aliased LPTIM_Peripheral
-     with Import, Address => System'To_Address (16#40009400#);
+     with Import, Address => LPTIM2_Base;
 
 end STM32_SVD.LPTIM;

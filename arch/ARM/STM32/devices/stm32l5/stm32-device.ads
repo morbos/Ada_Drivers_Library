@@ -44,7 +44,9 @@
 
 with STM32_SVD;     use STM32_SVD;
 with STM32.GPIO;    use STM32.GPIO;
+with STM32.DAC;     use STM32.DAC;
 with STM32.SPI;     use STM32.SPI;
+with STM32.I2C;     use STM32.I2C;
 with System;
 
 package STM32.Device is
@@ -257,6 +259,34 @@ package STM32.Device is
    GPIO_AF_OTG_FS_12   : constant GPIO_Alternate_Function;
    GPIO_AF_DCMI_13     : constant GPIO_Alternate_Function;
    GPIO_AF_EVENTOUT_15 : constant GPIO_Alternate_Function;
+
+   DAC : aliased Digital_To_Analog_Converter with Import, Volatile, Address => DAC_Base;
+
+   DAC_Channel_1_IO : GPIO_Point renames PA4;
+   DAC_Channel_2_IO : GPIO_Point renames PA5;
+
+   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter);
+
+   procedure Reset (This : aliased in out Digital_To_Analog_Converter);
+
+   Internal_I2C_Port_1 : aliased Internal_I2C_Port
+     with Import, Volatile, Address => S_NS_Periph (I2C1_Base);
+   Internal_I2C_Port_2 : aliased Internal_I2C_Port
+     with Import, Volatile, Address => S_NS_Periph (I2C2_Base);
+   Internal_I2C_Port_3 : aliased Internal_I2C_Port
+     with Import, Volatile, Address => S_NS_Periph (I2C3_Base);
+
+   I2C_1 : aliased I2C_Port (Internal_I2C_Port_1'Access);
+   I2C_2 : aliased I2C_Port (Internal_I2C_Port_2'Access);
+   I2C_3 : aliased I2C_Port (Internal_I2C_Port_3'Access);
+
+   type I2C_Port_Id is (I2C_Id_1, I2C_Id_2, I2C_Id_3);
+
+   function As_Port_Id (Port : I2C_Port) return I2C_Port_Id with Inline;
+   procedure Enable_Clock (This : I2C_Port);
+   procedure Enable_Clock (This : I2C_Port_Id);
+   procedure Reset (This : I2C_Port);
+   procedure Reset (This : I2C_Port_Id);
 
    Internal_SPI_1 : aliased Internal_SPI_Port
      with Import, Volatile, Address => S_NS_Periph (SPI1_Base);

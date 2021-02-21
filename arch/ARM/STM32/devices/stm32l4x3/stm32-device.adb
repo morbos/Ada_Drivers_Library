@@ -406,7 +406,7 @@ package body STM32.Device is
    procedure Enable_Clock (This : aliased in out Analog_To_Digital_Converter)
    is
    begin
-      if This'Address = ADC_Base then
+      if This'Address = ADC1_Base then
          RCC_Periph.AHB2ENR.ADCEN := True;
          RCC_Periph.CCIPR.ADCSEL := 3;  --  clock sel. Default is... none!
       else

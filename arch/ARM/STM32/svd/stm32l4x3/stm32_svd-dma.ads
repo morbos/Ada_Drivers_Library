@@ -75,7 +75,7 @@ package STM32_SVD.DMA is
       --  unspecified
       Reserved_28_31 : HAL.UInt4;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -171,7 +171,7 @@ package STM32_SVD.DMA is
       --  unspecified
       Reserved_28_31 : HAL.UInt4 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IFCR_Register use record
@@ -239,7 +239,7 @@ package STM32_SVD.DMA is
       --  unspecified
       Reserved_15_31 : HAL.UInt17 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CCR_Register use record
@@ -267,7 +267,7 @@ package STM32_SVD.DMA is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CNDTR_Register use record
@@ -302,7 +302,7 @@ package STM32_SVD.DMA is
       --  unspecified
       Reserved_28_31 : HAL.UInt4 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CSELR_Register use record
@@ -423,10 +423,10 @@ package STM32_SVD.DMA is
 
    --  Direct memory access controller
    DMA1_Periph : aliased DMA_Peripheral
-     with Import, Address => System'To_Address (16#40020000#);
+     with Import, Address => DMA1_Base;
 
    --  Direct memory access controller
    DMA2_Periph : aliased DMA_Peripheral
-     with Import, Address => System'To_Address (16#40020400#);
+     with Import, Address => DMA2_Base;
 
 end STM32_SVD.DMA;

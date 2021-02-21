@@ -1,0 +1,47 @@
+with NXP.Device;     use NXP.Device;
+with NXP_SVD;        use NXP_SVD;
+with NXP_SVD.SYSCON; use NXP_SVD.SYSCON;
+with NXP_SVD.IOCON;  use NXP_SVD.IOCON;
+with System;            use System;
+
+--  with NXP_SVD.IOCON; use NXP_SVD.IOCON;
+
+package body NXP.IOCON is
+   IOCON : aliased IOCON_Peripheral
+     with Import, Address => S_NS_Periph (IOCON_Base);
+   SYSCON : aliased SYSCON_Peripheral
+     with Import, Address => S_NS_Periph (SYSCON_Base);
+   procedure Enable_IOCON
+   is
+   begin
+      SYSCON.AHBCLKCTRL0.IOCON := Enable;
+   end Enable_IOCON;
+   procedure Disable_IOCON
+   is
+   begin
+      SYSCON.AHBCLKCTRL0.IOCON := Disable;
+   end Disable_IOCON;
+   procedure PinMuxSet (Point : NXP.GPIO.GPIO_Point; Config : IOCON_Configuration)
+   is
+      Port_Idx : Integer := Point.Port'Enum_Rep;
+      Index : constant NXP.GPIO.GPIO_Pin_Index := NXP.GPIO.GPIO_Pin'Pos (Point.Pin);
+   begin
+      IOCON.P (Port_Idx).PIO (Index).CTL.FUNC :=
+        CTL_FUNC_Field'Enum_Val (Config.Func'Enum_Rep);
+--      if Config.Mode = Mode_Out then
+--         This.Periph.DIR (Port_Idx) := This.Periph.DIR (Port_Idx) or Mask;
+--         IOCON.P (Port_Idx).PIO (Index).CTL.SLEW :=
+--           CTL_SLEW_Field'Enum_Val (Config.Speed'Enum_Rep);
+--         IOCON.P (Port_Idx).PIO (Index).CTL.OD :=
+--           CTL_OD_Field'Enum_Val (Config.Output_Type'Enum_Rep);
+--      else --  Its an input
+--         This.Periph.DIR (Port_Idx) := This.Periph.DIR (Port_Idx) and not Mask;
+--         IOCON.P (Port_Idx).PIO (Index).CTL.MODE :=
+--           CTL_MODE_Field'Enum_Val (Config.Resistors'Enum_Rep);
+--         IOCON.P (Port_Idx).PIO (Index).CTL.DIGIMODE := Digital;
+--         IOCON.P (Port_Idx).PIO (Index).CTL.INVERT :=
+--           (if Config.Invert then Enabled else Disabled);
+--      end if;
+
+   end PinMuxSet;
+end NXP.IOCON;

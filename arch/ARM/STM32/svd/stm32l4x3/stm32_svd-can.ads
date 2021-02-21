@@ -41,7 +41,7 @@ package STM32_SVD.CAN is
       --  unspecified
       Reserved_17_31 : HAL.UInt15 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for MCR_Register use record
@@ -84,7 +84,7 @@ package STM32_SVD.CAN is
       --  unspecified
       Reserved_12_31 : HAL.UInt20 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for MSR_Register use record
@@ -196,7 +196,7 @@ package STM32_SVD.CAN is
       --  Read-only. Lowest priority flag for mailbox 0
       LOW            : TSR_LOW_Field := (As_Array => False, Val => 16#0#);
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TSR_Register use record
@@ -240,7 +240,7 @@ package STM32_SVD.CAN is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RF0R_Register use record
@@ -269,7 +269,7 @@ package STM32_SVD.CAN is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RF1R_Register use record
@@ -318,7 +318,7 @@ package STM32_SVD.CAN is
       --  unspecified
       Reserved_18_31 : HAL.UInt14 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IER_Register use record
@@ -364,7 +364,7 @@ package STM32_SVD.CAN is
       --  Read-only. REC
       REC           : ESR_REC_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ESR_Register use record
@@ -404,7 +404,7 @@ package STM32_SVD.CAN is
       --  SILM
       SILM           : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BTR_Register use record
@@ -435,7 +435,7 @@ package STM32_SVD.CAN is
       --  STID
       STID : TI0R_STID_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TI0R_Register use record
@@ -462,7 +462,7 @@ package STM32_SVD.CAN is
       --  TIME
       TIME          : TDT0R_TIME_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDT0R_Register use record
@@ -493,7 +493,7 @@ package STM32_SVD.CAN is
             Arr : TDL0R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDL0R_Register use record
@@ -521,7 +521,7 @@ package STM32_SVD.CAN is
             Arr : TDH0R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDH0R_Register use record
@@ -545,7 +545,7 @@ package STM32_SVD.CAN is
       --  STID
       STID : TI1R_STID_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TI1R_Register use record
@@ -572,7 +572,7 @@ package STM32_SVD.CAN is
       --  TIME
       TIME          : TDT1R_TIME_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDT1R_Register use record
@@ -603,7 +603,7 @@ package STM32_SVD.CAN is
             Arr : TDL1R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDL1R_Register use record
@@ -631,7 +631,7 @@ package STM32_SVD.CAN is
             Arr : TDH1R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDH1R_Register use record
@@ -655,7 +655,7 @@ package STM32_SVD.CAN is
       --  STID
       STID : TI2R_STID_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TI2R_Register use record
@@ -682,7 +682,7 @@ package STM32_SVD.CAN is
       --  TIME
       TIME          : TDT2R_TIME_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDT2R_Register use record
@@ -713,7 +713,7 @@ package STM32_SVD.CAN is
             Arr : TDL2R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDL2R_Register use record
@@ -741,7 +741,7 @@ package STM32_SVD.CAN is
             Arr : TDH2R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TDH2R_Register use record
@@ -765,7 +765,7 @@ package STM32_SVD.CAN is
       --  Read-only. STID
       STID         : RI0R_STID_Field;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RI0R_Register use record
@@ -791,7 +791,7 @@ package STM32_SVD.CAN is
       --  Read-only. TIME
       TIME         : RDT0R_TIME_Field;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RDT0R_Register use record
@@ -821,7 +821,7 @@ package STM32_SVD.CAN is
             Arr : RDL0R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RDL0R_Register use record
@@ -849,7 +849,7 @@ package STM32_SVD.CAN is
             Arr : RDH0R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RDH0R_Register use record
@@ -873,7 +873,7 @@ package STM32_SVD.CAN is
       --  Read-only. STID
       STID         : RI1R_STID_Field;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RI1R_Register use record
@@ -899,7 +899,7 @@ package STM32_SVD.CAN is
       --  Read-only. TIME
       TIME         : RDT1R_TIME_Field;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RDT1R_Register use record
@@ -929,7 +929,7 @@ package STM32_SVD.CAN is
             Arr : RDL1R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RDL1R_Register use record
@@ -957,7 +957,7 @@ package STM32_SVD.CAN is
             Arr : RDH1R_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RDH1R_Register use record
@@ -982,7 +982,7 @@ package STM32_SVD.CAN is
             Arr : F0R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F0R_Register use record
@@ -1007,7 +1007,7 @@ package STM32_SVD.CAN is
             Arr : F1R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F1R_Register use record
@@ -1032,7 +1032,7 @@ package STM32_SVD.CAN is
             Arr : F2R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F2R_Register use record
@@ -1057,7 +1057,7 @@ package STM32_SVD.CAN is
             Arr : F3R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F3R_Register use record
@@ -1082,7 +1082,7 @@ package STM32_SVD.CAN is
             Arr : F4R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F4R_Register use record
@@ -1107,7 +1107,7 @@ package STM32_SVD.CAN is
             Arr : F5R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F5R_Register use record
@@ -1132,7 +1132,7 @@ package STM32_SVD.CAN is
             Arr : F6R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F6R_Register use record
@@ -1157,7 +1157,7 @@ package STM32_SVD.CAN is
             Arr : F7R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F7R_Register use record
@@ -1182,7 +1182,7 @@ package STM32_SVD.CAN is
             Arr : F8R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F8R_Register use record
@@ -1207,7 +1207,7 @@ package STM32_SVD.CAN is
             Arr : F9R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F9R_Register use record
@@ -1232,7 +1232,7 @@ package STM32_SVD.CAN is
             Arr : F10R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F10R_Register use record
@@ -1257,7 +1257,7 @@ package STM32_SVD.CAN is
             Arr : F11R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F11R_Register use record
@@ -1282,7 +1282,7 @@ package STM32_SVD.CAN is
             Arr : F12R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F12R_Register use record
@@ -1307,7 +1307,7 @@ package STM32_SVD.CAN is
             Arr : F13R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F13R_Register use record
@@ -1332,7 +1332,7 @@ package STM32_SVD.CAN is
             Arr : F14R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F14R_Register use record
@@ -1357,7 +1357,7 @@ package STM32_SVD.CAN is
             Arr : F15R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F15R_Register use record
@@ -1382,7 +1382,7 @@ package STM32_SVD.CAN is
             Arr : F16R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F16R_Register use record
@@ -1407,7 +1407,7 @@ package STM32_SVD.CAN is
             Arr : F17R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F17R_Register use record
@@ -1432,7 +1432,7 @@ package STM32_SVD.CAN is
             Arr : F18R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F18R_Register use record
@@ -1457,7 +1457,7 @@ package STM32_SVD.CAN is
             Arr : F19R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F19R_Register use record
@@ -1482,7 +1482,7 @@ package STM32_SVD.CAN is
             Arr : F20R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F20R_Register use record
@@ -1507,7 +1507,7 @@ package STM32_SVD.CAN is
             Arr : F21R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F21R_Register use record
@@ -1532,7 +1532,7 @@ package STM32_SVD.CAN is
             Arr : F22R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F22R_Register use record
@@ -1557,7 +1557,7 @@ package STM32_SVD.CAN is
             Arr : F23R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F23R_Register use record
@@ -1582,7 +1582,7 @@ package STM32_SVD.CAN is
             Arr : F24R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F24R_Register use record
@@ -1607,7 +1607,7 @@ package STM32_SVD.CAN is
             Arr : F25R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F25R_Register use record
@@ -1632,7 +1632,7 @@ package STM32_SVD.CAN is
             Arr : F26R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F26R_Register use record
@@ -1657,7 +1657,7 @@ package STM32_SVD.CAN is
             Arr : F27R_FB_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for F27R_Register use record
@@ -1931,6 +1931,6 @@ package STM32_SVD.CAN is
 
    --  Controller area network
    CAN1_Periph : aliased CAN1_Peripheral
-     with Import, Address => System'To_Address (16#40006400#);
+     with Import, Address => CAN1_Base;
 
 end STM32_SVD.CAN;

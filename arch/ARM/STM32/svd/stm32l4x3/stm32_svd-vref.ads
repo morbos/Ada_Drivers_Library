@@ -27,7 +27,7 @@ package STM32_SVD.VREF is
       --  unspecified
       Reserved_4_31 : HAL.UInt28 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CSR_Register use record
@@ -47,7 +47,7 @@ package STM32_SVD.VREF is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CCR_Register use record
@@ -75,6 +75,6 @@ package STM32_SVD.VREF is
 
    --  Voltage reference buffer
    VREFBUF_Periph : aliased VREFBUF_Peripheral
-     with Import, Address => System'To_Address (16#40010030#);
+     with Import, Address => VREFBUF_Base;
 
 end STM32_SVD.VREF;

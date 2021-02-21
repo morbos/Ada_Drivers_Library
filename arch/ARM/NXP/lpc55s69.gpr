@@ -1,0 +1,21 @@
+with "config";
+with "../../hal/HAL";
+with "../cortex_m/cortex_m4f";
+
+library project lpc55s69 is
+
+   for Library_Name use "lpc55s69";
+   for Library_Kind use "static";
+   for Library_Dir use "lib/" & Config.Object_Subdir;
+   for Object_Dir use "obj/" & Config.Object_Subdir;
+
+   for Source_Dirs use Project'Source_Dirs &
+     ("drivers",
+      "svd/lpc55s6x",
+      "devices/lpc55s69"
+      );
+
+   package Compiler renames Config.Compiler;
+   package Builder renames Config.Builder;
+
+end lpc55s69;

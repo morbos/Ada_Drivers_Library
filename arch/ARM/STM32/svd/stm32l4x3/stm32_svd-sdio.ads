@@ -23,7 +23,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_2_31 : HAL.UInt30 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for POWER_Register use record
@@ -53,7 +53,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_15_31 : HAL.UInt17 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CLKCR_Register use record
@@ -93,7 +93,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_15_31 : HAL.UInt17 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CMD_Register use record
@@ -118,7 +118,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_6_31 : HAL.UInt26;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RESPCMD_Register use record
@@ -135,7 +135,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_25_31 : HAL.UInt7 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DLEN_Register use record
@@ -169,7 +169,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_12_31 : HAL.UInt20 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DCTRL_Register use record
@@ -194,7 +194,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_25_31 : HAL.UInt7;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DCOUNT_Register use record
@@ -258,7 +258,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_24_31 : HAL.UInt8;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for STA_Register use record
@@ -322,7 +322,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ICR_Register use record
@@ -396,7 +396,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for MASK_Register use record
@@ -437,7 +437,7 @@ package STM32_SVD.SDIO is
       --  unspecified
       Reserved_24_31 : HAL.UInt8;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for FIFOCNT_Register use record
@@ -513,6 +513,6 @@ package STM32_SVD.SDIO is
 
    --  Secure digital input/output interface
    SDMMC_Periph : aliased SDMMC_Peripheral
-     with Import, Address => System'To_Address (16#40012800#);
+     with Import, Address => SDMMC_Base;
 
 end STM32_SVD.SDIO;

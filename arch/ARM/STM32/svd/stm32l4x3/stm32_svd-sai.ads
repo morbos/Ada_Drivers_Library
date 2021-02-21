@@ -55,7 +55,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ACR1_Register use record
@@ -102,7 +102,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ACR2_Register use record
@@ -137,7 +137,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AFRCR_Register use record
@@ -170,7 +170,7 @@ package STM32_SVD.SAI is
       --  Slot enable
       SLOTEN         : ASLOTR_SLOTEN_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ASLOTR_Register use record
@@ -201,7 +201,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AIM_Register use record
@@ -240,7 +240,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ASR_Register use record
@@ -275,7 +275,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ACLRFR_Register use record
@@ -330,7 +330,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BCR1_Register use record
@@ -377,7 +377,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BCR2_Register use record
@@ -412,7 +412,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BFRCR_Register use record
@@ -445,7 +445,7 @@ package STM32_SVD.SAI is
       --  Slot enable
       SLOTEN         : BSLOTR_SLOTEN_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BSLOTR_Register use record
@@ -476,7 +476,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BIM_Register use record
@@ -515,7 +515,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_19_31 : HAL.UInt13;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BSR_Register use record
@@ -550,7 +550,7 @@ package STM32_SVD.SAI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BCLRFR_Register use record
@@ -626,6 +626,6 @@ package STM32_SVD.SAI is
 
    --  Serial audio interface
    SAI1_Periph : aliased SAI1_Peripheral
-     with Import, Address => System'To_Address (16#40015400#);
+     with Import, Address => SAI1_Base;
 
 end STM32_SVD.SAI;

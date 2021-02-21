@@ -49,7 +49,7 @@ package STM32_SVD.TSC is
       --  Charge transfer pulse high
       CTPH          : CR_CTPH_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -77,7 +77,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_2_31 : HAL.UInt30 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IER_Register use record
@@ -95,7 +95,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_2_31 : HAL.UInt30 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ICR_Register use record
@@ -113,7 +113,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_2_31 : HAL.UInt30 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -333,7 +333,7 @@ package STM32_SVD.TSC is
       --  G8_IO1
       G8_IO : IOHCR_G8_IO_Field := (As_Array => False, Val => 16#1#);
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOHCR_Register use record
@@ -558,7 +558,7 @@ package STM32_SVD.TSC is
       --  G8_IO1
       G8_IO : IOASCR_G8_IO_Field := (As_Array => False, Val => 16#0#);
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOASCR_Register use record
@@ -783,7 +783,7 @@ package STM32_SVD.TSC is
       --  G8_IO1
       G8_IO : IOSCR_G8_IO_Field := (As_Array => False, Val => 16#0#);
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOSCR_Register use record
@@ -1008,7 +1008,7 @@ package STM32_SVD.TSC is
       --  G8_IO1
       G8_IO : IOCCR_G8_IO_Field := (As_Array => False, Val => 16#0#);
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOCCR_Register use record
@@ -1061,7 +1061,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOGCSR_Register use record
@@ -1094,7 +1094,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG1CR_Register use record
@@ -1111,7 +1111,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG2CR_Register use record
@@ -1128,7 +1128,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG3CR_Register use record
@@ -1145,7 +1145,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG4CR_Register use record
@@ -1162,7 +1162,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG5CR_Register use record
@@ -1179,7 +1179,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG6CR_Register use record
@@ -1196,7 +1196,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG7CR_Register use record
@@ -1213,7 +1213,7 @@ package STM32_SVD.TSC is
       --  unspecified
       Reserved_14_31 : HAL.UInt18;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IOG8CR_Register use record
@@ -1286,6 +1286,6 @@ package STM32_SVD.TSC is
 
    --  Touch sensing controller
    TSC_Periph : aliased TSC_Peripheral
-     with Import, Address => System'To_Address (16#40024000#);
+     with Import, Address => TSC_Base;
 
 end STM32_SVD.TSC;

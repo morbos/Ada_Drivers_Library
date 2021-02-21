@@ -25,7 +25,7 @@ package STM32_SVD.WWDG is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -48,7 +48,7 @@ package STM32_SVD.WWDG is
       --  unspecified
       Reserved_10_31 : HAL.UInt22 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CFR_Register use record
@@ -65,7 +65,7 @@ package STM32_SVD.WWDG is
       --  unspecified
       Reserved_1_31 : HAL.UInt31 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SR_Register use record
@@ -96,6 +96,6 @@ package STM32_SVD.WWDG is
 
    --  System window watchdog
    WWDG_Periph : aliased WWDG_Peripheral
-     with Import, Address => System'To_Address (16#40002C00#);
+     with Import, Address => WWDG_Base;
 
 end STM32_SVD.WWDG;

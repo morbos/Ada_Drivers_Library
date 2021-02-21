@@ -23,7 +23,7 @@ package STM32_SVD.IWDG is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for KR_Register use record
@@ -40,7 +40,7 @@ package STM32_SVD.IWDG is
       --  unspecified
       Reserved_3_31 : HAL.UInt29 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PR_Register use record
@@ -57,7 +57,7 @@ package STM32_SVD.IWDG is
       --  unspecified
       Reserved_12_31 : HAL.UInt20 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RLR_Register use record
@@ -76,7 +76,7 @@ package STM32_SVD.IWDG is
       --  unspecified
       Reserved_3_31 : HAL.UInt29;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SR_Register use record
@@ -95,7 +95,7 @@ package STM32_SVD.IWDG is
       --  unspecified
       Reserved_12_31 : HAL.UInt20 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for WINR_Register use record
@@ -132,6 +132,6 @@ package STM32_SVD.IWDG is
 
    --  Independent watchdog
    IWDG_Periph : aliased IWDG_Peripheral
-     with Import, Address => System'To_Address (16#40003000#);
+     with Import, Address => IWDG_Base;
 
 end STM32_SVD.IWDG;

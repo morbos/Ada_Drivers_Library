@@ -48,6 +48,19 @@ package body STM32.Device is
    RCC : aliased RCC_Peripheral
      with Import, Address => S_NS_Periph (RCC_Base);
 
+   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter)
+   is
+   begin
+      RCC_Periph.APB1ENR1.DAC1EN := True;
+   end Enable_Clock;
+
+   procedure Reset (This : aliased in out Digital_To_Analog_Converter)
+   is
+   begin
+      RCC_Periph.APB1RSTR1.DAC1RST := True;
+      RCC_Periph.APB1RSTR1.DAC1RST := False;
+   end Reset;
+
    procedure Enable_Clock (This : aliased in out GPIO_Port) is
    begin
       if This'Address = S_NS_Periph (GPIOA_Base) then
@@ -211,6 +224,76 @@ package body STM32.Device is
          raise Program_Error;
       end if;
    end GPIO_Port_Representation;
+
+   ----------------
+   -- As_Port_Id --
+   ----------------
+
+   function As_Port_Id (Port : I2C_Port) return I2C_Port_Id is
+   begin
+      if Port.Periph.all'Address = S_NS_Periph (I2C1_Base) then
+         return I2C_Id_1;
+      elsif Port.Periph.all'Address = S_NS_Periph (I2C2_Base) then
+         return I2C_Id_2;
+      elsif Port.Periph.all'Address = S_NS_Periph (I2C3_Base) then
+         return I2C_Id_3;
+      else
+         raise Unknown_Device;
+      end if;
+   end As_Port_Id;
+
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (This : I2C_Port) is
+   begin
+      Enable_Clock (As_Port_Id (This));
+   end Enable_Clock;
+
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (This : I2C_Port_Id) is
+   begin
+      case This is
+         when I2C_Id_1 =>
+            RCC_Periph.APB1ENR1.I2C1EN := True;
+         when I2C_Id_2 =>
+            RCC_Periph.APB1ENR1.I2C2EN := True;
+         when I2C_Id_3 =>
+            RCC_Periph.APB1ENR1.I2C3EN := True;
+      end case;
+   end Enable_Clock;
+
+   -----------
+   -- Reset --
+   -----------
+
+   procedure Reset (This : I2C_Port) is
+   begin
+      Reset (As_Port_Id (This));
+   end Reset;
+
+   -----------
+   -- Reset --
+   -----------
+
+   procedure Reset (This : I2C_Port_Id) is
+   begin
+      case This is
+         when I2C_Id_1 =>
+            RCC_Periph.APB1RSTR1.I2C1RST := True;
+            RCC_Periph.APB1RSTR1.I2C1RST := False;
+         when I2C_Id_2 =>
+            RCC_Periph.APB1RSTR1.I2C2RST := True;
+            RCC_Periph.APB1RSTR1.I2C2RST := False;
+         when I2C_Id_3 =>
+            RCC_Periph.APB1RSTR1.I2C3RST := True;
+            RCC_Periph.APB1RSTR1.I2C3RST := False;
+      end case;
+   end Reset;
 
    ------------------
    -- Enable_Clock --

@@ -44,7 +44,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_23_31 : HAL.UInt9 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TR_Register use record
@@ -88,7 +88,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DR_Register use record
@@ -155,7 +155,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_25_31 : HAL.UInt7 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -223,7 +223,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_17_31 : HAL.UInt15 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -261,7 +261,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_23_31 : HAL.UInt9 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PRER_Register use record
@@ -280,7 +280,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for WUTR_Register use record
@@ -328,7 +328,7 @@ package STM32_SVD.RTC is
       --  Alarm A date mask
       MSK4  : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ALRMAR_Register use record
@@ -388,7 +388,7 @@ package STM32_SVD.RTC is
       --  Alarm B date mask
       MSK4  : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ALRMBR_Register use record
@@ -417,7 +417,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for WPR_Register use record
@@ -434,7 +434,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SSR_Register use record
@@ -453,7 +453,7 @@ package STM32_SVD.RTC is
       --  Write-only. Add one second
       ADD1S          : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SHIFTR_Register use record
@@ -492,7 +492,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_23_31 : HAL.UInt9;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TSTR_Register use record
@@ -530,7 +530,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TSDR_Register use record
@@ -552,7 +552,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TSSSR_Register use record
@@ -577,7 +577,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CALR_Register use record
@@ -640,7 +640,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_25_31 : HAL.UInt7 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TAMPCR_Register use record
@@ -682,7 +682,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_28_31 : HAL.UInt4 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ALRMASSR_Register use record
@@ -706,7 +706,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_28_31 : HAL.UInt4 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ALRMBSSR_Register use record
@@ -725,7 +725,7 @@ package STM32_SVD.RTC is
       --  unspecified
       Reserved_2_31  : HAL.UInt30 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OR_Register use record
@@ -901,6 +901,6 @@ package STM32_SVD.RTC is
 
    --  Real-time clock
    RTC_Periph : aliased RTC_Peripheral
-     with Import, Address => System'To_Address (16#40002800#);
+     with Import, Address => RTC_Base;
 
 end STM32_SVD.RTC;

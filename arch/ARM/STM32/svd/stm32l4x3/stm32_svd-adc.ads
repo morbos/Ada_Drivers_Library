@@ -61,7 +61,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_11_31 : HAL.UInt21 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -104,7 +104,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_11_31 : HAL.UInt21 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IER_Register use record
@@ -147,7 +147,7 @@ package STM32_SVD.ADC is
       --  ADCAL
       ADCAL         : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -192,8 +192,8 @@ package STM32_SVD.ADC is
       CONT           : Boolean := False;
       --  AUTDLY
       AUTDLY         : Boolean := False;
-      --  AUTOFF
-      AUTOFF         : Boolean := False;
+      --  unspecified
+      Reserved_15_15 : HAL.Bit := 16#0#;
       --  DISCEN
       DISCEN         : Boolean := False;
       --  DISCNUM
@@ -212,10 +212,10 @@ package STM32_SVD.ADC is
       JAUTO          : Boolean := False;
       --  AWDCH1CH
       AWDCH1CH       : CFGR_AWDCH1CH_Field := 16#0#;
-      --  unspecified
-      Reserved_31_31 : HAL.Bit := 16#0#;
+      --  JQDIS
+      JQDIS          : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CFGR_Register use record
@@ -229,7 +229,7 @@ package STM32_SVD.ADC is
       OVRMOD         at 0 range 12 .. 12;
       CONT           at 0 range 13 .. 13;
       AUTDLY         at 0 range 14 .. 14;
-      AUTOFF         at 0 range 15 .. 15;
+      Reserved_15_15 at 0 range 15 .. 15;
       DISCEN         at 0 range 16 .. 16;
       DISCNUM        at 0 range 17 .. 19;
       JDISCEN        at 0 range 20 .. 20;
@@ -239,7 +239,7 @@ package STM32_SVD.ADC is
       JAWD1EN        at 0 range 24 .. 24;
       JAUTO          at 0 range 25 .. 25;
       AWDCH1CH       at 0 range 26 .. 30;
-      Reserved_31_31 at 0 range 31 .. 31;
+      JQDIS          at 0 range 31 .. 31;
    end record;
 
    subtype CFGR2_OVSR_Field is HAL.UInt3;
@@ -262,7 +262,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_11_31 : HAL.UInt21 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CFGR2_Register use record
@@ -304,16 +304,16 @@ package STM32_SVD.ADC is
 
    --  sample time register 1
    type SMPR1_Register is record
-      --  SMP1
+      --  SMP0
       SMP            : SMPR1_SMP_Field := (As_Array => False, Val => 16#0#);
       --  unspecified
       Reserved_30_31 : HAL.UInt2 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SMPR1_Register use record
-      SMP            at 0 range  0 .. 29;
+      SMP            at 0 range 0 .. 29;
       Reserved_30_31 at 0 range 30 .. 31;
    end record;
 
@@ -351,7 +351,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_27_31 : HAL.UInt5 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SMPR2_Register use record
@@ -373,7 +373,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_28_31 : HAL.UInt4 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TR1_Register use record
@@ -397,7 +397,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#F#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TR2_Register use record
@@ -421,7 +421,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#F#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TR3_Register use record
@@ -431,7 +431,7 @@ package STM32_SVD.ADC is
       Reserved_24_31 at 0 range 24 .. 31;
    end record;
 
-   subtype SQR1_L3_Field is HAL.UInt4;
+   subtype SQR1_L_Field is HAL.UInt4;
    subtype SQR1_SQ1_Field is HAL.UInt5;
    subtype SQR1_SQ2_Field is HAL.UInt5;
    subtype SQR1_SQ3_Field is HAL.UInt5;
@@ -439,8 +439,8 @@ package STM32_SVD.ADC is
 
    --  regular sequence register 1
    type SQR1_Register is record
-      --  L3
-      L3             : SQR1_L3_Field := 16#0#;
+      --  L
+      L              : SQR1_L_Field := 16#0#;
       --  unspecified
       Reserved_4_5   : HAL.UInt2 := 16#0#;
       --  SQ1
@@ -460,11 +460,11 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_29_31 : HAL.UInt3 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SQR1_Register use record
-      L3             at 0 range 0 .. 3;
+      L              at 0 range 0 .. 3;
       Reserved_4_5   at 0 range 4 .. 5;
       SQ1            at 0 range 6 .. 10;
       Reserved_11_11 at 0 range 11 .. 11;
@@ -505,7 +505,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_29_31 : HAL.UInt3 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SQR2_Register use record
@@ -550,7 +550,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_29_31 : HAL.UInt3 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SQR3_Register use record
@@ -580,7 +580,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_11_31 : HAL.UInt21 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SQR4_Register use record
@@ -599,7 +599,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DR_Register use record
@@ -640,7 +640,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_31_31 : HAL.Bit := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for JSQR_Register use record
@@ -671,7 +671,7 @@ package STM32_SVD.ADC is
       --  OFFSET1_EN
       OFFSET1_EN     : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OFR1_Register use record
@@ -695,7 +695,7 @@ package STM32_SVD.ADC is
       --  OFFSET2_EN
       OFFSET2_EN     : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OFR2_Register use record
@@ -719,7 +719,7 @@ package STM32_SVD.ADC is
       --  OFFSET3_EN
       OFFSET3_EN     : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OFR3_Register use record
@@ -743,7 +743,7 @@ package STM32_SVD.ADC is
       --  OFFSET4_EN
       OFFSET4_EN     : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OFR4_Register use record
@@ -762,7 +762,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for JDR1_Register use record
@@ -779,7 +779,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for JDR2_Register use record
@@ -796,7 +796,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for JDR3_Register use record
@@ -813,7 +813,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for JDR4_Register use record
@@ -821,43 +821,37 @@ package STM32_SVD.ADC is
       Reserved_16_31 at 0 range 16 .. 31;
    end record;
 
-   subtype AWD2CR_AWD2CH_Field is HAL.UInt18;
+   subtype AWD2CR_AWD2CH_Field is HAL.UInt19;
 
    --  Analog Watchdog 2 Configuration Register
    type AWD2CR_Register is record
-      --  unspecified
-      Reserved_0_0   : HAL.Bit := 16#0#;
       --  AWD2CH
       AWD2CH         : AWD2CR_AWD2CH_Field := 16#0#;
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AWD2CR_Register use record
-      Reserved_0_0   at 0 range 0 .. 0;
-      AWD2CH         at 0 range 1 .. 18;
+      AWD2CH         at 0 range 0 .. 18;
       Reserved_19_31 at 0 range 19 .. 31;
    end record;
 
-   subtype AWD3CR_AWD3CH_Field is HAL.UInt18;
+   subtype AWD3CR_AWD3CH_Field is HAL.UInt19;
 
    --  Analog Watchdog 3 Configuration Register
    type AWD3CR_Register is record
-      --  unspecified
-      Reserved_0_0   : HAL.Bit := 16#0#;
       --  AWD3CH
       AWD3CH         : AWD3CR_AWD3CH_Field := 16#0#;
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AWD3CR_Register use record
-      Reserved_0_0   at 0 range 0 .. 0;
-      AWD3CH         at 0 range 1 .. 18;
+      AWD3CH         at 0 range 0 .. 18;
       Reserved_19_31 at 0 range 19 .. 31;
    end record;
 
@@ -866,8 +860,8 @@ package STM32_SVD.ADC is
 
    --  Differential Mode Selection Register 2
    type DIFSEL_Register is record
-      --  unspecified
-      Reserved_0_0   : HAL.Bit := 16#0#;
+      --  Read-only. Differential mode for channel 0
+      DIFSEL_0       : Boolean := False;
       --  Differential mode for channels 15 to 1
       DIFSEL_1_15    : DIFSEL_DIFSEL_1_15_Field := 16#0#;
       --  Read-only. Differential mode for channels 18 to 16
@@ -875,11 +869,11 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DIFSEL_Register use record
-      Reserved_0_0   at 0 range 0 .. 0;
+      DIFSEL_0       at 0 range 0 .. 0;
       DIFSEL_1_15    at 0 range 1 .. 15;
       DIFSEL_16_18   at 0 range 16 .. 18;
       Reserved_19_31 at 0 range 19 .. 31;
@@ -899,7 +893,7 @@ package STM32_SVD.ADC is
       --  unspecified
       Reserved_23_31 : HAL.UInt9 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CALFACT_Register use record
@@ -909,12 +903,162 @@ package STM32_SVD.ADC is
       Reserved_23_31 at 0 range 23 .. 31;
    end record;
 
+   --  ADC Common status register
+   type CSR_Register is record
+      --  Read-only. ADDRDY_MST
+      ADDRDY_MST     : Boolean;
+      --  Read-only. EOSMP_MST
+      EOSMP_MST      : Boolean;
+      --  Read-only. EOC_MST
+      EOC_MST        : Boolean;
+      --  Read-only. EOS_MST
+      EOS_MST        : Boolean;
+      --  Read-only. OVR_MST
+      OVR_MST        : Boolean;
+      --  Read-only. JEOC_MST
+      JEOC_MST       : Boolean;
+      --  Read-only. JEOS_MST
+      JEOS_MST       : Boolean;
+      --  Read-only. AWD1_MST
+      AWD1_MST       : Boolean;
+      --  Read-only. AWD2_MST
+      AWD2_MST       : Boolean;
+      --  Read-only. AWD3_MST
+      AWD3_MST       : Boolean;
+      --  Read-only. JQOVF_MST
+      JQOVF_MST      : Boolean;
+      --  unspecified
+      Reserved_11_15 : HAL.UInt5;
+      --  Read-only. ADRDY_SLV
+      ADRDY_SLV      : Boolean;
+      --  Read-only. EOSMP_SLV
+      EOSMP_SLV      : Boolean;
+      --  Read-only. End of regular conversion of the slave ADC
+      EOC_SLV        : Boolean;
+      --  Read-only. End of regular sequence flag of the slave ADC
+      EOS_SLV        : Boolean;
+      --  Read-only. Overrun flag of the slave ADC
+      OVR_SLV        : Boolean;
+      --  Read-only. End of injected conversion flag of the slave ADC
+      JEOC_SLV       : Boolean;
+      --  Read-only. End of injected sequence flag of the slave ADC
+      JEOS_SLV       : Boolean;
+      --  Read-only. Analog watchdog 1 flag of the slave ADC
+      AWD1_SLV       : Boolean;
+      --  Read-only. Analog watchdog 2 flag of the slave ADC
+      AWD2_SLV       : Boolean;
+      --  Read-only. Analog watchdog 3 flag of the slave ADC
+      AWD3_SLV       : Boolean;
+      --  Read-only. Injected Context Queue Overflow flag of the slave ADC
+      JQOVF_SLV      : Boolean;
+      --  unspecified
+      Reserved_27_31 : HAL.UInt5;
+   end record
+     with Volatile_Full_Access, Object_Size => 32,
+          Bit_Order => System.Low_Order_First;
+
+   for CSR_Register use record
+      ADDRDY_MST     at 0 range 0 .. 0;
+      EOSMP_MST      at 0 range 1 .. 1;
+      EOC_MST        at 0 range 2 .. 2;
+      EOS_MST        at 0 range 3 .. 3;
+      OVR_MST        at 0 range 4 .. 4;
+      JEOC_MST       at 0 range 5 .. 5;
+      JEOS_MST       at 0 range 6 .. 6;
+      AWD1_MST       at 0 range 7 .. 7;
+      AWD2_MST       at 0 range 8 .. 8;
+      AWD3_MST       at 0 range 9 .. 9;
+      JQOVF_MST      at 0 range 10 .. 10;
+      Reserved_11_15 at 0 range 11 .. 15;
+      ADRDY_SLV      at 0 range 16 .. 16;
+      EOSMP_SLV      at 0 range 17 .. 17;
+      EOC_SLV        at 0 range 18 .. 18;
+      EOS_SLV        at 0 range 19 .. 19;
+      OVR_SLV        at 0 range 20 .. 20;
+      JEOC_SLV       at 0 range 21 .. 21;
+      JEOS_SLV       at 0 range 22 .. 22;
+      AWD1_SLV       at 0 range 23 .. 23;
+      AWD2_SLV       at 0 range 24 .. 24;
+      AWD3_SLV       at 0 range 25 .. 25;
+      JQOVF_SLV      at 0 range 26 .. 26;
+      Reserved_27_31 at 0 range 27 .. 31;
+   end record;
+
+   subtype CCR_DUAL_Field is HAL.UInt5;
+   subtype CCR_DELAY_Field is HAL.UInt4;
+   subtype CCR_MDMA_Field is HAL.UInt2;
+   subtype CCR_CKMODE_Field is HAL.UInt2;
+   subtype CCR_PRESC_Field is HAL.UInt4;
+
+   --  ADC common control register
+   type CCR_Register is record
+      --  Dual ADC mode selection
+      DUAL           : CCR_DUAL_Field := 16#0#;
+      --  unspecified
+      Reserved_5_7   : HAL.UInt3 := 16#0#;
+      --  Delay between 2 sampling phases
+      DELAY_k        : CCR_DELAY_Field := 16#0#;
+      --  unspecified
+      Reserved_12_12 : HAL.Bit := 16#0#;
+      --  DMA configuration (for multi-ADC mode)
+      DMACFG         : Boolean := False;
+      --  Direct memory access mode for multi ADC mode
+      MDMA           : CCR_MDMA_Field := 16#0#;
+      --  ADC clock mode
+      CKMODE         : CCR_CKMODE_Field := 16#0#;
+      --  ADC prescaler
+      PRESC          : CCR_PRESC_Field := 16#0#;
+      --  VREFINT enable
+      VREFEN         : Boolean := False;
+      --  CH17SEL
+      CH17SEL        : Boolean := False;
+      --  CH18SEL
+      CH18SEL        : Boolean := False;
+      --  unspecified
+      Reserved_25_31 : HAL.UInt7 := 16#0#;
+   end record
+     with Volatile_Full_Access, Object_Size => 32,
+          Bit_Order => System.Low_Order_First;
+
+   for CCR_Register use record
+      DUAL           at 0 range 0 .. 4;
+      Reserved_5_7   at 0 range 5 .. 7;
+      DELAY_k        at 0 range 8 .. 11;
+      Reserved_12_12 at 0 range 12 .. 12;
+      DMACFG         at 0 range 13 .. 13;
+      MDMA           at 0 range 14 .. 15;
+      CKMODE         at 0 range 16 .. 17;
+      PRESC          at 0 range 18 .. 21;
+      VREFEN         at 0 range 22 .. 22;
+      CH17SEL        at 0 range 23 .. 23;
+      CH18SEL        at 0 range 24 .. 24;
+      Reserved_25_31 at 0 range 25 .. 31;
+   end record;
+
+   subtype CDR_RDATA_MST_Field is HAL.UInt16;
+   subtype CDR_RDATA_SLV_Field is HAL.UInt16;
+
+   --  ADC common regular data register for dual and triple modes
+   type CDR_Register is record
+      --  Read-only. Regular data of the master ADC
+      RDATA_MST : CDR_RDATA_MST_Field;
+      --  Read-only. Regular data of the slave ADC
+      RDATA_SLV : CDR_RDATA_SLV_Field;
+   end record
+     with Volatile_Full_Access, Object_Size => 32,
+          Bit_Order => System.Low_Order_First;
+
+   for CDR_Register use record
+      RDATA_MST at 0 range 0 .. 15;
+      RDATA_SLV at 0 range 16 .. 31;
+   end record;
+
    -----------------
    -- Peripherals --
    -----------------
 
    --  Analog-to-Digital Converter
-   type ADC_Peripheral is record
+   type ADC1_Peripheral is record
       --  interrupt and status register
       ISR     : aliased ISR_Register;
       --  interrupt enable register
@@ -974,7 +1118,7 @@ package STM32_SVD.ADC is
    end record
      with Volatile;
 
-   for ADC_Peripheral use record
+   for ADC1_Peripheral use record
       ISR     at 16#0# range 0 .. 31;
       IER     at 16#4# range 0 .. 31;
       CR      at 16#8# range 0 .. 31;
@@ -1006,7 +1150,36 @@ package STM32_SVD.ADC is
    end record;
 
    --  Analog-to-Digital Converter
-   ADC_Periph : aliased ADC_Peripheral
-     with Import, Address => System'To_Address (16#50040000#);
+   ADC1_Periph : aliased ADC1_Peripheral
+     with Import, Address => ADC1_Base;
+
+   --  Analog-to-Digital Converter
+   ADC2_Periph : aliased ADC1_Peripheral
+     with Import, Address => ADC2_Base;
+
+   --  Analog-to-Digital Converter
+   ADC3_Periph : aliased ADC1_Peripheral
+     with Import, Address => ADC3_Base;
+
+   --  Analog-to-Digital Converter
+   type ADC123_Common_Peripheral is record
+      --  ADC Common status register
+      CSR : aliased CSR_Register;
+      --  ADC common control register
+      CCR : aliased CCR_Register;
+      --  ADC common regular data register for dual and triple modes
+      CDR : aliased CDR_Register;
+   end record
+     with Volatile;
+
+   for ADC123_Common_Peripheral use record
+      CSR at 16#0# range 0 .. 31;
+      CCR at 16#8# range 0 .. 31;
+      CDR at 16#C# range 0 .. 31;
+   end record;
+
+   --  Analog-to-Digital Converter
+   ADC123_Common_Periph : aliased ADC123_Common_Peripheral
+     with Import, Address => ADC123_Common_Base;
 
 end STM32_SVD.ADC;

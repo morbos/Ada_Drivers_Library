@@ -93,6 +93,7 @@ package STM32.Device is
    GPIO_C : aliased GPIO_Port with Import, Volatile, Address => GPIOC_Base;
    GPIO_D : aliased GPIO_Port with Import, Volatile, Address => GPIOD_Base;
    GPIO_E : aliased GPIO_Port with Import, Volatile, Address => GPIOE_Base;
+   GPIO_H : aliased GPIO_Port with Import, Volatile, Address => GPIOH_Base;
 
    PA0  : aliased GPIO_Point := (GPIO_A'Access, Pin_0);
    PA1  : aliased GPIO_Point := (GPIO_A'Access, Pin_1);
@@ -174,6 +175,10 @@ package STM32.Device is
    PE13 : aliased GPIO_Point := (GPIO_E'Access, Pin_13);
    PE14 : aliased GPIO_Point := (GPIO_E'Access, Pin_14);
    PE15 : aliased GPIO_Point := (GPIO_E'Access, Pin_15);
+   PH0  : aliased GPIO_Point := (GPIO_H'Access, Pin_0);
+   PH1  : aliased GPIO_Point := (GPIO_H'Access, Pin_1);
+   PH2  : aliased GPIO_Point := (GPIO_H'Access, Pin_2);
+   PH3  : aliased GPIO_Point := (GPIO_H'Access, Pin_3);
 
    GPIO_AF_RTC_50Hz_0  : constant GPIO_Alternate_Function;
    GPIO_AF_MCO_0       : constant GPIO_Alternate_Function;

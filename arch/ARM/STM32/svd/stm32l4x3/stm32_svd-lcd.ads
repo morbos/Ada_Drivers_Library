@@ -34,7 +34,7 @@ package STM32_SVD.LCD is
       --  unspecified
       Reserved_9_31 : HAL.UInt23 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -82,7 +82,7 @@ package STM32_SVD.LCD is
       --  unspecified
       Reserved_26_31 : HAL.UInt6 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for FCR_Register use record
@@ -117,7 +117,7 @@ package STM32_SVD.LCD is
       --  unspecified
       Reserved_6_31 : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SR_Register use record
@@ -143,7 +143,7 @@ package STM32_SVD.LCD is
       --  unspecified
       Reserved_4_31 : HAL.UInt28 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CLR_Register use record
@@ -185,7 +185,7 @@ package STM32_SVD.LCD is
       --  unspecified
       Reserved_31_31 : HAL.Bit := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RAM_COM0_Register use record
@@ -210,7 +210,7 @@ package STM32_SVD.LCD is
             Arr : RAM_COM_S_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RAM_COM_Register use record
@@ -268,6 +268,6 @@ package STM32_SVD.LCD is
 
    --  Liquid crystal display controller
    LCD_Periph : aliased LCD_Peripheral
-     with Import, Address => System'To_Address (16#40002400#);
+     with Import, Address => LCD_Base;
 
 end STM32_SVD.LCD;

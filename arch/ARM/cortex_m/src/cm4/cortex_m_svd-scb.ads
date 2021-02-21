@@ -581,7 +581,7 @@ package Cortex_M_SVD.SCB is
       Reserved_0_0  at 0 range 0 .. 0;
       SLEEPONEXIT   at 0 range 1 .. 1;
       SLEEPDEEP     at 0 range 2 .. 2;
-      Reserved_2_2  at 0 range 3 .. 3;
+      Reserved_3_3  at 0 range 3 .. 3;
       SEVONPEND     at 0 range 4 .. 4;
       Reserved_5_31 at 0 range 5 .. 31;
    end record;

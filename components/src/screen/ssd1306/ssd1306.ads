@@ -76,6 +76,13 @@ package SSD1306 is
    procedure Display_Inversion_On (This : SSD1306_Screen);
    procedure Display_Inversion_Off (This : SSD1306_Screen);
 
+   procedure Fill_Region (This      : in out SSD1306_Screen;
+                          X_Start, X_End, Y_Start, Y_End : Natural;
+                          Colour : UInt32);
+
+   procedure Set_Native_Source (This : in out SSD1306_Screen;
+                                Colour : UInt32);
+
    procedure Write_Raw_Pixels (This : SSD1306_Screen;
                                Data : HAL.UInt8_Array);
 
@@ -166,6 +173,11 @@ package SSD1306 is
      (This  : SSD1306_Screen;
       Layer : Positive) return Positive;
    --  Retrieves the current hidden buffer for the layer.
+
+   procedure Set_Pixel
+     (This    : in out SSD1306_Screen;
+      Pt      : Point);
+
 private
 
    --  SSD1306 pixel are stored in a different order than the memory mapped

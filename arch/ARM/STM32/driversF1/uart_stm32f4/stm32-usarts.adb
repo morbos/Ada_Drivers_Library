@@ -44,6 +44,8 @@ with STM32_SVD.USART; use STM32_SVD, STM32_SVD.USART;
 
 with STM32.Device;    use STM32.Device;
 
+with Ada.Real_Time;   use Ada.Real_Time;
+
 package body STM32.USARTs is
 
    ---------------
@@ -541,11 +543,16 @@ package body STM32.USARTs is
       Status  : out UART_Status;
       Timeout : Natural := 1000)
    is
+      Stamp   : Time := Clock;
       pragma Unreferenced (Status, Timeout);
    begin
       for Elt of Data loop
          loop
             exit when This.Rx_Ready;
+            if Clock > Stamp + Milliseconds (Timeout) then
+               Status := Err_Timeout;
+               return;
+            end if;
          end loop;
 
          This.Receive (UInt9 (Elt));

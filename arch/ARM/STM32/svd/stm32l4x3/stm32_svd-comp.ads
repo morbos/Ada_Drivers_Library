@@ -52,7 +52,7 @@ package STM32_SVD.COMP is
       --  Write-only. COMP1_CSR register lock bit
       COMP1_LOCK     : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for COMP1_CSR_Register use record
@@ -115,7 +115,7 @@ package STM32_SVD.COMP is
       --  Write-only. COMP2_CSR register lock bit
       COMP2_LOCK     : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for COMP2_CSR_Register use record
@@ -158,6 +158,6 @@ package STM32_SVD.COMP is
 
    --  Comparator
    COMP_Periph : aliased COMP_Peripheral
-     with Import, Address => System'To_Address (16#40010200#);
+     with Import, Address => COMP_Base;
 
 end STM32_SVD.COMP;

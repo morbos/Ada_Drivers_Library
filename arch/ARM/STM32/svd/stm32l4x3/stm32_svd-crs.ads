@@ -39,7 +39,7 @@ package STM32_SVD.CRS is
       --  unspecified
       Reserved_14_31 : HAL.UInt18 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -77,7 +77,7 @@ package STM32_SVD.CRS is
       --  SYNC polarity selection
       SYNCPOL        : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CFGR_Register use record
@@ -117,7 +117,7 @@ package STM32_SVD.CRS is
       --  Read-only. Frequency error capture
       FECAP          : ISR_FECAP_Field;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -147,7 +147,7 @@ package STM32_SVD.CRS is
       --  unspecified
       Reserved_4_31 : HAL.UInt28 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ICR_Register use record
@@ -184,6 +184,6 @@ package STM32_SVD.CRS is
 
    --  Clock recovery system
    CRS_Periph : aliased CRS_Peripheral
-     with Import, Address => System'To_Address (16#40006000#);
+     with Import, Address => CRS_Base;
 
 end STM32_SVD.CRS;

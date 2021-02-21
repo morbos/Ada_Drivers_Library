@@ -26,7 +26,7 @@ package STM32_SVD.DBGMCU is
       --  Read-only. Revision identifie
       REV_ID         : IDCODE_REV_ID_Field;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IDCODE_Register use record
@@ -54,7 +54,7 @@ package STM32_SVD.DBGMCU is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -102,7 +102,7 @@ package STM32_SVD.DBGMCU is
       --  LPTIM1 counter stopped when core is halted
       DBG_LPTIM1_STOP : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1FZR1_Register use record
@@ -133,7 +133,7 @@ package STM32_SVD.DBGMCU is
       --  unspecified
       Reserved_6_31   : HAL.UInt26 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB1FZR2_Register use record
@@ -157,7 +157,7 @@ package STM32_SVD.DBGMCU is
       --  unspecified
       Reserved_18_31 : HAL.UInt14 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for APB2FZR_Register use record
@@ -198,6 +198,6 @@ package STM32_SVD.DBGMCU is
 
    --  MCU debug component
    DBGMCU_Periph : aliased DBGMCU_Peripheral
-     with Import, Address => System'To_Address (16#E0042000#);
+     with Import, Address => DBGMCU_Base;
 
 end STM32_SVD.DBGMCU;

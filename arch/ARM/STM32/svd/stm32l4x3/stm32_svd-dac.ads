@@ -64,7 +64,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_31_31 : HAL.Bit := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -122,7 +122,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_2_31 : HAL.UInt30 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SWTRIGR_Register use record
@@ -139,7 +139,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_12_31 : HAL.UInt20 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR12R1_Register use record
@@ -158,7 +158,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR12L1_Register use record
@@ -176,7 +176,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR8R1_Register use record
@@ -193,7 +193,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_12_31 : HAL.UInt20 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR12R2_Register use record
@@ -212,7 +212,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR12L2_Register use record
@@ -230,7 +230,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR8R2_Register use record
@@ -252,7 +252,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_28_31 : HAL.UInt4 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR12RD_Register use record
@@ -276,7 +276,7 @@ package STM32_SVD.DAC is
       --  DAC channel2 12-bit left-aligned data
       DACC2DHR       : DHR12LD_DACC2DHR_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR12LD_Register use record
@@ -298,7 +298,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DHR8RD_Register use record
@@ -316,7 +316,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_12_31 : HAL.UInt20;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DOR1_Register use record
@@ -333,7 +333,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_12_31 : HAL.UInt20;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for DOR2_Register use record
@@ -360,7 +360,7 @@ package STM32_SVD.DAC is
       --  Read-only. DAC Channel 2 busy writing sample time flag
       BWST2          : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SR_Register use record
@@ -388,7 +388,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_21_31 : HAL.UInt11 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CCR_Register use record
@@ -412,7 +412,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_19_31 : HAL.UInt13 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for MCR_Register use record
@@ -431,7 +431,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_10_31 : HAL.UInt22 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SHSR1_Register use record
@@ -448,7 +448,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_10_31 : HAL.UInt22 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SHSR2_Register use record
@@ -470,7 +470,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_26_31 : HAL.UInt6 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SHHR_Register use record
@@ -494,7 +494,7 @@ package STM32_SVD.DAC is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SHRR_Register use record
@@ -578,6 +578,6 @@ package STM32_SVD.DAC is
 
    --  Digital-to-analog converter
    DAC1_Periph : aliased DAC1_Peripheral
-     with Import, Address => System'To_Address (16#40007400#);
+     with Import, Address => DAC1_Base;
 
 end STM32_SVD.DAC;

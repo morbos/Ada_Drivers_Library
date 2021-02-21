@@ -290,5 +290,7 @@ package STM32_SVD is
      System'To_Address (16#420C0400#);
    SEC_HASH_Base : constant System.Address :=
      System'To_Address (16#520C0400#);
+   DAC_Base : constant System.Address := System'To_Address (16#40007400#);
+   SEC_DAC_Base : constant System.Address := System'To_Address (16#50007400#);
 
 end STM32_SVD;

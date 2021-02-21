@@ -277,7 +277,7 @@ package STM32.Device is
    procedure Enable_Clock (This : SPI_Port);
    procedure Reset (This : in out SPI_Port);
 
-   ADC : aliased Analog_To_Digital_Converter with Import, Volatile, Address => ADC_Base;
+   ADC : aliased Analog_To_Digital_Converter with Import, Volatile, Address => ADC1_Base;
 
    procedure Enable_Clock (This : aliased in out Analog_To_Digital_Converter);
    procedure Reset_All_ADC_Units;

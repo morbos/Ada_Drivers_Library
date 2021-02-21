@@ -66,7 +66,9 @@ package body SSD1306 is
    begin
       This.Port.Master_Transmit (Addr    => SSD1306_I2C_Addr,
                                  Data    => Data,
-                                 Status  => Status);
+                                 Status  => Status,
+                                 Timeout => 3000
+                                );
       if Status /= Ok then
          --  No error handling...
          raise Program_Error;
@@ -115,7 +117,8 @@ package body SSD1306 is
       Write_Command (This, COM_SCAN_DEC);
 
       Write_Command (This, SET_COMPINS);
-      Write_Command (This, 16#02#);
+      --      Write_Command (This, 16#02#);
+      Write_Command (This, 16#12#); --  <<<< w/o this, the yellow/blue displays skip every line
       Write_Command (This, SET_CONTRAST);
       Write_Command (This, 16#AF#);
 
@@ -178,6 +181,20 @@ package body SSD1306 is
       Write_Command (This, NORMAL_DISPLAY);
    end Display_Inversion_Off;
 
+   procedure Fill_Region (This      : in out SSD1306_Screen;
+                          X_Start, X_End, Y_Start, Y_End : Natural;
+                          Colour : UInt32)
+   is
+   begin
+      Set_Native_Source (This, Colour);
+      for Row in Y_Start .. Y_End loop
+         for Col in X_Start .. X_End loop
+            Set_Pixel (This.Memory_Layer, Pt => (X => Col, Y => Row));
+         end loop;
+      end loop;
+      Update_Layers (This);
+   end Fill_Region;
+
    ----------------------
    -- Write_Raw_Pixels --
    ----------------------
@@ -188,7 +205,7 @@ package body SSD1306 is
    begin
       Write_Command (This, COLUMN_ADDR);
       Write_Command (This, 0);                   --  from
-      Write_Command (This, UInt8 (This.Width - 1));  --  to
+      Write_Command (This, UInt8 (This.Width - 1));  --  t0
 
       Write_Command (This, PAGE_ADDR);
       Write_Command (This, 0);                           --  from
@@ -390,6 +407,14 @@ package body SSD1306 is
      (This  : SSD1306_Screen;
       Layer : Positive) return Positive is (1);
 
+   procedure Set_Pixel
+     (This    : in out SSD1306_Screen;
+      Pt      : Point)
+   is
+   begin
+      Set_Pixel (This.Memory_Layer, Pt);
+   end Set_Pixel;
+
    ---------------
    -- Set_Pixel --
    ---------------
@@ -409,6 +434,13 @@ package body SSD1306 is
          Byte := Byte or Shift_Left (1, Pt.Y mod 8);
       end if;
    end Set_Pixel;
+
+   procedure Set_Native_Source (This  : in out SSD1306_Screen;
+                         Colour : UInt32)
+   is
+   begin
+      This.Memory_Layer.Native_Source := Colour;
+   end Set_Native_Source;
 
    -----------
    -- Pixel --

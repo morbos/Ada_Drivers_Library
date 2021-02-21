@@ -25,7 +25,7 @@ package STM32_SVD.Firewall is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CSSA_Register use record
@@ -45,7 +45,7 @@ package STM32_SVD.Firewall is
       --  unspecified
       Reserved_22_31 : HAL.UInt10 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CSL_Register use record
@@ -65,7 +65,7 @@ package STM32_SVD.Firewall is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for NVDSSA_Register use record
@@ -85,7 +85,7 @@ package STM32_SVD.Firewall is
       --  unspecified
       Reserved_22_31 : HAL.UInt10 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for NVDSL_Register use record
@@ -105,7 +105,7 @@ package STM32_SVD.Firewall is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for VDSSA_Register use record
@@ -125,7 +125,7 @@ package STM32_SVD.Firewall is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for VDSL_Register use record
@@ -145,7 +145,7 @@ package STM32_SVD.Firewall is
       --  unspecified
       Reserved_3_31 : HAL.UInt29 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -190,6 +190,6 @@ package STM32_SVD.Firewall is
 
    --  Firewall
    FIREWALL_Periph : aliased FIREWALL_Peripheral
-     with Import, Address => System'To_Address (16#40011C00#);
+     with Import, Address => FIREWALL_Base;
 
 end STM32_SVD.Firewall;

@@ -31,7 +31,7 @@ package STM32_SVD.EXTI is
             Arr : IMR1_MR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IMR1_Register use record
@@ -56,7 +56,7 @@ package STM32_SVD.EXTI is
             Arr : EMR1_MR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for EMR1_Register use record
@@ -123,7 +123,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_23_31 : HAL.UInt9 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RTSR1_Register use record
@@ -192,7 +192,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_23_31 : HAL.UInt9 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for FTSR1_Register use record
@@ -263,7 +263,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_23_31 : HAL.UInt9 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SWIER1_Register use record
@@ -332,7 +332,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_23_31 : HAL.UInt9 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PR1_Register use record
@@ -373,7 +373,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#FFFFFF#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IMR2_Register use record
@@ -412,7 +412,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for EMR2_Register use record
@@ -453,7 +453,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RTSR2_Register use record
@@ -495,7 +495,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for FTSR2_Register use record
@@ -537,7 +537,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for SWIER2_Register use record
@@ -579,7 +579,7 @@ package STM32_SVD.EXTI is
       --  unspecified
       Reserved_7_31 : HAL.UInt25 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PR2_Register use record
@@ -638,6 +638,6 @@ package STM32_SVD.EXTI is
 
    --  External interrupt/event controller
    EXTI_Periph : aliased EXTI_Peripheral
-     with Import, Address => System'To_Address (16#40010400#);
+     with Import, Address => EXTI_Base;
 
 end STM32_SVD.EXTI;

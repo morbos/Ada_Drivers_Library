@@ -63,7 +63,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR1_Register use record
@@ -121,7 +121,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_27_31 : HAL.UInt5 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR2_Register use record
@@ -154,7 +154,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OAR1_Register use record
@@ -183,7 +183,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OAR2_Register use record
@@ -216,7 +216,7 @@ package STM32_SVD.I2C is
       --  Timing prescaler
       PRESC          : TIMINGR_PRESC_Field := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TIMINGR_Register use record
@@ -248,7 +248,7 @@ package STM32_SVD.I2C is
       --  Extended clock timeout enable
       TEXTEN         : Boolean := False;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TIMEOUTR_Register use record
@@ -304,7 +304,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_24_31 : HAL.UInt8 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ISR_Register use record
@@ -356,7 +356,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_14_31 : HAL.UInt18 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ICR_Register use record
@@ -383,7 +383,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_8_31 : HAL.UInt24;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PECR_Register use record
@@ -400,7 +400,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_8_31 : HAL.UInt24;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RXDR_Register use record
@@ -417,7 +417,7 @@ package STM32_SVD.I2C is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for TXDR_Register use record
@@ -472,14 +472,14 @@ package STM32_SVD.I2C is
 
    --  Inter-integrated circuit
    I2C1_Periph : aliased I2C_Peripheral
-     with Import, Address => System'To_Address (16#40005400#);
+     with Import, Address => I2C1_Base;
 
    --  Inter-integrated circuit
    I2C2_Periph : aliased I2C_Peripheral
-     with Import, Address => System'To_Address (16#40005800#);
+     with Import, Address => I2C2_Base;
 
    --  Inter-integrated circuit
    I2C3_Periph : aliased I2C_Peripheral
-     with Import, Address => System'To_Address (16#40005C00#);
+     with Import, Address => I2C3_Base;
 
 end STM32_SVD.I2C;

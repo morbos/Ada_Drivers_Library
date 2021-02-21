@@ -34,7 +34,7 @@ package STM32_SVD.GPIO is
             Arr : MODER_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for MODER_Register use record
@@ -73,7 +73,7 @@ package STM32_SVD.GPIO is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OTYPER_Register use record
@@ -101,7 +101,7 @@ package STM32_SVD.GPIO is
             Arr : OSPEEDR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for OSPEEDR_Register use record
@@ -129,7 +129,7 @@ package STM32_SVD.GPIO is
             Arr : PUPDR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for PUPDR_Register use record
@@ -168,7 +168,7 @@ package STM32_SVD.GPIO is
       --  unspecified
       Reserved_16_31 : HAL.UInt16;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IDR_Register use record
@@ -207,7 +207,7 @@ package STM32_SVD.GPIO is
       --  unspecified
       Reserved_16_31 : HAL.UInt16 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for ODR_Register use record
@@ -270,7 +270,7 @@ package STM32_SVD.GPIO is
       --  Write-only. Port x set bit y (y= 0..15)
       BR : BSRR_BR_Field := (As_Array => False, Val => 16#0#);
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for BSRR_Register use record
@@ -311,7 +311,7 @@ package STM32_SVD.GPIO is
       --  unspecified
       Reserved_17_31 : HAL.UInt15 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for LCKR_Register use record
@@ -340,7 +340,7 @@ package STM32_SVD.GPIO is
             Arr : AFRL_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AFRL_Register use record
@@ -368,7 +368,7 @@ package STM32_SVD.GPIO is
             Arr : AFRH_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Unchecked_Union, Size => 32, Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for AFRH_Register use record
@@ -420,26 +420,26 @@ package STM32_SVD.GPIO is
 
    --  General-purpose I/Os
    GPIOA_Periph : aliased GPIO_Peripheral
-     with Import, Address => System'To_Address (16#48000000#);
+     with Import, Address => GPIOA_Base;
 
    --  General-purpose I/Os
    GPIOB_Periph : aliased GPIO_Peripheral
-     with Import, Address => System'To_Address (16#48000400#);
+     with Import, Address => GPIOB_Base;
 
    --  General-purpose I/Os
    GPIOC_Periph : aliased GPIO_Peripheral
-     with Import, Address => System'To_Address (16#48000800#);
+     with Import, Address => GPIOC_Base;
 
    --  General-purpose I/Os
    GPIOD_Periph : aliased GPIO_Peripheral
-     with Import, Address => System'To_Address (16#48000C00#);
+     with Import, Address => GPIOD_Base;
 
    --  General-purpose I/Os
    GPIOE_Periph : aliased GPIO_Peripheral
-     with Import, Address => System'To_Address (16#48001000#);
+     with Import, Address => GPIOE_Base;
 
    --  General-purpose I/Os
    GPIOH_Periph : aliased GPIO_Peripheral
-     with Import, Address => System'To_Address (16#48001C00#);
+     with Import, Address => GPIOH_Base;
 
 end STM32_SVD.GPIO;

@@ -55,7 +55,6 @@ package body STM32.Board is
          --         NVIC_Periph.ITNS0 := NVIC_Periph.ITNS0 or (2 ** EXTI13_Interrupt);
          NVIC_Periph.ITNS0 := NVIC_Periph.ITNS0 or (2 ** 24);
          EXTI_Periph.EXTICR4.EXTI8_15 := 2; --  GPIOC[13]
-
    end Initialize_Button;
 
    procedure Initialize_Board is

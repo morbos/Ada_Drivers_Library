@@ -23,7 +23,7 @@ package STM32_SVD.CRC is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IDR_Register use record
@@ -49,7 +49,7 @@ package STM32_SVD.CRC is
       --  unspecified
       Reserved_8_31 : HAL.UInt24 := 16#0#;
    end record
-     with Volatile_Full_Access, Size => 32,
+     with Volatile_Full_Access, Object_Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CR_Register use record
@@ -90,6 +90,6 @@ package STM32_SVD.CRC is
 
    --  Cyclic redundancy check calculation unit
    CRC_Periph : aliased CRC_Peripheral
-     with Import, Address => System'To_Address (16#40023000#);
+     with Import, Address => CRC_Base;
 
 end STM32_SVD.CRC;
