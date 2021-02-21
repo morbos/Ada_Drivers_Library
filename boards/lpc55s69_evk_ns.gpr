@@ -1,0 +1,27 @@
+aggregate library project lpc55s69_evk_ns is
+
+   Build := external ("BUILD", "Debug");
+
+   type RTS_Type is ("ravenscar-sfp", "ravenscar-full");
+--   RTS : RTS_Type := External ("RTS", "ravenscar-sfp");
+   RTS : RTS_Type := External ("RTS", "ravenscar-full");
+
+   RTS_Base := Project'Project_Dir &
+               "../embedded-runtimes/ravenscar-lpc55s69_evk_ns";
+   for Target use "arm-eabi";
+
+   case RTS is
+      when "ravenscar-sfp" =>
+         for Runtime ("Ada") use RTS_Base & "/sfp";
+      when "ravenscar-full" =>
+         for Runtime ("Ada") use RTS_Base & "/full";
+   end case;
+
+   for Project_Path use ("lpc55s69_evk_ns");
+
+   for Project_Files use ("lpc55s69_evk_ns/board.gpr");
+
+   for Library_Dir use "lib/lpc55s69_evk_ns/" & RTS & "/" & Build;
+   for Library_Name use "lpc55s69_evk_ns";
+
+end lpc55s69_evk_ns;
