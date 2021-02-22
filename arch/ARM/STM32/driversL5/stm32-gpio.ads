@@ -183,6 +183,10 @@ package STM32.GPIO is
    function Locked (This : GPIO_Point) return Boolean
      with Inline;
 
+   procedure Set_Secure
+     (This   : GPIO_Point;
+      Secure : Boolean);
+
    procedure Configure_IO
      (This   : GPIO_Point;
       Config : GPIO_Port_Configuration);

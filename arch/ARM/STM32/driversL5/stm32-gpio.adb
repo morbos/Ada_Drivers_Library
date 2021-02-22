@@ -337,6 +337,15 @@ package body STM32.GPIO is
       end loop;
    end Lock;
 
+   procedure Set_Secure
+     (This   : GPIO_Point;
+      Secure : Boolean)
+   is
+      Index : constant GPIO_Pin_Index := GPIO_Pin'Pos (This.Pin);
+   begin
+      This.Periph.SECCFGR.SEC.Arr (Index)  := Secure;
+   end Set_Secure;
+
    ------------------
    -- Configure_IO --
    ------------------

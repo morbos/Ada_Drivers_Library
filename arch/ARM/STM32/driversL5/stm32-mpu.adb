@@ -24,6 +24,9 @@ package body STM32.MPU is
       for X'Address use A'Address;
       L : RLAR_Overlay;
    begin
+      if (Size < 32) or (0 /= (Size mod 32)) then
+         raise Program_Error with "MPU region size < 32 or not modulo 32";
+      end if;
       A := Addr;
       MPU_Periph.MPU_RNR.REGION := UInt8 (Region_Num);
       MPU_Periph.MPU_RBAR.BADDR := X.BADDR;
@@ -41,9 +44,9 @@ package body STM32.MPU is
       for X'Address use LAttr'Address;
    begin
       if AttrIdx < 4 then
-         MPU_Periph.MPU_MAIR0.Arr (Integer (AttrIdx)) := X;
+         MPU_Periph.MPU_MAIR (0).Arr (Integer (AttrIdx)) := X;
       else
-         MPU_Periph.MPU_MAIR1.Arr (Integer (AttrIdx)) := X;
+         MPU_Periph.MPU_MAIR (1).Arr (Integer (AttrIdx)) := X;
       end if;
    end Add_Attrib;
 

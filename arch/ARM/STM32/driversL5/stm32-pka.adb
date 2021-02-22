@@ -148,8 +148,8 @@ package body STM32.PKA is
    begin
       RCC.AHB2ENR.PKAEN := True;
       loop
-         PKA.CR.EN := True;
-         exit when PKA.CR.EN;
+         PKA.PKA_CR.EN := True;
+         exit when PKA.PKA_CR.EN;
       end loop;
    end Enable_Pka;
 
@@ -159,23 +159,23 @@ package body STM32.PKA is
         with Import, Address => S_NS_Periph (RCC_Base);
    begin
       loop
-         PKA.CR.EN := False;
-         exit when not PKA.CR.EN;
+         PKA.PKA_CR.EN := False;
+         exit when not PKA.PKA_CR.EN;
       end loop;
    end Disable_Pka;
 
    function Check_Errors return Boolean
    is
    begin
-      return PKA.SR.RAMERRF or PKA.SR.ADDRERRF;
+      return PKA.PKA_SR.RAMERRF or PKA.PKA_SR.ADDRERRF;
    end Check_Errors;
 
    procedure Clear_Flags
    is
    begin
-      PKA.CLRFR.PROCENDFC := True;
-      PKA.CLRFR.RAMERRFC  := True;
-      PKA.CLRFR.ADDRERRFC := True;
+      PKA.PKA_CLRFR.PROCENDFC := True;
+      PKA.PKA_CLRFR.RAMERRFC  := True;
+      PKA.PKA_CLRFR.ADDRERRFC := True;
    end Clear_Flags;
 
    procedure Clear_Ram
@@ -494,11 +494,11 @@ package body STM32.PKA is
    is
    begin
       Enable_Pka;
-      PKA.CR.MODE := Mode'Enum_Rep;
-      PKA.CR.START := True;
+      PKA.PKA_CR.MODE := Mode'Enum_Rep;
+      PKA.PKA_CR.START := True;
       --  Need to add timeout here vvv
       loop
-         exit when PKA.SR.PROCENDF;
+         exit when PKA.PKA_SR.PROCENDF;
       end loop;
    end StartPKA;
 
