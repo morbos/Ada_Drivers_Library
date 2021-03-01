@@ -1,0 +1,28 @@
+aggregate library project rp2040_pico is
+
+   Build := external ("BUILD", "Debug");
+
+   type RTS_Type is ("ravenscar-ssfp", "ravenscar-sfp", "ravenscar-full");
+   RTS : RTS_Type := External ("RTS", "ravenscar-full");
+
+   RTS_Base := Project'Project_Dir &
+               "../embedded-runtimes/ravenscar-rp2040-pico";
+   for Target use "arm-eabi";
+
+   case RTS is
+      when "ravenscar-ssfp" =>
+         for Runtime ("Ada") use RTS_Base & "/ssfp";
+      when "ravenscar-sfp" =>
+         for Runtime ("Ada") use RTS_Base & "/sfp";
+      when "ravenscar-full" =>
+         for Runtime ("Ada") use RTS_Base & "/full";
+   end case;
+
+   for Project_Path use ("rp2040_pico");
+
+   for Project_Files use ("rp2040_pico/board.gpr");
+
+   for Library_Dir use "lib/rp2040_pico/" & RTS & "/" & Build;
+   for Library_Name use "rp2040_pico";
+
+end rp2040_pico;

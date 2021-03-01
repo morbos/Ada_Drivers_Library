@@ -479,6 +479,18 @@ package STM32.SubGhzRF is
       F                 at 1 range 0 .. 31;
    end record;
 
+   type Irq_Status is
+     (TxDone,
+      RxDone,
+      PreambleDetected,
+      SyncDetected,
+      HeaderValid,
+      HeaderErr,
+      Misc_Err,
+      CadDone,
+      CadDetected,
+      Timeout);
+
    procedure NSS_Assert;
 
    procedure NSS_Deassert;
@@ -521,9 +533,9 @@ package STM32.SubGhzRF is
 
    procedure Set_RfFrequency (Freq : Set_RfFrequency_Message);
 
-   procedure Set_Rx (Timeout : UInt32);
+   procedure Set_Rx (Timeout : UInt24);
 
-   procedure Set_Tx (Timeout : UInt32);
+   procedure Set_Tx (Timeout : UInt24);
 
    procedure Swap16 (X : in out UInt16);
 
