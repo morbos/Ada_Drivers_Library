@@ -1,0 +1,21 @@
+with "config";
+with "../../hal/HAL";
+with "../cortex_m/cortex_m4f";
+
+library project STM32U5xx is
+
+   for Library_Name use "stm32u5xx";
+   for Library_Kind use "static";
+   for Library_Dir use "lib/" & Config.Object_Subdir;
+   for Object_Dir use "obj/" & Config.Object_Subdir;
+
+   for Source_Dirs use Project'Source_Dirs &
+     ("driversU5",
+      "svd/stm32u585",
+      "devices/stm32u5"
+      );
+
+   package Compiler renames Config.Compiler;
+   package Builder renames Config.Builder;
+
+end STM32U5xx;

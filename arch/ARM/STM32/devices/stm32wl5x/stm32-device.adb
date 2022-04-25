@@ -342,26 +342,26 @@ package body STM32.Device is
    -- Enable_Clock --
    ------------------
 
---   procedure Enable_Clock (This : aliased in out Analog_To_Digital_Converter)
---   is
---   begin
---      if This'Address = ADC_Base then
---         RCC_Periph.APB2ENR.ADCEN := True;
---         RCC_Periph.CCIPR.ADCSEL := 3;  --  clock sel. Default is... none!
---      else
---         raise Unknown_Device;
---      end if;
---   end Enable_Clock;
+   procedure Enable_Clock (This : aliased in out Analog_To_Digital_Converter)
+   is
+   begin
+      if This'Address = ADC_Base then
+         RCC_Periph.APB2ENR.ADCEN := True;
+         RCC_Periph.CCIPR.ADCSEL := 3;  --  clock sel. Default is... none!
+      else
+         raise Unknown_Device;
+      end if;
+   end Enable_Clock;
 
    -------------------------
    -- Reset_All_ADC_Units --
    -------------------------
 
---   procedure Reset_All_ADC_Units is
---   begin
---      RCC_Periph.APB2RSTR.ADCRST := True;
---      RCC_Periph.APB2RSTR.ADCRST := False;
---   end Reset_All_ADC_Units;
+   procedure Reset_All_ADC_Units is
+   begin
+      RCC_Periph.APB2RSTR.ADCRST := True;
+      RCC_Periph.APB2RSTR.ADCRST := False;
+   end Reset_All_ADC_Units;
 
 
    ------------------------------
