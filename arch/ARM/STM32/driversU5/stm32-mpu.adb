@@ -1,4 +1,5 @@
 with System;
+with System.Machine_Code;      use System.Machine_Code;
 
 package body STM32.MPU is
 
@@ -51,6 +52,10 @@ package body STM32.MPU is
    is
    begin
       MPU_Periph.MPU_CTRL.ENABLE := True;
+      Asm ("dsb" & ASCII.LF & ASCII.HT &
+           "isb" & ASCII.LF & ASCII.HT,
+           Volatile => True);
+
    end Enable_MPU;
 
 end STM32.MPU;

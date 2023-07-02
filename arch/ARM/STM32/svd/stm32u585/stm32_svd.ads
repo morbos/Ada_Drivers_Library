@@ -1,4 +1,4 @@
---  This spec has been automatically generated from STM32U5xx.svd
+--  This spec has been automatically generated from STM32U585.svd
 
 pragma Restrictions (No_Elaboration_Code);
 pragma Ada_2012;
@@ -6,7 +6,7 @@ pragma Style_Checks (Off);
 
 with System;
 
---  STM32U5xx
+--  STM32U585
 package STM32_SVD is
    pragma Preelaborate;
 
@@ -173,6 +173,8 @@ package STM32_SVD is
    SEC_ADC1_Base : constant System.Address := System'To_Address (16#52028000#);
    ADC4_Base : constant System.Address := System'To_Address (16#46021000#);
    SEC_ADC4_Base : constant System.Address := System'To_Address (16#56021000#);
+   ADC12_Base : constant System.Address := System'To_Address (16#42028300#);
+   SEC_ADC12_Base : constant System.Address := System'To_Address (16#52028300#);
    FMC_Base : constant System.Address := System'To_Address (16#420D0400#);
    SEC_FMC_Base : constant System.Address := System'To_Address (16#520D0400#);
    RNG_Base : constant System.Address := System'To_Address (16#420C0800#);
@@ -201,8 +203,8 @@ package STM32_SVD is
    SEC_DLYBSD2_Base : constant System.Address := System'To_Address (16#520C8800#);
    SAES_Base : constant System.Address := System'To_Address (16#420C0C00#);
    SEC_SAES_Base : constant System.Address := System'To_Address (16#520C0C00#);
-   OTG_FS_Base : constant System.Address := System'To_Address (16#42038000#);
-   SEC_OTG_FS_Base : constant System.Address := System'To_Address (16#52038000#);
+   OTG_FS_Base : constant System.Address := System'To_Address (16#42040000#);
+   SEC_OTG_FS_Base : constant System.Address := System'To_Address (16#52040000#);
    PSSI_Base : constant System.Address := System'To_Address (16#4202C400#);
    SEC_PSSI_Base : constant System.Address := System'To_Address (16#5202C400#);
    OTFDEC1_Base : constant System.Address := System'To_Address (16#420C5000#);

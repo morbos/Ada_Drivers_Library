@@ -56,6 +56,14 @@ package HAL.I2C is
       Status  : out I2C_Status;
       Timeout : Natural := 1000) is abstract;
 
+   procedure Master_Transmit
+     (This    : in out I2C_Port;
+      Addr    : I2C_Address;
+      Data1   : I2C_Data;
+      Data2   : I2C_Data;
+      Status  : out I2C_Status;
+      Timeout : Natural := 1000) is abstract;
+
    procedure Master_Receive
      (This    : in out I2C_Port;
       Addr    : I2C_Address;

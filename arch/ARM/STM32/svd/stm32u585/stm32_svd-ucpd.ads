@@ -1,4 +1,4 @@
---  This spec has been automatically generated from STM32U5xx.svd
+--  This spec has been automatically generated from STM32U585.svd
 
 pragma Restrictions (No_Elaboration_Code);
 pragma Ada_2012;

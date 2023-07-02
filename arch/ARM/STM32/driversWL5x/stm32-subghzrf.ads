@@ -135,14 +135,16 @@ package STM32.SubGhzRF is
    type Read_Register_Message is record
       Opcode   : Opcode_Type;
       Address  : UInt16;
+      Status   : UInt8;
    end record
-     with Size => 8 + 16,
+     with Size => 8 + 16 + 8,
      Scalar_Storage_Order => System.High_Order_First,
      Bit_Order => System.High_Order_First;
 
    for Read_Register_Message use record
       Opcode   at 0 range 0 .. 7;
       Address  at 1 range 0 .. 15;
+      Status   at 3 range 0 .. 7;
    end record;
 
    type Set_BufferBaseAddress_Message is record
@@ -428,12 +430,9 @@ package STM32.SubGhzRF is
    type LoRa_Set_PacketParams_Message is record
       Opcode              : Opcode_Type;
       PreambleLength      : UInt16;
-      Res1                : UInt7;
       HeaderType          : HeaderType_Selection;
       PayloadLength       : UInt8;
-      Res2                : UInt7;
       Crc                 : Flag;
-      Res3                : UInt7;
       InvertIQ            : InvertIQ_Selection;
    end record
      with Size => 8 + (6 * 8);
@@ -443,13 +442,10 @@ package STM32.SubGhzRF is
    for LoRa_Set_PacketParams_Message use record
       Opcode              at 0 range 0 .. 7;
       PreambleLength      at 1 range 0 .. 15;
-      Res1                at 3 range 1 .. 7;
-      HeaderType          at 3 range 0 .. 0;
+      HeaderType          at 3 range 0 .. 7;
       PayloadLength       at 4 range 0 .. 7;
-      Res2                at 5 range 1 .. 7;
-      Crc                 at 5 range 0 .. 0;
-      Res3                at 6 range 1 .. 7;
-      InvertIQ            at 6 range 0 .. 0;
+      Crc                 at 5 range 0 .. 7;
+      InvertIQ            at 6 range 0 .. 7;
    end record;
 
    type Set_StopRxTimerOnPreamble_Selection is
@@ -479,17 +475,56 @@ package STM32.SubGhzRF is
       F                 at 1 range 0 .. 31;
    end record;
 
-   type Irq_Status is
-     (TxDone,
-      RxDone,
-      PreambleDetected,
-      SyncDetected,
-      HeaderValid,
-      HeaderErr,
-      Misc_Err,
-      CadDone,
-      CadDetected,
-      Timeout);
+--   type Irq_Status is
+--     (TxDone,
+--      RxDone,
+--      PreambleDetected,
+--      SyncDetected,
+--      HeaderValid,
+--      HeaderErr,
+--      Misc_Err,
+--      CadDone,
+--      CadDetected,
+--      Timeout);
+
+   type Irq_Status is record
+      TxDone           : Boolean;
+      RxDone           : Boolean;
+      PreambleDetected : Boolean;
+      SyncDetected     : Boolean;
+      HeaderValid      : Boolean;
+      HeaderErr        : Boolean;
+      Misc_Err         : Boolean;
+      CadDone          : Boolean;
+      CadDetected      : Boolean;
+      Timeout          : Boolean;
+      Unused           : UInt6;
+   end record
+     with Size => 16;
+
+   for Irq_Status use record
+      TxDone            at 0 range 0 .. 0;
+      RxDone            at 0 range 1 .. 1;
+      PreambleDetected  at 0 range 2 .. 2;
+      SyncDetected      at 0 range 3 .. 3;
+      HeaderValid       at 0 range 4 .. 4;
+      HeaderErr         at 0 range 5 .. 5;
+      Misc_Err          at 0 range 6 .. 6;
+      CadDone           at 0 range 7 .. 7;
+      CadDetected       at 0 range 8 .. 8;
+      Timeout           at 0 range 9 .. 9;
+      Unused            at 0 range 10 .. 15;
+   end record;
+
+   type Subghz_States is
+     (LOWPOWER,
+      SLEEP,
+      RX,
+      TX,
+      CAD
+     );
+
+   Subghz_State : Subghz_States := LOWPOWER;
 
    procedure NSS_Assert;
 
@@ -504,7 +539,6 @@ package STM32.SubGhzRF is
    procedure Set_TcxoMode (Trim : Set_TcxoMode_Message);
 
    procedure Read_Register (Reg       : Read_Register_Message;
-                            RFStatus  : out Subghz_Status;
                             Value     : out UInt8);
 
    procedure Write_Register (Reg : Write_Register_Message);
@@ -537,6 +571,12 @@ package STM32.SubGhzRF is
 
    procedure Set_Tx (Timeout : UInt24);
 
+   type CadSym is (One, Two, Four, Eight, Sixteen);
+
+   procedure Set_CadParams (NSyms : CadSym; Peak : UInt8; Min : UInt8; ExitMode : UInt8; Timeout : UInt24);
+
+   procedure Set_Cad;
+
    procedure Swap16 (X : in out UInt16);
 
    procedure Swap24 (X : in out UInt24);
@@ -559,14 +599,23 @@ package STM32.SubGhzRF is
                           RFStatus : out Subghz_Status;
                           Buffer   : out SPI_Data_8b);
 
+   procedure Write_Buffer (Offset   : UInt8;
+                           Buffer   : SPI_Data_8b);
+
    procedure LoRa_Get_Stats (RFStatus : out Subghz_Status;
                              NbPktReceived : out UInt16;
                              NbPktCrcError : out UInt16;
                              NbPktLengthError : out UInt16);
 
+   procedure CalibrateImage (LowFreq : UInt8; HighFreq : UInt8);
+
    procedure Reset_Stats;
 
    procedure Toggle_TxRx;
+
+   procedure Set_PktLen (Len : UInt8);
+
+   function Get_State return Subghz_States;
 
    Opcode_CalibrateImage            : constant Opcode_Type := 16#98#;
    Opcode_Calibrate                 : constant Opcode_Type := 16#89#;

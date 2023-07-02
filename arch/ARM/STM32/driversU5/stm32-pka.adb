@@ -820,8 +820,8 @@ package body STM32.PKA is
       ECDSA : aliased ECDSA_Point_Ram with Import, Address => S_NS_Periph (PKA_Base);
       Invert : Boolean := False; --  See RM note below if scaler is -ve
       Lscalar : ECDSA_String := Scalar;
-      NegOne : ECDSA_String;
-      Result : ECDSA_String;
+--      NegOne : ECDSA_String;
+--      Result : ECDSA_String;
    begin
       Enable_Pka;
 --      Clear_Ram;
@@ -864,7 +864,7 @@ package body STM32.PKA is
    procedure Montgomery_Param_Computation (Result  : out ECDSA_String)
    is
       Montgomery : aliased Montgomery_Math with Import, Address => S_NS_Periph (PKA_Base);
-      Zero : ECDSA_String;
+--      Zero : ECDSA_String;
    begin
       Enable_Pka;
       Clear_Ram;

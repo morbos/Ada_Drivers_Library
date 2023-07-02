@@ -43,6 +43,7 @@ with Ada.Unchecked_Conversion;
 with System;
 
 with STM32_SVD.SPI; use STM32_SVD.SPI;
+with Logcmd; use Logcmd;
 package body STM32.SPI is
 
    use type HAL.SPI.SPI_Data_Size;
@@ -949,6 +950,7 @@ package body STM32.SPI is
       Data_8bit : UInt8 with Volatile, Address => This.Periph.DR'Address;
    begin
       if Current_Mode (This) = Slave or else Tx_Count = 1 then
+         Log1Byte (16#aa#, Outgoing (Index));
          Data_8bit := Outgoing (Index);
          Index := Index + 1;
          Tx_Count := Tx_Count - 1;
@@ -960,6 +962,7 @@ package body STM32.SPI is
             null;
          end loop;
 
+         Log1Byte (16#aa#, Outgoing (Index));
          Data_8bit := Outgoing (Index);
          Index := Index + 1;
          Tx_Count := Tx_Count - 1;
@@ -1010,6 +1013,7 @@ package body STM32.SPI is
             null;
          end loop;
          K := Data_8bit;
+         Log1Byte (16#bb#, K);
       end loop;
    end Receive_8bit_Mode;
 

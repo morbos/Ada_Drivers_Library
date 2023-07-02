@@ -116,6 +116,9 @@ package STM32.DAC is
    --  output happens automatically when the channel is enabled. See the RM,
    --  section 14.3.4 "DAC conversion" second and third paragraphs.
 
+   procedure Trigger_Conversion_By_Software
+     (This    : in out Digital_To_Analog_Converter);
+
    function Converted_Output_Value
      (This    : Digital_To_Analog_Converter;
       Channel : DAC_Channel)

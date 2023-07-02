@@ -373,7 +373,7 @@ package body STM32.Device is
       Source       : constant UInt2 := RCC_Periph.CFGR.SWS;
       Result       : RCC_System_Clocks;
    begin
-      Result.I2SCLK := 0;
+      Result := (SYSCLK => 48_000_000, others => 48_000_000);
       return Result;
    end System_Clock_Frequencies;
 
@@ -407,6 +407,38 @@ package body STM32.Device is
 --      RCC_Periph.AHBRSTR.CRCRST := True;
 --      RCC_Periph.AHBRSTR.CRCRST := False;
       null;
+   end Reset;
+
+   ------------------
+   -- Enable_Clock --
+   ------------------
+
+   procedure Enable_Clock (This : aliased in out USART) is
+   begin
+      if This.Periph.all'Address = USART1_Base then
+         RCC_Periph.APB2ENR.USART1EN := True;
+      elsif This.Periph.all'Address = USART2_Base then
+         RCC_Periph.APB1ENR1.USART2EN := True;
+      else
+         raise Unknown_Device;
+      end if;
+   end Enable_Clock;
+
+   -----------
+   -- Reset --
+   -----------
+
+   procedure Reset (This : aliased in out USART) is
+   begin
+      if This.Periph.all'Address = USART1_Base then
+         RCC_Periph.APB2RSTR.USART1RST := True;
+         RCC_Periph.APB2RSTR.USART1RST := False;
+      elsif This.Periph.all'Address = USART2_Base then
+         RCC_Periph.APB1RSTR1.USART2RST := True;
+         RCC_Periph.APB1RSTR1.USART2RST := False;
+      else
+         raise Unknown_Device;
+      end if;
    end Reset;
 
 end STM32.Device;

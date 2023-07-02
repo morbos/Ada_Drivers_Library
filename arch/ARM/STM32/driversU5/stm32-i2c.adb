@@ -508,7 +508,7 @@ package body STM32.I2C is
            and then Transmitted < Data'Length
          then
             --  Wait for the Transfer complete reload flag
-            while This.Periph.ISR.TCR loop
+            while not This.Periph.ISR.TCR loop
                null;
             end loop;
 

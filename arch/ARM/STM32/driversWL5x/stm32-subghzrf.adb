@@ -1,5 +1,6 @@
 with STM32_SVD.PWR; use STM32_SVD.PWR;
 with Ada.Real_Time; use Ada.Real_Time;
+with Logcmd;        use Logcmd;
 package body STM32.SubGhzRF is
 --   procedure SubGhzRF_RegRead (Addr : UInt16; Value : out UInt8)
 --   is
@@ -8,19 +9,20 @@ package body STM32.SubGhzRF is
 --   end SubGhzRF_RegRead;
 
    Pa_Power_Choice : PaSel_Choice := LP_PA;
-   GX  : UInt8;
 
    procedure NSS_Assert
    is
    begin
       Flush_Fifo (SubGhzPhyPort.all);
       PWR_Periph.SUBGHZSPICR.NSS := False;
+      Log (16#44#);
    end NSS_Assert;
 
    procedure NSS_Deassert
    is
    begin
       PWR_Periph.SUBGHZSPICR.NSS := True;
+      Log (16#55#);
    end NSS_Deassert;
 
    procedure WaitOnBusy
@@ -39,7 +41,9 @@ package body STM32.SubGhzRF is
    begin
       --  if in deep sleep... wait (add later)
       NSS_Assert;
-      null;
+      for I in 1 .. 1000 loop
+         null;
+      end loop;
       NSS_Deassert;
       WaitOnBusy;
    end CheckDeviceReady;
@@ -51,10 +55,11 @@ package body STM32.SubGhzRF is
    begin
       Msg (1) := Opcode_Set_Standby;
       Msg (2) := Choice'Enum_Rep;
-      CheckDeviceReady;
+--      CheckDeviceReady;
       NSS_Assert;
       Transmit (SubGhzPhyPort.all, Msg, Status);
       NSS_Deassert;
+      Subghz_State := LOWPOWER;
    end Set_Standby;
 
    procedure Set_RegulatorMode (Choice : Set_RegulatorMode_Selection)
@@ -100,16 +105,16 @@ package body STM32.SubGhzRF is
    end Write_Register;
 
    procedure Read_Register (Reg       : Read_Register_Message;
-                            RFStatus  : out Subghz_Status;
                             Value     : out UInt8)
    is
       Msg    : SPI_Data_8b (1 .. Reg'Size / 8);
-      Reply  : SPI_Data_8b (1 .. 2);
+      Reply  : SPI_Data_8b (1 .. 1);
       LReg   : Read_Register_Message := Reg;
       for Msg'Address use LReg'Address;
       Status : SPI_Status;
    begin
       LReg.Opcode := Opcode_Read_Register;
+      LReg.Status := 0;
       CheckDeviceReady;
       NSS_Assert;
       Transmit (SubGhzPhyPort.all, Msg, Status);
@@ -117,8 +122,7 @@ package body STM32.SubGhzRF is
       Receive (SubGhzPhyPort.all, Reply, Status);
       NSS_Deassert;
       WaitOnBusy;
-      RFStatus := Reply (1);
-      Value := Reply (2);
+      Value := Reply (1);
    end Read_Register;
 
    procedure Calibrate (CalRec : Calibrate_Message)
@@ -224,6 +228,7 @@ package body STM32.SubGhzRF is
       NSS_Assert;
       Transmit (SubGhzPhyPort.all, Msg, Status);
       NSS_Deassert;
+      Subghz_State := SLEEP;
    end Set_Sleep;
 
    procedure LoRa_Set_ModulationParams (Params : LoRa_Mod_Params_Message)
@@ -327,6 +332,18 @@ package body STM32.SubGhzRF is
       NSS_Deassert;
    end Set_RfFrequency;
 
+   procedure CalibrateImage (LowFreq : UInt8; HighFreq : UInt8)
+   is
+      Msg    : SPI_Data_8b (1 .. 3);
+      Status : SPI_Status;
+   begin
+      --  Trouble swapping this one... (tried in the record type)
+      Msg := (Opcode_CalibrateImage, LowFreq, HighFreq);
+      CheckDeviceReady;
+      NSS_Assert;
+      Transmit (SubGhzPhyPort.all, Msg, Status);
+      NSS_Deassert;
+   end CalibrateImage;
    procedure Set_Rx (Timeout : UInt24)
    is
       Msg      : SPI_Data_8b (1 .. 4);
@@ -343,6 +360,7 @@ package body STM32.SubGhzRF is
       NSS_Assert;
       Transmit (SubGhzPhyPort.all, Msg, Status);
       NSS_Deassert;
+      Subghz_State := RX;
    end Set_Rx;
 
    procedure Set_Tx (Timeout : UInt24)
@@ -361,7 +379,39 @@ package body STM32.SubGhzRF is
       NSS_Assert;
       Transmit (SubGhzPhyPort.all, Msg, Status);
       NSS_Deassert;
+      Subghz_State := TX;
    end Set_Tx;
+
+   procedure Set_CadParams (NSyms : CadSym; Peak : UInt8; Min : UInt8; ExitMode : UInt8; Timeout : UInt24)
+   is
+      Status   : SPI_Status;
+      Msg      : SPI_Data_8b (1 .. 8);
+      Tmp      : SPI_Data_8b (1 .. 4);
+      LTimeout : aliased UInt32 := UInt32 (Timeout);
+      for LTimeout'Address use Tmp (1)'Address;
+      for LTimeout'Alignment use 1;
+   begin
+      Msg := (Opcode_Set_CadParams, NSyms'Enum_Rep, Peak, Min, ExitMode, Tmp (3), Tmp (2), Tmp (1));
+      CheckDeviceReady;
+      NSS_Assert;
+      Subghz_State := TX;
+      Transmit (SubGhzPhyPort.all, Msg, Status);
+      NSS_Deassert;
+      Subghz_State := TX;
+   end Set_CadParams;
+
+   procedure Set_Cad
+   is
+      Msg      : SPI_Data_8b (1 .. 1);
+      Status   : SPI_Status;
+   begin
+      Msg (1) := Opcode_Set_Cad;
+      CheckDeviceReady;
+      NSS_Assert;
+      Transmit (SubGhzPhyPort.all, Msg, Status);
+      NSS_Deassert;
+      Subghz_State := CAD;
+   end Set_Cad;
 
    function Get_IrqStatus (RFStatus  : out Subghz_Status) return UInt16
    is
@@ -370,6 +420,7 @@ package body STM32.SubGhzRF is
       Status : SPI_Status;
    begin
       Msg (1) := Opcode_Get_IrqStatus;
+--      Msg (2) := 0;
       NSS_Assert;
       Transmit (SubGhzPhyPort.all, Msg, Status);
       Receive (SubGhzPhyPort.all, Reply, Status);
@@ -432,6 +483,20 @@ package body STM32.SubGhzRF is
       RFStatus := Reply (1);
    end Read_Buffer;
 
+   procedure Write_Buffer (Offset  : UInt8;
+                          Buffer   : SPI_Data_8b)
+   is
+      Msg    : SPI_Data_8b (1 .. 2);
+      Status : SPI_Status;
+   begin
+      Msg (1) := Opcode_Write_Buffer;
+      Msg (2) := Offset;
+      NSS_Assert;
+      Transmit (SubGhzPhyPort.all, Msg, Status);
+      Transmit (SubGhzPhyPort.all, Buffer, Status);
+      NSS_Deassert;
+   end Write_Buffer;
+
    procedure LoRa_Get_Stats (RFStatus         : out Subghz_Status;
                              NbPktReceived    : out UInt16;
                              NbPktCrcError    : out UInt16;
@@ -472,11 +537,25 @@ package body STM32.SubGhzRF is
       Set_Rx (0);
    end Toggle_TxRx;
 
+   procedure Set_PktLen (Len : UInt8)
+   is
+   begin
+      LoRa_Set_PacketParams ((
+                         PreambleLength  => 8,
+                         HeaderType      => Explicit,
+                         PayloadLength   => Len,
+                         Crc             => Enabled,
+                         InvertIQ        => Standard,
+                         others => <>
+                        ));
+   end Set_PktLen;
+
+   function Get_State return Subghz_States is
+      (Subghz_State);
+
    procedure SubGhzRF_Init
    is
-      RFStat : Subghz_Status;
       X      : UInt8;
-      Irq    : UInt16;
    begin
       Set_Standby (RC_13_MHz);
       Set_TcxoMode ((Trim    => V_1_7,
@@ -516,7 +595,9 @@ package body STM32.SubGhzRF is
                   SleepCfg => Disabled,
                   others => <>));
 
+      Set_Standby (RC_13_MHz);
       delay until Clock + Milliseconds (100);
+      Set_PacketType ((PacketType => LoRa_Packet, others => <>));
 
       LoRa_Set_ModulationParams ((SpreadFactor      => Factor_7,
                                   BandWidth         => BandWidth_125Khz,
@@ -532,12 +613,19 @@ package body STM32.SubGhzRF is
                          InvertIQ        => Standard,
                          others => <>
                         ));
-      Read_Register ((Address => 16#0889#, others => <>), RFStatus => RFStat, Value => X); --  [37]
+      Read_Register ((Address => 16#0889#, others => <>), Value => X); --  [37]
       Write_Register ((Address => 16#0889#, Value => X, others => <>)); --  Which bit?
+      Set_PaConfig ((
+                     PaDutyCycle => Pa_DC_4,
+                     HpMax       => HpMax_0,
+                     PaSel       => LP_PA,
+                     others => <>));
+      Write_Register ((Address => 16#08e7#, Value => 24, others => <>));
       Set_TxParams ((Power => 14,
                      RampTime => Microsecs_40,
                      others => <>));
       Set_StopRxTimerOnPreamble (Stop_On_Sync);
+      Set_Standby (RC_13_MHz);
       Set_PacketType ((PacketType => LoRa_Packet, others => <>));
       LoRa_Set_ModulationParams ((SpreadFactor      => Factor_7,
                                   BandWidth         => BandWidth_125Khz,
@@ -545,8 +633,16 @@ package body STM32.SubGhzRF is
                                   Low_Data_Rate_Opt => Disabled,
                                   others => <>
                                  ));
+      LoRa_Set_PacketParams ((
+                         PreambleLength  => 8,
+                         HeaderType      => Explicit,
+                         PayloadLength   => 16#FF#,
+                         Crc             => Enabled,
+                         InvertIQ        => Standard,
+                         others => <>
+                        ));
       Set_LoRaSymbTimeout (NumberOfSymbols => 0);
-      Read_Register ((Address => 16#0736#, others => <>), RFStatus => RFStat, Value => X); --  [13]
+      Read_Register ((Address => 16#0736#, others => <>), Value => X); --  [13]
       Write_Register ((Address => 16#0736#, Value => X, others => <>)); -- what bit
       LoRa_Set_PacketParams ((
                          PreambleLength  => 8,
@@ -555,10 +651,11 @@ package body STM32.SubGhzRF is
                          Crc             => Enabled,
                          InvertIQ        => Standard,
                          others => <>
-                        ));
+                             ));
+      CalibrateImage (LowFreq => 16#e1#, HighFreq => 16#e9#); --  <<< fix this
       Set_RfFrequency ((F => 915.0E6, others => <>));
-      Reset_Stats;
-      Set_Rx (Timeout => 2_000_000); --  > 30secs
+--      Reset_Stats;
+--      Set_Rx (Timeout => 2_000_000); --  > 30secs
 --      Set_Rx (Timeout => 0);
    end SubGhzRF_Init;
 

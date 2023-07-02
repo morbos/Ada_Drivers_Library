@@ -1,4 +1,4 @@
---  This spec has been automatically generated from STM32U5xx.svd
+--  This spec has been automatically generated from STM32U585.svd
 
 pragma Restrictions (No_Elaboration_Code);
 pragma Ada_2012;
@@ -1173,59 +1173,6 @@ package STM32_SVD.OTG_FS is
       DOPNG  at 0 range 31 .. 31;
    end record;
 
-   --  This register indicates the status of a channel with respect to USB- and
-   --  AHB-related events. It is shown in Figure724. The application must read
-   --  this register when the host channels interrupt bit in the core interrupt
-   --  register (HCINT bit in GINTSTS) is set. Before the application can read
-   --  this register, it must first read the host all channels interrupt
-   --  (HAINT) register to get the exact channel number for the host channel-x
-   --  interrupt register. The application must clear the appropriate bit in
-   --  this register to clear the corresponding bits in the HAINT and GINTSTS
-   --  registers.
-   type HCINT1_DEVICE_Register is record
-      --  XFRC
-      XFRC           : Boolean := False;
-      --  CHH
-      CHH            : Boolean := False;
-      --  unspecified
-      Reserved_2_2   : HAL.Bit := 16#0#;
-      --  STALL
-      STALL          : Boolean := False;
-      --  NAK
-      NAK            : Boolean := False;
-      --  ACK
-      ACK            : Boolean := False;
-      --  unspecified
-      Reserved_6_6   : HAL.Bit := 16#0#;
-      --  TXERR
-      TXERR          : Boolean := False;
-      --  BBERR
-      BBERR          : Boolean := False;
-      --  FRMOR
-      FRMOR          : Boolean := False;
-      --  DTERR
-      DTERR          : Boolean := False;
-      --  unspecified
-      Reserved_11_31 : HAL.UInt21 := 16#0#;
-   end record
-     with Volatile_Full_Access, Object_Size => 32,
-          Bit_Order => System.Low_Order_First;
-
-   for HCINT1_DEVICE_Register use record
-      XFRC           at 0 range 0 .. 0;
-      CHH            at 0 range 1 .. 1;
-      Reserved_2_2   at 0 range 2 .. 2;
-      STALL          at 0 range 3 .. 3;
-      NAK            at 0 range 4 .. 4;
-      ACK            at 0 range 5 .. 5;
-      Reserved_6_6   at 0 range 6 .. 6;
-      TXERR          at 0 range 7 .. 7;
-      BBERR          at 0 range 8 .. 8;
-      FRMOR          at 0 range 9 .. 9;
-      DTERR          at 0 range 10 .. 10;
-      Reserved_11_31 at 0 range 11 .. 31;
-   end record;
-
    subtype DCFG_DSPD_Field is HAL.UInt2;
    subtype DCFG_DAD_Field is HAL.UInt7;
    subtype DCFG_PFIVL_Field is HAL.UInt2;
@@ -1785,68 +1732,6 @@ package STM32_SVD.OTG_FS is
       Reserved_31_31 at 0 range 31 .. 31;
    end record;
 
-   --  This register indicates the status of an endpoint with respect to USB-
-   --  and AHB-related events. It is shown in Figure724. The application must
-   --  read this register when the IN endpoints interrupt bit of the core
-   --  interrupt register (IEPINT in GINTSTS) is set. Before the application
-   --  can read this register, it must first read the device all endpoints
-   --  interrupt (DAINT) register to get the exact endpoint number for the
-   --  device endpoint-x interrupt register. The application must clear the
-   --  appropriate bit in this register to clear the corresponding bits in the
-   --  DAINT and GINTSTS registers.
-   type DIEPINT_Register_1 is record
-      --  XFRC
-      XFRC           : Boolean := False;
-      --  EPDISD
-      EPDISD         : Boolean := False;
-      --  AHBERR
-      AHBERR         : Boolean := False;
-      --  TOC
-      TOC            : Boolean := False;
-      --  ITTXFE
-      ITTXFE         : Boolean := False;
-      --  INEPNM
-      INEPNM         : Boolean := False;
-      --  Read-only. INEPNE
-      INEPNE         : Boolean := False;
-      --  Read-only. TXFE
-      TXFE           : Boolean := True;
-      --  TXFIFOUDRN
-      TXFIFOUDRN     : Boolean := False;
-      --  BNA
-      BNA            : Boolean := False;
-      --  unspecified
-      Reserved_10_10 : HAL.Bit := 16#0#;
-      --  PKTDRPSTS
-      PKTDRPSTS      : Boolean := False;
-      --  unspecified
-      Reserved_12_12 : HAL.Bit := 16#0#;
-      --  NAK
-      NAK            : Boolean := False;
-      --  unspecified
-      Reserved_14_31 : HAL.UInt18 := 16#0#;
-   end record
-     with Volatile_Full_Access, Object_Size => 32,
-          Bit_Order => System.Low_Order_First;
-
-   for DIEPINT_Register_1 use record
-      XFRC           at 0 range 0 .. 0;
-      EPDISD         at 0 range 1 .. 1;
-      AHBERR         at 0 range 2 .. 2;
-      TOC            at 0 range 3 .. 3;
-      ITTXFE         at 0 range 4 .. 4;
-      INEPNM         at 0 range 5 .. 5;
-      INEPNE         at 0 range 6 .. 6;
-      TXFE           at 0 range 7 .. 7;
-      TXFIFOUDRN     at 0 range 8 .. 8;
-      BNA            at 0 range 9 .. 9;
-      Reserved_10_10 at 0 range 10 .. 10;
-      PKTDRPSTS      at 0 range 11 .. 11;
-      Reserved_12_12 at 0 range 12 .. 12;
-      NAK            at 0 range 13 .. 13;
-      Reserved_14_31 at 0 range 14 .. 31;
-   end record;
-
    subtype DOEPCTL0_MPSIZ_Field is HAL.UInt2;
    subtype DOEPCTL0_EPTYP_Field is HAL.UInt2;
 
@@ -2260,7 +2145,7 @@ package STM32_SVD.OTG_FS is
       --  for the host channel-x interrupt register. The application must clear
       --  the appropriate bit in this register to clear the corresponding bits
       --  in the HAINT and GINTSTS registers.
-      HCINT1_DEVICE  : aliased HCINT1_DEVICE_Register;
+      HCINT1         : aliased HCINT_Register;
       --  This register reflects the mask for each channel status described in
       --  the previous section.
       HCINTMSK1      : aliased HCINTMSK_Register;
@@ -2519,8 +2404,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DIEPTSIZ1      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 1 DMA address register
-      DIEPDMA1       : aliased HAL.UInt32;
       --  This read-only register contains the free space information for the
       --  device IN endpoint Tx FIFO.
       DTXFSTS1       : aliased DTXFSTS_Register;
@@ -2543,8 +2426,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DIEPTSIZ2      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 2 DMA address register
-      DIEPDMA2       : aliased HAL.UInt32;
       --  This read-only register contains the free space information for the
       --  device IN endpoint Tx FIFO.
       DTXFSTS2       : aliased DTXFSTS_Register;
@@ -2567,8 +2448,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DIEPTSIZ3      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 3 DMA address register
-      DIEPDMA3       : aliased HAL.UInt32;
       --  This read-only register contains the free space information for the
       --  device IN endpoint Tx FIFO.
       DTXFSTS3       : aliased DTXFSTS_Register;
@@ -2591,8 +2470,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DIEPTSIZ4      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 4 DMA address register
-      DIEPDMA4       : aliased HAL.UInt32;
       --  This read-only register contains the free space information for the
       --  device IN endpoint Tx FIFO.
       DTXFSTS4       : aliased DTXFSTS_Register;
@@ -2615,65 +2492,9 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DIEPTSIZ5      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 5 DMA address register
-      DIEPDMA5       : aliased HAL.UInt32;
       --  This read-only register contains the free space information for the
       --  device IN endpoint Tx FIFO.
       DTXFSTS5       : aliased DTXFSTS_Register;
-      --  This register indicates the status of an endpoint with respect to
-      --  USB- and AHB-related events. It is shown in Figure724. The
-      --  application must read this register when the IN endpoints interrupt
-      --  bit of the core interrupt register (IEPINT in GINTSTS) is set. Before
-      --  the application can read this register, it must first read the device
-      --  all endpoints interrupt (DAINT) register to get the exact endpoint
-      --  number for the device endpoint-x interrupt register. The application
-      --  must clear the appropriate bit in this register to clear the
-      --  corresponding bits in the DAINT and GINTSTS registers.
-      DIEPINT6       : aliased DIEPINT_Register_1;
-      --  The application must modify this register before enabling the
-      --  endpoint. Once the endpoint is enabled using the endpoint enable bit
-      --  in the DIEPCTLx registers (EPENA bit in DIEPCTLx), the core modifies
-      --  this register. The application can only read this register once the
-      --  core has cleared the endpoint enable bit.
-      DIEPTSIZ6      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 6 DMA address register
-      DIEPDMA6       : aliased HAL.UInt32;
-      --  This register indicates the status of an endpoint with respect to
-      --  USB- and AHB-related events. It is shown in Figure724. The
-      --  application must read this register when the IN endpoints interrupt
-      --  bit of the core interrupt register (IEPINT in GINTSTS) is set. Before
-      --  the application can read this register, it must first read the device
-      --  all endpoints interrupt (DAINT) register to get the exact endpoint
-      --  number for the device endpoint-x interrupt register. The application
-      --  must clear the appropriate bit in this register to clear the
-      --  corresponding bits in the DAINT and GINTSTS registers.
-      DIEPINT7       : aliased DIEPINT_Register_1;
-      --  The application must modify this register before enabling the
-      --  endpoint. Once the endpoint is enabled using the endpoint enable bit
-      --  in the DIEPCTLx registers (EPENA bit in DIEPCTLx), the core modifies
-      --  this register. The application can only read this register once the
-      --  core has cleared the endpoint enable bit.
-      DIEPTSIZ7      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 7 DMA address register
-      DIEPDMA7       : aliased HAL.UInt32;
-      --  This register indicates the status of an endpoint with respect to
-      --  USB- and AHB-related events. It is shown in Figure724. The
-      --  application must read this register when the IN endpoints interrupt
-      --  bit of the core interrupt register (IEPINT in GINTSTS) is set. Before
-      --  the application can read this register, it must first read the device
-      --  all endpoints interrupt (DAINT) register to get the exact endpoint
-      --  number for the device endpoint-x interrupt register. The application
-      --  must clear the appropriate bit in this register to clear the
-      --  corresponding bits in the DAINT and GINTSTS registers.
-      DIEPINT8       : aliased DIEPINT_Register_1;
-      --  The application must modify this register before enabling the
-      --  endpoint. Once the endpoint is enabled using the endpoint enable bit
-      --  in the DIEPCTLx registers (EPENA bit in DIEPCTLx), the core modifies
-      --  this register. The application can only read this register once the
-      --  core has cleared the endpoint enable bit.
-      DIEPTSIZ8      : aliased DIEPTSIZ_Register;
-      --  OTG device IN endpoint 8 DMA address register
-      DIEPDMA8       : aliased HAL.UInt32;
       --  This section describes the DOEPCTL0 register.
       DOEPCTL0       : aliased DOEPCTL0_Register;
       --  This register indicates the status of an endpoint with respect to
@@ -2687,8 +2508,6 @@ package STM32_SVD.OTG_FS is
       DOEPINT0       : aliased DOEPINT_Register;
       --  The application must modify this register before enabling endpoint 0.
       DOEPTSIZ0      : aliased DOEPTSIZ0_Register;
-      --  OTG device OUT endpoint 0 DMA address register
-      DOEPDMA0       : aliased HAL.UInt32;
       --  The application uses this register to control the behavior of each
       --  logical endpoint other than endpoint 0.
       DOEPCTL1       : aliased DOEPCTL_Register;
@@ -2707,8 +2526,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DOEPTSIZ1      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 1 DMA address register
-      DOEPDMA1       : aliased HAL.UInt32;
       --  The application uses this register to control the behavior of each
       --  logical endpoint other than endpoint 0.
       DOEPCTL2       : aliased DOEPCTL_Register;
@@ -2727,8 +2544,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DOEPTSIZ2      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 2 DMA address register
-      DOEPDMA2       : aliased HAL.UInt32;
       --  The application uses this register to control the behavior of each
       --  logical endpoint other than endpoint 0.
       DOEPCTL3       : aliased DOEPCTL_Register;
@@ -2747,8 +2562,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DOEPTSIZ3      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 3 DMA address register
-      DOEPDMA3       : aliased HAL.UInt32;
       --  The application uses this register to control the behavior of each
       --  logical endpoint other than endpoint 0.
       DOEPCTL4       : aliased DOEPCTL_Register;
@@ -2767,8 +2580,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DOEPTSIZ4      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 4 DMA address register
-      DOEPDMA4       : aliased HAL.UInt32;
       --  The application uses this register to control the behavior of each
       --  logical endpoint other than endpoint 0.
       DOEPCTL5       : aliased DOEPCTL_Register;
@@ -2787,68 +2598,6 @@ package STM32_SVD.OTG_FS is
       --  this register. The application can only read this register once the
       --  core has cleared the endpoint enable bit.
       DOEPTSIZ5      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 5 DMA address register
-      DOEPDMA5       : aliased HAL.UInt32;
-      --  The application uses this register to control the behavior of each
-      --  logical endpoint other than endpoint 0.
-      DOEPCTL6       : aliased DOEPCTL_Register;
-      --  This register indicates the status of an endpoint with respect to
-      --  USB- and AHB-related events. It is shown in Figure724. The
-      --  application must read this register when the OUT endpoints interrupt
-      --  bit of the GINTSTS register (OEPINT bit in GINTSTS) is set. Before
-      --  the application can read this register, it must first read the DAINT
-      --  register to get the exact endpoint number for the DOEPINTx register.
-      --  The application must clear the appropriate bit in this register to
-      --  clear the corresponding bits in the DAINT and GINTSTS registers.
-      DOEPINT6       : aliased DOEPINT_Register;
-      --  The application must modify this register before enabling the
-      --  endpoint. Once the endpoint is enabled using endpoint enable bit of
-      --  the DOEPCTLx registers (EPENA bit in DOEPCTLx), the core modifies
-      --  this register. The application can only read this register once the
-      --  core has cleared the endpoint enable bit.
-      DOEPTSIZ6      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 6 DMA address register
-      DOEPDMA6       : aliased HAL.UInt32;
-      --  The application uses this register to control the behavior of each
-      --  logical endpoint other than endpoint 0.
-      DOEPCTL7       : aliased DOEPCTL_Register;
-      --  This register indicates the status of an endpoint with respect to
-      --  USB- and AHB-related events. It is shown in Figure724. The
-      --  application must read this register when the OUT endpoints interrupt
-      --  bit of the GINTSTS register (OEPINT bit in GINTSTS) is set. Before
-      --  the application can read this register, it must first read the DAINT
-      --  register to get the exact endpoint number for the DOEPINTx register.
-      --  The application must clear the appropriate bit in this register to
-      --  clear the corresponding bits in the DAINT and GINTSTS registers.
-      DOEPINT7       : aliased DOEPINT_Register;
-      --  The application must modify this register before enabling the
-      --  endpoint. Once the endpoint is enabled using endpoint enable bit of
-      --  the DOEPCTLx registers (EPENA bit in DOEPCTLx), the core modifies
-      --  this register. The application can only read this register once the
-      --  core has cleared the endpoint enable bit.
-      DOEPTSIZ7      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 7 DMA address register
-      DOEPDMA7       : aliased HAL.UInt32;
-      --  The application uses this register to control the behavior of each
-      --  logical endpoint other than endpoint 0.
-      DOEPCTL8       : aliased DOEPCTL_Register;
-      --  This register indicates the status of an endpoint with respect to
-      --  USB- and AHB-related events. It is shown in Figure724. The
-      --  application must read this register when the OUT endpoints interrupt
-      --  bit of the GINTSTS register (OEPINT bit in GINTSTS) is set. Before
-      --  the application can read this register, it must first read the DAINT
-      --  register to get the exact endpoint number for the DOEPINTx register.
-      --  The application must clear the appropriate bit in this register to
-      --  clear the corresponding bits in the DAINT and GINTSTS registers.
-      DOEPINT8       : aliased DOEPINT_Register;
-      --  The application must modify this register before enabling the
-      --  endpoint. Once the endpoint is enabled using endpoint enable bit of
-      --  the DOEPCTLx registers (EPENA bit in DOEPCTLx), the core modifies
-      --  this register. The application can only read this register once the
-      --  core has cleared the endpoint enable bit.
-      DOEPTSIZ8      : aliased DOEPTSIZ_Register;
-      --  OTG device OUT endpoint 8 DMA address register
-      DOEPDMA8       : aliased HAL.UInt32;
       --  This register is available in host and device modes.
       PCGCCTL        : aliased PCGCCTL_Register;
       case Discriminent is
@@ -2911,7 +2660,7 @@ package STM32_SVD.OTG_FS is
       HCINTMSK0      at 16#50C# range 0 .. 31;
       HCTSIZ0        at 16#510# range 0 .. 31;
       HCCHAR1        at 16#520# range 0 .. 31;
-      HCINT1_DEVICE  at 16#528# range 0 .. 31;
+      HCINT1         at 16#528# range 0 .. 31;
       HCINTMSK1      at 16#52C# range 0 .. 31;
       HCTSIZ1        at 16#530# range 0 .. 31;
       HCCHAR2        at 16#540# range 0 .. 31;
@@ -2971,73 +2720,41 @@ package STM32_SVD.OTG_FS is
       DIEPCTL1       at 16#920# range 0 .. 31;
       DIEPINT1       at 16#928# range 0 .. 31;
       DIEPTSIZ1      at 16#930# range 0 .. 31;
-      DIEPDMA1       at 16#934# range 0 .. 31;
       DTXFSTS1       at 16#938# range 0 .. 31;
       DIEPCTL2       at 16#940# range 0 .. 31;
       DIEPINT2       at 16#948# range 0 .. 31;
       DIEPTSIZ2      at 16#950# range 0 .. 31;
-      DIEPDMA2       at 16#954# range 0 .. 31;
       DTXFSTS2       at 16#958# range 0 .. 31;
       DIEPCTL3       at 16#960# range 0 .. 31;
       DIEPINT3       at 16#968# range 0 .. 31;
       DIEPTSIZ3      at 16#970# range 0 .. 31;
-      DIEPDMA3       at 16#974# range 0 .. 31;
       DTXFSTS3       at 16#978# range 0 .. 31;
       DIEPCTL4       at 16#980# range 0 .. 31;
       DIEPINT4       at 16#988# range 0 .. 31;
       DIEPTSIZ4      at 16#990# range 0 .. 31;
-      DIEPDMA4       at 16#994# range 0 .. 31;
       DTXFSTS4       at 16#998# range 0 .. 31;
       DIEPCTL5       at 16#9A0# range 0 .. 31;
       DIEPINT5       at 16#9A8# range 0 .. 31;
       DIEPTSIZ5      at 16#9B0# range 0 .. 31;
-      DIEPDMA5       at 16#9B4# range 0 .. 31;
       DTXFSTS5       at 16#9B8# range 0 .. 31;
-      DIEPINT6       at 16#9C8# range 0 .. 31;
-      DIEPTSIZ6      at 16#9D0# range 0 .. 31;
-      DIEPDMA6       at 16#9D4# range 0 .. 31;
-      DIEPINT7       at 16#9E8# range 0 .. 31;
-      DIEPTSIZ7      at 16#9F0# range 0 .. 31;
-      DIEPDMA7       at 16#9F4# range 0 .. 31;
-      DIEPINT8       at 16#A08# range 0 .. 31;
-      DIEPTSIZ8      at 16#A10# range 0 .. 31;
-      DIEPDMA8       at 16#A14# range 0 .. 31;
       DOEPCTL0       at 16#B00# range 0 .. 31;
       DOEPINT0       at 16#B08# range 0 .. 31;
       DOEPTSIZ0      at 16#B10# range 0 .. 31;
-      DOEPDMA0       at 16#B14# range 0 .. 31;
       DOEPCTL1       at 16#B20# range 0 .. 31;
       DOEPINT1       at 16#B28# range 0 .. 31;
       DOEPTSIZ1      at 16#B30# range 0 .. 31;
-      DOEPDMA1       at 16#B34# range 0 .. 31;
       DOEPCTL2       at 16#B40# range 0 .. 31;
       DOEPINT2       at 16#B48# range 0 .. 31;
       DOEPTSIZ2      at 16#B50# range 0 .. 31;
-      DOEPDMA2       at 16#B54# range 0 .. 31;
       DOEPCTL3       at 16#B60# range 0 .. 31;
       DOEPINT3       at 16#B68# range 0 .. 31;
       DOEPTSIZ3      at 16#B70# range 0 .. 31;
-      DOEPDMA3       at 16#B74# range 0 .. 31;
       DOEPCTL4       at 16#B80# range 0 .. 31;
       DOEPINT4       at 16#B88# range 0 .. 31;
       DOEPTSIZ4      at 16#B90# range 0 .. 31;
-      DOEPDMA4       at 16#B94# range 0 .. 31;
       DOEPCTL5       at 16#BA0# range 0 .. 31;
       DOEPINT5       at 16#BA8# range 0 .. 31;
       DOEPTSIZ5      at 16#BB0# range 0 .. 31;
-      DOEPDMA5       at 16#BB4# range 0 .. 31;
-      DOEPCTL6       at 16#BC0# range 0 .. 31;
-      DOEPINT6       at 16#BC8# range 0 .. 31;
-      DOEPTSIZ6      at 16#BD0# range 0 .. 31;
-      DOEPDMA6       at 16#BD4# range 0 .. 31;
-      DOEPCTL7       at 16#BE0# range 0 .. 31;
-      DOEPINT7       at 16#BE8# range 0 .. 31;
-      DOEPTSIZ7      at 16#BF0# range 0 .. 31;
-      DOEPDMA7       at 16#BF4# range 0 .. 31;
-      DOEPCTL8       at 16#C00# range 0 .. 31;
-      DOEPINT8       at 16#C08# range 0 .. 31;
-      DOEPTSIZ8      at 16#C10# range 0 .. 31;
-      DOEPDMA8       at 16#C14# range 0 .. 31;
       PCGCCTL        at 16#E00# range 0 .. 31;
       GRXSTSR_DEVICE at 16#1C# range 0 .. 31;
       GRXSTSP_DEVICE at 16#20# range 0 .. 31;

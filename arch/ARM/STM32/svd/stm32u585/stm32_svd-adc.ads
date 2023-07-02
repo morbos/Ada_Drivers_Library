@@ -1,4 +1,4 @@
---  This spec has been automatically generated from STM32U5xx.svd
+--  This spec has been automatically generated from STM32U585.svd
 
 pragma Restrictions (No_Elaboration_Code);
 pragma Ada_2012;
@@ -1891,6 +1891,51 @@ package STM32_SVD.ADC is
       Reserved_25_31 at 0 range 25 .. 31;
    end record;
 
+   subtype ADC12_CCR_PRESC_Field is HAL.UInt4;
+
+   --  ADC_CCR system control register
+   type ADC12_CCR_Register is record
+      --  unspecified
+      Reserved_0_17  : HAL.UInt18 := 16#0#;
+      --  ADC prescaler These bits are set and cleared by software to select
+      --  the frequency of the ADC clock. The clock is common to all ADCs.
+      --  Others: Reserved, must not be used Note: The software is allowed to
+      --  write this bit only when the ADCs are disabled (ADCAL = 0,
+      --  JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and
+      --  ADEN = 0).
+      PRESC          : ADC12_CCR_PRESC_Field := 16#0#;
+      --  VREFINT enable This bit is set and cleared by software to
+      --  enable/disable the VREFINT buffer. Note: The software is allowed to
+      --  write this bit only when the ADCs are disabled (ADCAL = 0,
+      --  JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0 and
+      --  ADEN = 0).
+      VREFEN         : Boolean := False;
+      --  Temperature sensor voltage selection This bit is set and cleared by
+      --  software to control the temperature sensor channel. Note: The
+      --  software is allowed to write this bit only when the ADCs are disabled
+      --  (ADCAL = 0, JADSTART = 0, ADSTART = 0, ADSTP = 0, ADDIS = 0
+      --  and ADEN = 0).
+      VSENSESEL      : Boolean := False;
+      --  VBAT enable This bit is set and cleared by software to control the
+      --  VBAT channel. Note: The software is allowed to write this bit only
+      --  when the ADCs are disabled (ADCAL = 0, JADSTART = 0,
+      --  ADSTART = 0, ADSTP = 0, ADDIS = 0 and ADEN = 0).
+      VBATEN         : Boolean := False;
+      --  unspecified
+      Reserved_25_31 : HAL.UInt7 := 16#0#;
+   end record
+     with Volatile_Full_Access, Object_Size => 32,
+          Bit_Order => System.Low_Order_First;
+
+   for ADC12_CCR_Register use record
+      Reserved_0_17  at 0 range 0 .. 17;
+      PRESC          at 0 range 18 .. 21;
+      VREFEN         at 0 range 22 .. 22;
+      VSENSESEL      at 0 range 23 .. 23;
+      VBATEN         at 0 range 24 .. 24;
+      Reserved_25_31 at 0 range 25 .. 31;
+   end record;
+
    -----------------
    -- Peripherals --
    -----------------
@@ -2092,5 +2137,24 @@ package STM32_SVD.ADC is
    --  ADC4
    SEC_ADC4_Periph : aliased ADC4_Peripheral
      with Import, Address => SEC_ADC4_Base;
+
+   --  ADC common registers
+   type ADC12_Peripheral is record
+      --  ADC_CCR system control register
+      ADC12_CCR : aliased ADC12_CCR_Register;
+   end record
+     with Volatile;
+
+   for ADC12_Peripheral use record
+      ADC12_CCR at 16#8# range 0 .. 31;
+   end record;
+
+   --  ADC common registers
+   ADC12_Periph : aliased ADC12_Peripheral
+     with Import, Address => ADC12_Base;
+
+   --  ADC common registers
+   SEC_ADC12_Periph : aliased ADC12_Peripheral
+     with Import, Address => SEC_ADC12_Base;
 
 end STM32_SVD.ADC;

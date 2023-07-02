@@ -160,6 +160,18 @@ package body STM32.DAC is
       end case;
    end Trigger_Conversion_By_Software;
 
+   ------------------------------------
+   -- Trigger_Conversion_By_Software --
+   ------------------------------------
+
+   procedure Trigger_Conversion_By_Software
+     (This    : in out Digital_To_Analog_Converter)
+   is
+   begin
+      This.SWTRIGR.SWTRIG.Arr (1) := True; -- cleared by hardware
+      This.SWTRIGR.SWTRIG.Arr (2) := True; -- cleared by hardware
+   end Trigger_Conversion_By_Software;
+
    ----------------------------
    -- Converted_Output_Value --
    ----------------------------

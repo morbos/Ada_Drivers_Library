@@ -251,14 +251,14 @@ package STM32.Device is
 
    procedure Reset_All_ADC_Units;
 
---   DAC_1 : aliased Digital_To_Analog_Converter with Import, Volatile, Address => DAC_Base;
+   DAC_1 : aliased Digital_To_Analog_Converter with Import, Volatile, Address => DAC_Base;
 
---   DAC_Channel_1_IO : GPIO_Point renames PA4;
---   DAC_Channel_2_IO : GPIO_Point renames PA5;
+   DAC_Channel_1_IO : GPIO_Point renames PA4;
+   DAC_Channel_2_IO : GPIO_Point renames PA5;
 
---   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter);
+   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter);
 
---   procedure Reset (This : aliased in out Digital_To_Analog_Converter);
+   procedure Reset (This : aliased in out Digital_To_Analog_Converter);
 
    Internal_USART_1 : aliased Internal_USART with Import, Volatile, Address => USART1_Base;
    Internal_USART_2 : aliased Internal_USART with Import, Volatile, Address => USART2_Base;

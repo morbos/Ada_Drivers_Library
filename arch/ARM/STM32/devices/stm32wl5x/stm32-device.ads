@@ -51,6 +51,7 @@ with STM32.Timers;  use STM32.Timers;
 with STM32.ADC;     use STM32.ADC;
 with STM32.DMA;     use STM32.DMA;
 with STM32.CRC;    use STM32.CRC;
+with STM32.USARTs; use STM32.USARTs;
 
 package STM32.Device is
    pragma Elaborate_Body;
@@ -244,6 +245,16 @@ package STM32.Device is
 
    procedure Enable_Clock (This : aliased in out Analog_To_Digital_Converter);
    procedure Reset_All_ADC_Units;
+
+   Internal_USART_1 : aliased Internal_USART with Import, Volatile, Address => USART1_Base;
+   Internal_USART_2 : aliased Internal_USART with Import, Volatile, Address => USART2_Base;
+
+   USART_1 : aliased USART (Internal_USART_1'Access);
+   USART_2 : aliased USART (Internal_USART_2'Access);
+
+   procedure Enable_Clock (This : aliased in out USART);
+
+   procedure Reset (This : aliased in out USART);
 
    ---------
    -- DMA --

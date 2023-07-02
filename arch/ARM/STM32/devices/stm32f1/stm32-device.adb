@@ -249,23 +249,23 @@ package body STM32.Device is
    -- Enable_Clock --
    ------------------
 
---   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter)
---   is
---      pragma Unreferenced (This);
---   begin
---      RCC_Periph.APB1ENR.DACEN := True;
---   end Enable_Clock;
+   procedure Enable_Clock (This : aliased in out Digital_To_Analog_Converter)
+   is
+      pragma Unreferenced (This);
+   begin
+      RCC_Periph.APB1ENR.DACEN := True;
+   end Enable_Clock;
 
    -----------
    -- Reset --
    -----------
 
---   procedure Reset (This : aliased in out Digital_To_Analog_Converter) is
---      pragma Unreferenced (This);
---   begin
---      RCC_Periph.APB1RSTR.DACRST := True;
---      RCC_Periph.APB1RSTR.DACRST := False;
---   end Reset;
+   procedure Reset (This : aliased in out Digital_To_Analog_Converter) is
+      pragma Unreferenced (This);
+   begin
+      RCC_Periph.APB1RSTR.DACRST := True;
+      RCC_Periph.APB1RSTR.DACRST := False;
+   end Reset;
 
    ------------------
    -- Enable_Clock --

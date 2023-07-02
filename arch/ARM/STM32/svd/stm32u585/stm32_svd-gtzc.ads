@@ -1,4 +1,4 @@
---  This spec has been automatically generated from STM32U5xx.svd
+--  This spec has been automatically generated from STM32U585.svd
 
 pragma Restrictions (No_Elaboration_Code);
 pragma Ada_2012;
@@ -498,10 +498,10 @@ package STM32_SVD.GTZC is
    type IER4_Register is record
       --  illegal access interrupt enable for GPDMA1
       GPDMA1IE       : Boolean := False;
-      --  illegal access interrupt enable for FLASH memory
-      FLASHIE        : Boolean := False;
       --  illegal access interrupt enable for FLASH registers
       FLASH_REGIE    : Boolean := False;
+      --  illegal access interrupt enable for FLASH memory
+      FLASHIE        : Boolean := False;
       --  illegal access interrupt enable for OTFDEC1
       OTFDEC1IE      : Boolean := False;
       --  illegal access interrupt enable for OTFDEC2
@@ -542,8 +542,8 @@ package STM32_SVD.GTZC is
 
    for IER4_Register use record
       GPDMA1IE       at 0 range 0 .. 0;
-      FLASHIE        at 0 range 1 .. 1;
-      FLASH_REGIE    at 0 range 2 .. 2;
+      FLASH_REGIE    at 0 range 1 .. 1;
+      FLASHIE        at 0 range 2 .. 2;
       OTFDEC1IE      at 0 range 3 .. 3;
       OTFDEC2IE      at 0 range 4 .. 4;
       Reserved_5_13  at 0 range 5 .. 13;
@@ -759,10 +759,10 @@ package STM32_SVD.GTZC is
    type SR4_Register is record
       --  Read-only. illegal access flag for GPDMA1
       GPDMA1F        : Boolean;
-      --  Read-only. illegal access flag for FLASH memory
-      FLASHF         : Boolean;
       --  Read-only. illegal access flag for FLASH registers
       FLASH_REGF     : Boolean;
+      --  Read-only. illegal access flag for FLASH memory
+      FLASHF         : Boolean;
       --  Read-only. illegal access flag for OTFDEC1
       OTFDEC1F       : Boolean;
       --  Read-only. illegal access flag for OTFDEC2
@@ -804,8 +804,8 @@ package STM32_SVD.GTZC is
 
    for SR4_Register use record
       GPDMA1F        at 0 range 0 .. 0;
-      FLASHF         at 0 range 1 .. 1;
-      FLASH_REGF     at 0 range 2 .. 2;
+      FLASH_REGF     at 0 range 1 .. 1;
+      FLASHF         at 0 range 2 .. 2;
       OTFDEC1F       at 0 range 3 .. 3;
       OTFDEC2F       at 0 range 4 .. 4;
       Reserved_5_13  at 0 range 5 .. 13;
@@ -1021,10 +1021,10 @@ package STM32_SVD.GTZC is
    type FCR4_Register is record
       --  Write-only. clear the illegal access flag for GPDMA1
       CGPDMA1F       : Boolean := False;
-      --  Write-only. clear the illegal access flag for FLASH memory
-      CFLASHF        : Boolean := False;
       --  Write-only. clear the illegal access flag for FLASH registers
       CFLASH_REGF    : Boolean := False;
+      --  Write-only. clear the illegal access flag for FLASH memory
+      CFLASHF        : Boolean := False;
       --  Write-only. clear the illegal access flag for OTFDEC1
       COTFDEC1F      : Boolean := False;
       --  Write-only. clear the illegal access flag for OTFDEC2
@@ -1068,8 +1068,8 @@ package STM32_SVD.GTZC is
 
    for FCR4_Register use record
       CGPDMA1F       at 0 range 0 .. 0;
-      CFLASHF        at 0 range 1 .. 1;
-      CFLASH_REGF    at 0 range 2 .. 2;
+      CFLASH_REGF    at 0 range 1 .. 1;
+      CFLASHF        at 0 range 2 .. 2;
       COTFDEC1F      at 0 range 3 .. 3;
       COTFDEC2F      at 0 range 4 .. 4;
       Reserved_5_13  at 0 range 5 .. 13;
