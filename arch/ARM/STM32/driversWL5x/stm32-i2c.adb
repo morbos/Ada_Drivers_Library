@@ -451,6 +451,104 @@ package body STM32.I2C is
       Status       := Ok;
    end Master_Transmit;
 
+   ---------------------
+   -- Master_Transmit --
+   ---------------------
+
+   overriding
+   procedure Master_Transmit
+     (This    : in out I2C_Port;
+      Addr    : I2C_Address;
+      Data1   : I2C_Data;
+      Data2   : I2C_Data;
+      Status  : out I2C_Status;
+      Timeout : Natural := 1000)
+   is
+      Size_Temp       : Natural := 0;
+      Transmitted     : Natural := 0;
+      Block_Xmit_Cnt  : Natural := 0;
+      Length          : Natural := Data1'Length + Data2'Length;
+      Val             : UInt8;
+   begin
+      if This.Periph.ISR.BUSY then
+         Status := Busy;
+         return;
+      end if;
+
+      if Data1'Length = 0 or Data2'Length = 0 then
+         Status := Err_Error;
+         return;
+      end if;
+
+      if This.State /= Ready then
+         Status := Busy;
+         return;
+      end if;
+
+      This.State := Master_Busy_Tx;
+
+      --  Initiate the transfer
+      if Length > 255 then
+         Config_Transfer
+           (This, Addr, 255, Reload_Mode, Generate_Start_Write);
+         Size_Temp := 255;
+      else
+         Config_Transfer
+           (This, Addr, UInt8 (Length), Autoend_Mode, Generate_Start_Write);
+         Size_Temp := Length;
+      end if;
+
+      --  Transfer the data
+      while Transmitted < Length loop
+         Wait_Tx_Interrupt_Status (This, Timeout, Status);
+
+         if Status /= Ok then
+            return;
+         end if;
+
+         if Transmitted < Data1'Length then
+            Val := Data1 (Data1'First + Transmitted);
+         else
+            Val := Data2 (Data2'First + (Transmitted - Data1'Length));
+         end if;
+
+         This.Periph.TXDR.TXDATA := Val;
+         Transmitted := Transmitted + 1;
+         Block_Xmit_Cnt := Block_Xmit_Cnt + 1;
+
+         if Block_Xmit_Cnt = Size_Temp
+           and then Transmitted < Length
+         then
+            --  Wait for the Transfer complete reload flag
+            Wait_Transfer_Complete_Reset_Flag (This, Timeout, Status);
+            if Status /= Ok then
+               return;
+            end if;
+            Block_Xmit_Cnt := 0;
+            if Length - Transmitted > 255 then
+               Config_Transfer
+                 (This, Addr, 255, Reload_Mode, No_Start_Stop);
+               Size_Temp := 255;
+            else
+               Config_Transfer
+                 (This, Addr, UInt8 (Length - Transmitted), Autoend_Mode,
+                  No_Start_Stop);
+               Size_Temp := Length - Transmitted;
+            end if;
+         end if;
+      end loop;
+
+      Wait_Stop_Flag (This, Timeout, Status);
+      if Status /= Ok then
+         return;
+      end if;
+
+      --  Reset CR2
+      Reset_Config (This);
+      This.State := Ready;
+      Status       := Ok;
+   end Master_Transmit;
+
    --------------------
    -- Master_Receive --
    --------------------

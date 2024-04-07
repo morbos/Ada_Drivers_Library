@@ -54,5 +54,4 @@ package STM32.Board is
 
    procedure All_LEDs_Off;
 
-
 end STM32.Board;

@@ -102,6 +102,15 @@ package STM32.I2C is
       Timeout : Natural := 1000);
 
    overriding
+   procedure Master_Transmit
+     (This    : in out I2C_Port;
+      Addr    : HAL.I2C.I2C_Address;
+      Data1   : HAL.I2C.I2C_Data;
+      Data2   : HAL.I2C.I2C_Data;
+      Status  : out HAL.I2C.I2C_Status;
+      Timeout : Natural := 1000);
+
+   overriding
    procedure Master_Receive
      (This    : in out I2C_Port;
       Addr    : HAL.I2C.I2C_Address;

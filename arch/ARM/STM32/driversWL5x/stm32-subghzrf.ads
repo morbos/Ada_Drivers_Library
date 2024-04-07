@@ -587,9 +587,9 @@ package STM32.SubGhzRF is
 
    procedure CheckDeviceReady;
 
-   function Get_IrqStatus (RFStatus  : out Subghz_Status) return UInt16;
+   function Get_IrqStatus (RFStatus  : out Subghz_Status) return Irq_Status;
 
-   procedure Clr_IrqStatus (IrqStatus : UInt16);
+   procedure Clr_IrqStatus (IrqStatus : Irq_Status);
 
    procedure Get_RxBufferStatus (RFStatus             : out Subghz_Status;
                                  RxPayloadLength      : out UInt8;

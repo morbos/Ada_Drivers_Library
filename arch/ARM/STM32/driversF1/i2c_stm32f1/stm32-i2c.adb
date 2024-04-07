@@ -724,6 +724,109 @@ package body STM32.I2C is
       This.State := Ready;
    end Master_Transmit;
 
+   ---------------------
+   -- Master_Transmit --
+   ---------------------
+
+   overriding
+   procedure Master_Transmit
+     (This    : in out I2C_Port;
+      Addr    : HAL.I2C.I2C_Address;
+      Data1   : HAL.I2C.I2C_Data;
+      Data2   : HAL.I2C.I2C_Data;
+      Status  : out HAL.I2C.I2C_Status;
+      Timeout : Natural := 1000)
+   is
+      Idx1     : Natural := Data1'First;
+      Idx2     : Natural := Data2'First;
+      Length   : Natural := Data1'Length + Data2'Length;
+   begin
+      if This.State = Reset then
+         Status := HAL.I2C.Err_Error;
+         return;
+
+      elsif Data1'Length = 0 or Data2'Length = 0 then
+         Status := HAL.I2C.Err_Error;
+         return;
+      end if;
+
+      Wait_Flag (This, Busy, True, Timeout, Status);
+
+      if Status /= HAL.I2C.Ok then
+         Status := HAL.I2C.Busy;
+         return;
+      end if;
+
+      if This.State /= Ready then
+         Status := HAL.I2C.Busy;
+         return;
+      end if;
+
+      This.State := Master_Busy_Tx;
+
+      This.Periph.CR1.POS := False;
+
+      Master_Request_Write (This, Addr, Timeout, Status);
+
+      if Status /= HAL.I2C.Ok then
+         return;
+      end if;
+
+      Clear_Address_Sent_Status (This);
+
+      while Idx1 <= Data1'Last loop
+         Wait_Flag (This, Tx_Data_Register_Empty, False, Timeout, Status);
+
+         if Status /= HAL.I2C.Ok then
+            return;
+         end if;
+
+         This.Periph.DR.DR := Data1 (Idx1);
+         Idx1 := Idx1 + 1;
+
+         if Flag_Status (This, Byte_Transfer_Finished)
+           and then
+            Idx1 <= Data1'Last
+           and then
+            Status = HAL.I2C.Ok
+         then
+            This.Periph.DR.DR := Data1 (Idx1);
+            Idx1 := Idx1 + 1;
+         end if;
+      end loop;
+
+      while Idx2 <= Data2'Last loop
+         Wait_Flag (This, Tx_Data_Register_Empty, False, Timeout, Status);
+
+         if Status /= HAL.I2C.Ok then
+            return;
+         end if;
+
+         This.Periph.DR.DR := Data2 (Idx2);
+         Idx2 := Idx2 + 1;
+
+         if Flag_Status (This, Byte_Transfer_Finished)
+           and then
+            Idx2 <= Data2'Last
+           and then
+            Status = HAL.I2C.Ok
+         then
+            This.Periph.DR.DR := Data2 (Idx2);
+            Idx2 := Idx2 + 1;
+         end if;
+      end loop;
+
+      Wait_Flag (This, Tx_Data_Register_Empty, False, Timeout, Status);
+
+      if Status /= HAL.I2C.Ok then
+         return;
+      end if;
+
+      --  Generate STOP
+      This.Periph.CR1.STOP := True;
+      This.State := Ready;
+   end Master_Transmit;
+
    --------------------
    -- Master_Receive --
    --------------------

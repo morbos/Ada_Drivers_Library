@@ -1,0 +1,21 @@
+with "config";
+with "../../hal/HAL";
+with "../cortex_m/cortex_m0";
+
+library project STM32U07x is
+
+   for Library_Name use "stm32u07x";
+   for Library_Kind use "static";
+   for Library_Dir use "lib/" & Config.Object_Subdir;
+   for Object_Dir use "obj/" & Config.Object_Subdir;
+
+   for Source_Dirs use Project'Source_Dirs &
+     ("driversU07x",
+      "svd/stm32u07x",
+      "devices/stm32u07x"
+      );
+
+   package Compiler renames Config.Compiler;
+   package Builder renames Config.Builder;
+
+end STM32U07x;

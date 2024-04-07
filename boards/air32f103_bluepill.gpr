@@ -1,0 +1,24 @@
+aggregate library project Air32f103_Bluepill is
+
+   Build := external ("BUILD", "Debug");
+
+   type RTS_Type is ("ravenscar-ssfp");
+   RTS : RTS_Type := External ("RTS", "ravenscar-ssfp");
+
+   RTS_Base := Project'Project_Dir &
+               "../embedded-runtimes/ravenscar-stm32f103bluepill";
+   for Target use "arm-eabi";
+
+   case RTS is
+      when "ravenscar-ssfp" =>
+         for Runtime ("Ada") use RTS_Base & "/ssfp";
+   end case;
+
+   for Project_Path use ("air32f103_bluepill");
+
+   for Project_Files use ("air32f103_bluepill/board.gpr");
+
+   for Library_Dir use "lib/stm32f103bluepill/" & RTS & "/" & Build;
+   for Library_Name use "stm32f103bluepill";
+
+end air32f103_bluepill;

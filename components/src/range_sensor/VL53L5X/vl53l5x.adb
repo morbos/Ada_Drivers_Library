@@ -258,8 +258,8 @@ package body VL53L5X is
 
    function Read_Id (This : VL53L5X_Ranging_Sensor) return HAL.UInt16
    is
-      Ret    : UInt16;
-      Status : Boolean;
+--      Ret    : UInt16;
+--      Status : Boolean;
    begin
 --      Read (This, REG_IDENTIFICATION_MODEL_ID, Ret, Status);
 

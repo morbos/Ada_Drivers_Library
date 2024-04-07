@@ -413,11 +413,15 @@ package body STM32.SubGhzRF is
       Subghz_State := CAD;
    end Set_Cad;
 
-   function Get_IrqStatus (RFStatus  : out Subghz_Status) return UInt16
+   function Get_IrqStatus (RFStatus  : out Subghz_Status) return Irq_Status
    is
-      Msg    : SPI_Data_8b (1 .. 1);
-      Reply  : SPI_Data_8b (1 .. 3);
-      Status : SPI_Status;
+      Msg       : SPI_Data_8b (1 .. 1);
+      Reply     : SPI_Data_8b (1 .. 3);
+      Status    : SPI_Status;
+      Irqstatus : Irq_Status;
+
+      for Irqstatus'Address use Reply (2)'Address;
+      for Irqstatus'Alignment use 1;
    begin
       Msg (1) := Opcode_Get_IrqStatus;
 --      Msg (2) := 0;
@@ -426,14 +430,15 @@ package body STM32.SubGhzRF is
       Receive (SubGhzPhyPort.all, Reply, Status);
       NSS_Deassert;
       RFStatus := Reply (1);
-      return Shift_Left (UInt16 (Reply (2)), 8) or UInt16 (Reply (3));
+--      return Shift_Left (UInt16 (Reply (2)), 8) or UInt16 (Reply (3));
+      return Irqstatus;
    end Get_IrqStatus;
 
-   procedure Clr_IrqStatus (IrqStatus : UInt16)
+   procedure Clr_IrqStatus (IrqStatus : Irq_Status)
    is
       Status : SPI_Status;
       Msg    : SPI_Data_8b (1 .. 3);
-      LStat  : UInt16 := IrqStatus;
+      LStat  : Irq_Status := IrqStatus;
       for LStat'Address use Msg (2)'Address;
       for LStat'Alignment use 1;
       Tmp    : UInt8;
@@ -655,7 +660,7 @@ package body STM32.SubGhzRF is
       CalibrateImage (LowFreq => 16#e1#, HighFreq => 16#e9#); --  <<< fix this
       Set_RfFrequency ((F => 915.0E6, others => <>));
 --      Reset_Stats;
---      Set_Rx (Timeout => 2_000_000); --  > 30secs
+      Set_Rx (Timeout => 2_000_000); --  > 30secs
 --      Set_Rx (Timeout => 0);
    end SubGhzRF_Init;
 
